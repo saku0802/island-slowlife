@@ -2911,6 +2911,7 @@ const PANELS={
     <p class="hint">音は最初の操作のあとに鳴ります（ブラウザの制限）。</p>
     <div class="sec">操作</div><div class="card"><div class="bd"><div class="d"><b>スマホ</b>：左下のスティックで歩く／地図をタップでそこへ歩く（木や岩をタップすると近づいて作業）／右下の大きなボタンでアクション（長押しで続ける）。</div><div class="d"><b>PC</b>：WASD・矢印キーで移動、E・スペースでアクション（押し続けると連続）、クリックで移動、Escで閉じる。</div></div></div>
     <div class="sec">セーブ</div><div class="card"><div class="bd"><div class="d">${storageOK?'数秒ごと、および画面を閉じるときに、この端末へ自動保存されます（島の様子・位置・助手の仕事も含む）。':'<b>この環境では自動保存できません。</b> '+storageHint()}</div><div class="d">${lastSaveOkAt?('最後に保存した時刻：'+new Date(lastSaveOkAt).toLocaleString('ja-JP')):'まだ成功した自動保存はありません'}</div><div class="d">スマホではファイルを直接開くより、httpsのページで遊ぶとセーブが残りやすいです。控えは「セーブコード」から書き出せます。</div></div><div class="choices" style="margin-top:8px"><button class="btn" data-act="saveNow">セーブ</button><button class="btn" data-act="loadNow">ロード</button></div><div class="choices"><button class="btn" data-act="exportSave">セーブコードを書き出す</button><button class="btn" data-act="importSave">セーブコードを読み込む</button></div></div>
+    <div class="sec">攻略本</div><div class="card"><div class="bd"><div class="t">遊び方のまとめ</div><div class="d">操作、序盤の進め方、研究や施設の一覧、セーブの注意を同じ場所の攻略本にまとめています。開いても進行は変わりません。</div></div><a class="btn" href="guide.html" target="_blank" rel="noopener" style="text-decoration:none">攻略本を開く</a></div>
     <div class="card danger"><div class="bd"><div class="t">データのリセット</div><div class="d">セーブを消して最初からやり直します。元に戻せません。</div></div><button class="btn red" data-act="reset1">リセット</button></div>`}),
 };
 /* ---------- 地図オブジェクトから開く ---------- */

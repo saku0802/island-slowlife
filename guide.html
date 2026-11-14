@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173f45">
+<meta name="format-detection" content="telephone=no">
+<title>無人島スローライフ 攻略本</title>
+<link rel="icon" href="assets/favicon.png">
+<style>
+:root{--ink:#2a1a10;--wood:#8a5a2c;--wood2:#b07a42;--wood3:#d9a86a;--paper:#f6e7c4;--paper2:#ead3a2;--leaf:#5d8a2c;--sea:#1f6f78;--coral:#f0705a;--gold:#f2c440;--sub:#6a4a2a;--bg:#173f45}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;line-height:1.65;font-size:16px;-webkit-text-size-adjust:100%}
+a{color:#1a5a62}
+a.btn{color:#fff8e8;text-decoration:none}
+img{max-width:100%;height:auto;display:block;border-radius:10px;border:2px solid #9a6a36;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+figcaption{font-size:12.5px;color:#fff3d6;opacity:.92;margin:6px 2px 0;text-shadow:0 1px 2px #000}
+header.top{position:sticky;top:0;z-index:10;background:linear-gradient(#2a5a60,#173f45);border-bottom:3px solid #9a6a36;padding:8px 12px calc(8px + env(safe-area-inset-top));padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+header.top .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+header.top h1{margin:0;font-size:16px;color:#fff3d6;text-shadow:0 1px 0 #0a2a30;flex:1;min-width:12em}
+.btn{min-height:44px;padding:8px 14px;border-radius:10px;border:2px solid #3a2210;background:linear-gradient(#d9a86a,#a8723e);color:#fff8e8;font-weight:800;font-size:14px;text-shadow:0 1px 0 #3a2210;box-shadow:inset 0 2px 0 rgba(255,235,190,.5),0 2px 0 rgba(0,0,0,.3);display:inline-flex;align-items:center;justify-content:center;gap:4px;cursor:pointer}
+.btn.gold{background:linear-gradient(#ffe08a,#e0a02a);color:#4a2a08;text-shadow:0 1px 0 #fff4c0}
+nav.toc{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:8px 0 4px;margin:0 -4px}
+nav.toc a{flex:none;background:#e9cf9c;color:#4a2a12;border:2px solid #6a4020;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:800;text-decoration:none;white-space:nowrap}
+nav.toc a:hover,nav.toc a:focus{background:#6a4020;color:#fff3d6}
+main{max-width:820px;margin:0 auto;padding:16px max(14px,env(safe-area-inset-right)) 80px max(14px,env(safe-area-inset-left))}
+.board{background:linear-gradient(#fff6e0,#f0dcb0);border:12px solid #8a5a2c;border-radius:8px;padding:16px 14px 20px;margin:0 0 22px;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.board h2{margin:0 0 10px;font-size:19px;color:#4a2a12;border-bottom:2px dashed rgba(106,64,32,.35);padding-bottom:6px}
+.board h3{margin:18px 0 8px;font-size:16px;color:#4a2a12}
+.board p,.board li{color:#2a1a10}
+.board p{margin:0 0 10px}
+.lead{font-size:15px}
+.muted,.note{font-size:13.5px;color:var(--sub)}
+.note{background:rgba(106,64,32,.08);border-left:4px solid #c98e52;padding:8px 10px;border-radius:0 8px 8px 0;margin:10px 0}
+.warn{background:#fde4d4;border-left-color:var(--coral)}
+ol.steps{padding-left:1.3em;margin:8px 0 12px}
+ol.steps li,ul li{margin:0 0 8px}
+.cost{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0 12px;background:#fffaf0}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0 12px}
+th,td{border:1px solid #c9a46a;padding:7px 8px;text-align:left;vertical-align:top}
+th{background:#6a4020;color:#fff3d6;font-weight:800;white-space:nowrap}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:nth-child(even) td{background:rgba(184,130,70,.08)}
+.tag{display:inline-block;background:#6a4020;color:#fff3d6;border-radius:8px;padding:0 7px;font-size:11px;font-weight:800;margin-right:4px}
+.tag.r{background:#3a7a9a}
+.tag.sr{background:#7a4aaa}
+.tag.ssr{background:#b07020}
+.kicker{font-size:12px;font-weight:800;color:#8a5a2c;letter-spacing:.06em;margin:0 0 4px}
+footer{color:#fff3d6;text-align:center;padding:8px 14px 28px;font-size:13px;text-shadow:0 1px 2px #000}
+footer a{color:#ffe08a}
+@media (min-width:700px){
+  body{font-size:17px}
+  .board{padding:22px 24px 26px}
+  header.top h1{font-size:18px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="row">
+    <h1>無人島スローライフ　攻略本</h1>
+    <a class="btn gold" href="index.html">ゲームに戻る</a>
+  </div>
+  <nav class="toc" aria-label="目次">
+    <a href="#about">はじめに</a>
+    <a href="#controls">操作</a>
+    <a href="#start">序盤</a>
+    <a href="#monkey">猿クエスト</a>
+    <a href="#move">移動</a>
+    <a href="#research">研究</a>
+    <a href="#build">施設・道具</a>
+    <a href="#helpers">助手</a>
+    <a href="#gacha">ガチャ</a>
+    <a href="#ach">実績</a>
+    <a href="#events">イベント</a>
+    <a href="#dex">図鑑</a>
+    <a href="#prestige">周回</a>
+    <a href="#offline">オフライン</a>
+    <a href="#save">セーブ</a>
+    <a href="#timeline">時間目安</a>
+  </nav>
+</header>
+<main>
+<section class="board" id="about">
+  <p class="kicker">v3　森の島・1本目を中心に</p>
+  <h2>はじめに</h2>
+  <p class="lead">この攻略本は、ゲーム本体のソースに書かれている数値と効果だけをまとめたものです。数字の推測や未確認の「おすすめ倍率」は入れていません。</p>
+  <p>遊ぶ場所は <a href="index.html">無人島スローライフ</a>（公開URL：<a href="https://saku0802.github.io/island-slowlife/">https://saku0802.github.io/island-slowlife/</a>）です。自分で遊ぶ用で、販売やSNSへの告知は想定していません。</p>
+  <p>画面左上の「次の目標」に従うと、序盤から終盤まで一通り進めます。このページは、その補足と一覧です。</p>
+  <p class="note">時間の目安は、歩行やメニュー操作を省略したボットシミュレーション（<code>tools/sim.js</code>）です。1秒に1回または2回、資源を集めて買えるものをすぐ買う、という前提です。実際のプレイは歩く時間や操作の分だけ長くなります。ガチャ用の貝殻はシムが余分に足しているので、その目標だけは実時間とズレやすいです。</p>
+</section>
+
+<section class="board" id="controls">
+  <h2>操作</h2>
+  <figure>
+    <img src="guide/start.jpg" alt="開始直後の浜辺。左下に仮想スティック、右下にアクションボタン、左上に次の目標、右上にメニューがある" width="1280" height="591">
+    <figcaption>開始直後。スマホは横持ちが基本です。</figcaption>
+  </figure>
+  <h3>スマホ</h3>
+  <ul>
+    <li>左下の仮想スティックで歩く。</li>
+    <li>地図をタップした場所へ歩く。木や岩をタップすると、近づいて作業します。</li>
+    <li>右下の大きなボタンでアクション。長押しで連続します。</li>
+    <li>研究「革の長靴」のあと、アクションボタンの左に「ダッシュ」が出ます（長押しではなくタップ）。</li>
+    <li>画面は横向きを想定しています。右上のボタンから計画・仲間・研究・ガチャ・記録・設定を開きます。</li>
+  </ul>
+  <h3>PC</h3>
+  <ul>
+    <li>移動：WASD または 矢印キー。クリックした場所へ歩くこともできます。</li>
+    <li>アクション：E・スペース・Enter（押し続けると連続）。</li>
+    <li>ダッシュ（解放後）：Shift。</li>
+    <li>パネルを閉じる：Esc。</li>
+  </ul>
+  <p>音（効果音・BGM）は、最初のタップやキー操作のあとから鳴ります。設定でオン／オフと音量（小・中・大）を変えられます。左上の「次の目標」をタップすると、その場所へ歩きます。研究「道しるべ」のあとは、計画の「行く」で離れた建設地点へひとっ飛びできます。</p>
+</section>
+
+<section class="board" id="start">
+  <h2>序盤の進め方</h2>
+  <p>浜辺で目が覚めます。最初の仲間はまだいません。手で集めて道具を揃え、猿の寝床を建てて仲良くなるまでが、序盤の本体です。</p>
+  <ol class="steps">
+    <li>近くの木に近づき「伐採」。木を <span class="cost">15</span> 集めたら、キャンプの作業台で<strong>斧</strong>（木 15）を作る。</li>
+    <li>斧を作ると、森の木陰に野生の猿が現れます（キャンプの東のほう）。近づくと逃げます。今は追わず、次の道具を作ります。</li>
+    <li>実のなる木で「採取」。作業台で<strong>竹かご</strong>（木 20・果物 5）を作る。</li>
+    <li>岩で「採掘」。<strong>つるはし</strong>（木 25・石 10）を作る。</li>
+    <li>キャンプの東に<strong>猿の寝床</strong>（木 150・石 60・果物 30）を建てる。計画の目標をタップすると場所へ案内されます。</li>
+    <li>猿に果物を 3 回あげる（30 → 60 → 100）。あげるたびに <strong>45秒</strong> 待ちます。待っているあいだに木・石・果物を集めておきましょう。3回目で仲間になります。</li>
+    <li>仲間の猿に話しかけ、指示を見てみる（「バランスよく」が初期値）。これ以降は「仲間」から猿を増やせます（最初の追加は木 50・果物 20）。</li>
+    <li>キャンプに<strong>焚き火</strong>（木 40・石 15）を起こす。全生産が上がります。</li>
+    <li>作業台で<strong>釣り竿</strong>（木 30・果物 10）を作り、岸で釣る。</li>
+    <li>2匹目の猿を迎える。貝殻がたまったら「ガチャ」で漂流ボトル。研究はまず「研いだ刃」、続いて「ヤシの草履」が歩きやすくておすすめです。</li>
+  </ol>
+  <p>以降も、左上の「次の目標」の順がそのまま攻略ルートです。畑・採石場・小屋・島の道・水車・工房、と島が広がっていきます。</p>
+</section>
+
+<section class="board" id="monkey">
+  <h2>猿と仲良くなる</h2>
+  <p>最初の猿は、ガチャや購入ではなくクエストです。周回前の1本目では、自動化が始まるまで自分で集める不便さがあります。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>手順</th><th>条件・費用</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>1. 斧</td><td>木 15</td><td>完成すると、森から猿がこちらを見ます。</td></tr>
+        <tr><td>2. 竹かご</td><td>木 20・果物 5</td><td>果物を集めやすくなります。</td></tr>
+        <tr><td>3. つるはし</td><td>木 25・石 10</td><td>寝床の石を集めるために必要です。</td></tr>
+        <tr><td>4. 猿の寝床</td><td>木 150・石 60・果物 30</td><td>キャンプの東。完成後、最初の果物は約 8 秒待ってからあげられます。</td></tr>
+        <tr><td>5. 果物 1回目</td><td>果物 30</td><td>なかよし 1/3。その後 45 秒待つ。</td></tr>
+        <tr><td>6. 果物 2回目</td><td>果物 60</td><td>なかよし 2/3。その後 45 秒待つ。</td></tr>
+        <tr><td>7. 果物 3回目</td><td>果物 100</td><td>なかよし 3/3 で仲間になる。待ち時間のあとではなく、3回目をあげた時点で加入します。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>寝床用の果物 30 と贈り物 30＋60＋100 で、クエストだけで果物は <strong>220</strong> 使います（竹かごの 5 は別）。待ち時間の合計は、寝床後の約 8 秒＋贈り物のあいだの 45 秒×2 ＝ 約 98 秒です。</p>
+  <p>シムでは、仲間になるまで <strong>約 2.9 分</strong>（2行動/秒）〜 <strong>約 3.8 分</strong>（1行動/秒）。実時間ボットでは約 3 分 11 秒でした。歩く距離があるので、手で遊ぶとこれより長くなることがあります。</p>
+  <p class="note">以前のセーブで、すでに猿が仲間だった場合は、クエスト完了扱いになります。2周目以降は最初から猿が 1 匹いて、クエストは不要です。</p>
+</section>
+
+<section class="board" id="move">
+  <h2>移動を速くする</h2>
+  <figure>
+    <img src="guide/camp.jpg" alt="小屋や焚き火、道があるキャンプ。右下にダッシュボタンが見える" width="1280" height="591">
+    <figcaption>道とダッシュが出てきたところ。道の上は速く歩けます。</figcaption>
+  </figure>
+  <p>基本の歩く速さに、研究と道とダッシュが掛け算されます。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>要素</th><th>解放</th><th>効果</th></tr></thead>
+      <tbody>
+        <tr><td>ヤシの草履</td><td>研究（前提：研いだ刃）<br>木 350・果物 150</td><td>歩く速さ <strong>+20%</strong>（×1.2）</td></tr>
+        <tr><td>島の道 Lv1</td><td>計画から。つるはしと焚き火のあと<br>木 400・石 250</td><td>道の上は歩く速さ <strong>×1.45</strong>。レベルが上がると道が遠くまで延びます（速さの倍率は同じ）。</td></tr>
+        <tr><td>島の道 Lv2</td><td>木 6.0K・石 5.0K</td><td>水車・採石場・桟橋・工房方面などへ延長。</td></tr>
+        <tr><td>島の道 Lv3</td><td>木 200K・石 200K・部品 500</td><td>港・見張り台・橋のほうなどへ延長。</td></tr>
+        <tr><td>道しるべ</td><td>研究（前提：ヤシの草履・石工術）<br>木 5.0K・石 3.0K</td><td>計画の「行く」で、離れた建設地点へ<strong>ファストトラベル</strong>（距離が十分あるとき）。</td></tr>
+        <tr><td>革の長靴</td><td>研究（前提：道しるべ・釣り餌の工夫）<br>魚 20.0K・果物 15.0K</td><td>歩く速さ <strong>+25%</strong>（×1.25）。ダッシュ解放（スマホはダッシュボタン、PCは Shift）。</td></tr>
+        <tr><td>ダッシュ</td><td>革の長靴のあと</td><td>約 0.9 秒間、速さ <strong>×1.75</strong>。再使用まで約 3 秒。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>草履と長靴は両方とも効きます（×1.2×1.25＝×1.5）。道の上でダッシュすると、さらに ×1.45×1.75 が掛かります。</p>
+  <p>おすすめは、<strong>研いだ刃 → ヤシの草履を早めに取り、石工術も取って道しるべ、そのあと革の長靴</strong>です。島の道 Lv1 は焚き火のあとすぐ敷けます。</p>
+</section>
+
+<section class="board" id="research">
+  <h2>研究</h2>
+  <h3>おすすめの順</h3>
+  <p>いちばん確実なのは、ゲーム内の「次の目標」と研究パネルで、解放されたものを順に取ることです。移動と生産の優先度を足すと、次の流れになります。</p>
+  <ol class="steps">
+    <li><strong>研いだ刃</strong>（手で採取 ×2）。すべての始まりです。</li>
+    <li><strong>ヤシの草履</strong>。歩くのが楽になります。</li>
+    <li>資源が足りるものから <strong>製材の技・石工術・釣り餌の工夫・堆肥づくり</strong>（それぞれ対応する資源 ×2）。道しるべのために石工術は早めがよいです。</li>
+    <li><strong>猿とバナナ</strong>（猿の生産 ×3）。</li>
+    <li><strong>火の番・灌漑・貝殻細工</strong>（焚き火強化、畑と桟橋 ×3、貝殻 ×2）。</li>
+    <li><strong>道しるべ</strong> → <strong>革の長靴</strong>。</li>
+    <li>イベント用に <strong>天気読み</strong> → <strong>交易術</strong>。</li>
+    <li>工房のあと <strong>歯車</strong> → <strong>からくり仕掛け</strong>（助手の自動雇用）→ <strong>ロボット工学</strong> → <strong>大量生産</strong>（施設コスト −25%・施設の自動建設）→ <strong>航空力学</strong>。</li>
+    <li>進めるルートに合わせて <strong>造船術</strong>（脱出船のコスト半減）または <strong>観光学</strong>（リゾートのコスト半減）。</li>
+    <li><strong>島の調和</strong>（全生産 ×3。橋を架けられる）→ 橋 → <strong>猿の長老</strong>／<strong>潮の満ち引き</strong>、<strong>遺跡の調査</strong> → <strong>灯台の設計</strong> → <strong>星図</strong> → 石板を揃えて <strong>古代の叡智</strong>。</li>
+  </ol>
+  <p class="note">周回を 4 回以上すると、研究コストが 25% 安くなります。12 回以上の周回では、第1段階（下表の段階 1）の研究が次の島に引き継がれます。</p>
+  <h3>一覧（1本目の基本コスト）</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>段階</th><th>研究</th><th>効果</th><th>コスト</th><th>前提</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>研いだ刃</td><td>手で採取 ×2</td><td>木 200</td><td>—</td></tr>
+        <tr><td>1</td><td>ヤシの草履</td><td>歩く速さ +20%</td><td>木 350・果物 150</td><td>研いだ刃</td></tr>
+        <tr><td>1</td><td>製材の技</td><td>木 ×2</td><td>木 600・石 100</td><td>研いだ刃</td></tr>
+        <tr><td>1</td><td>石工術</td><td>石 ×2</td><td>石 500</td><td>研いだ刃</td></tr>
+        <tr><td>1</td><td>釣り餌の工夫</td><td>魚 ×2</td><td>魚 400</td><td>研いだ刃</td></tr>
+        <tr><td>1</td><td>堆肥づくり</td><td>果物 ×2</td><td>果物 400</td><td>研いだ刃</td></tr>
+        <tr><td>2</td><td>猿とバナナ</td><td>猿の生産 ×3</td><td>果物 3.0K・木 2.0K</td><td>堆肥づくり</td></tr>
+        <tr><td>2</td><td>火の番</td><td>焚き火の効果 2倍</td><td>木 4.0K・石 2.5K</td><td>石工術・製材の技</td></tr>
+        <tr><td>2</td><td>灌漑</td><td>畑と桟橋 ×3</td><td>果物 6.0K・魚 6.0K</td><td>釣り餌の工夫・堆肥づくり</td></tr>
+        <tr><td>2</td><td>貝殻細工</td><td>貝殻の獲得 ×2</td><td>魚 10.0K</td><td>釣り餌の工夫</td></tr>
+        <tr><td>2</td><td>道しるべ</td><td>計画の「行く」でファストトラベル</td><td>木 5.0K・石 3.0K</td><td>ヤシの草履・石工術</td></tr>
+        <tr><td>3</td><td>革の長靴</td><td>歩く速さ +25%・ダッシュ解放</td><td>魚 20.0K・果物 15.0K</td><td>道しるべ・釣り餌の工夫</td></tr>
+        <tr><td>3</td><td>歯車</td><td>工房 ×2・変換コスト半減</td><td>木 40.0K・石 40.0K</td><td>火の番</td></tr>
+        <tr><td>3</td><td>からくり仕掛け</td><td>助手の自動雇用を解放</td><td>木 100K・部品 200</td><td>歯車・猿とバナナ</td></tr>
+        <tr><td>3</td><td>天気読み</td><td>嵐の悪影響が半分・イベント間隔 −30%</td><td>魚 30.0K・果物 20.0K</td><td>貝殻細工</td></tr>
+        <tr><td>3</td><td>交易術</td><td>商人船の取引が2倍お得</td><td>果物 50.0K・魚 50.0K</td><td>天気読み</td></tr>
+        <tr><td>4</td><td>ロボット工学</td><td>ロボット ×3</td><td>部品 2.0K・石 300K</td><td>からくり仕掛け</td></tr>
+        <tr><td>4</td><td>大量生産</td><td>施設・助手のコスト −25%・施設の自動建設を解放</td><td>部品 8.0K・木 1.0M</td><td>ロボット工学</td></tr>
+        <tr><td>4</td><td>航空力学</td><td>ドローン ×3</td><td>部品 15.0K・魚 2.0M</td><td>ロボット工学</td></tr>
+        <tr><td>4</td><td>造船術</td><td>脱出船のコスト半減</td><td>木 1.0M・部品 5.0K</td><td>歯車</td></tr>
+        <tr><td>4</td><td>観光学</td><td>リゾートのコスト半減</td><td>果物 1.0M・魚 1.0M</td><td>交易術・灌漑</td></tr>
+        <tr><td>5</td><td>島の調和</td><td>全生産 ×3・東の小島へ橋を架けられる</td><td>木・石・魚・果物 各 5.0B・部品 2.0M</td><td>航空力学・大量生産</td></tr>
+        <tr><td>6</td><td>猿の長老</td><td>猿 ×5・新しい指示「森の手入れ」</td><td>木 40.0B・果物 40.0B</td><td>島の調和</td></tr>
+        <tr><td>6</td><td>潮の満ち引き</td><td>魚・果物 ×3・ドローンが沖で大物を探す</td><td>魚 80.0B・果物 80.0B</td><td>島の調和</td></tr>
+        <tr><td>6</td><td>遺跡の調査</td><td>小島の岩から「石板の欠片」が出る</td><td>石 150B・部品 20.0M</td><td>島の調和 ＋ 橋を架ける</td></tr>
+        <tr><td>6</td><td>灯台の設計</td><td>小島に「灯台」を建てられる</td><td>石 400B・木 400B</td><td>遺跡の調査</td></tr>
+        <tr><td>7</td><td>星図</td><td>全生産 ×2・脱出船とリゾートのコスト半減</td><td>木・石・魚・果物 各 3.0T</td><td>潮の満ち引き・猿の長老・灯台の設計</td></tr>
+        <tr><td>7</td><td>古代の叡智</td><td>全生産 ×10・貝殻 ×2（最終研究）</td><td>木・石・魚・果物 各 80.0T・部品 30.0B</td><td>島の調和・造船術・観光学・星図 ＋ 石板の欠片 3つを石碑で解読</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>研究は全部で 28 です。実績「古代の叡智」は、この 28 をすべて完了すると達成します。</p>
+</section>
+
+<section class="board" id="build">
+  <h2>施設・道具・港</h2>
+  <figure>
+    <img src="guide/pond.jpg" alt="池のほとりにある水車と緑の地形" width="1280" height="591">
+    <figcaption>池のそば。水車を建てると港が開きます。</figcaption>
+  </figure>
+  <h3>道具（作業台）</h3>
+  <p>4種。最大 Lv30。作ったあと強化すると、その資源の「手で集める量」が +1 され、生産は ×1.25 されます。</p>
+  <ul>
+    <li>斧（伐採・木）：木 15</li>
+    <li>竹かご（採取・果物）：木 20・果物 5</li>
+    <li>つるはし（採掘・石）：木 25・石 10</li>
+    <li>釣り竿（釣り・魚）：木 30・果物 10</li>
+  </ul>
+  <p>強化の基本コストは、今のレベルを Lv とすると「初回コスト × 8 × 6<sup>（Lv−1）</sup>」です（例：斧の 1 回目の強化は木 120）。Lv7 以上のときの強化には部品も必要で、部品は 10 × 5<sup>（Lv−7）</sup> です。</p>
+  <h3>施設（1軒目のコスト）</h3>
+  <p>同じ施設を増やすたびに費用が上がります（下表の「倍率」）。25軒ごと、同じ種類の施設の生産が 2 倍になります。地図上の建設地点で最初の1軒を建てます。「大量生産」の研究、または周回 5 回以降は、建てたことのある施設の自動増設が使えます。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>施設</th><th>1軒目</th><th>倍率</th><th>解放</th><th>効果（ソース表記）</th></tr></thead>
+      <tbody>
+        <tr><td>焚き火</td><td>木 40・石 15</td><td>1.45</td><td>つるはし</td><td>全生産 +10%/基（「火の番」で +20%）</td></tr>
+        <tr><td>畑</td><td>木 100・果物 50</td><td>1.18</td><td>竹かご</td><td>果物 +2（基礎値。「灌漑」で畑は ×3）</td></tr>
+        <tr><td>桟橋</td><td>木 150・石 60</td><td>1.18</td><td>釣り竿</td><td>魚 +2（「灌漑」で ×3）</td></tr>
+        <tr><td>採石場</td><td>木 120・石 30</td><td>1.18</td><td>つるはし</td><td>石 +2</td></tr>
+        <tr><td>小屋</td><td>木 400・石 200・果物 100</td><td>1.4</td><td>焚き火</td><td>助手の生産 +25%/軒</td></tr>
+        <tr><td>水車</td><td>木 2.5K・石 1.5K</td><td>1.32</td><td>小屋</td><td>木・石 各 +8。施設の生産 +10%/基。完成すると港が開く</td></tr>
+        <tr><td>工房</td><td>木 8.0K・石 6.0K・魚 2.0K</td><td>1.2</td><td>水車</td><td>部品 0.5/秒（「歯車」で 1.0/秒）。変換は木・石 各 20 で部品 1（「歯車」で各 10）。ロボット・ドローンをここで作る</td></tr>
+        <tr><td>見張り台</td><td>石 50.0K・部品 150</td><td>1.25</td><td>工房</td><td>魚 +30。貝殻 +0.03/秒・イベント間隔 −3%/基</td></tr>
+        <tr><td>灯台</td><td>石 600B・部品 100M（1本目）</td><td>1.3</td><td>研究「灯台の設計」＋橋</td><td>魚・石 各 +1.0M。貝殻 +0.2/秒・夜の生産 ×1.5。周回すると費用が跳ね上がります</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>東の小島への橋</h3>
+  <p>研究「島の調和」のあと（または周回 3 回以上）に架けられます。1本目は木 20.0B・石 10.0B。完成すると東の小島へ渡れ、全生産 ×1.5。小島には採取量 2 倍の木と岩、古代の石碑、新しい釣り場があります。</p>
+  <h3>脱出船と楽園リゾート（1本目・割引なし）</h3>
+  <p>港は水車を建てると開きます。部品は順番に作る必要があります（前の工程が終わってから）。どちらかを 5/5 まで完成させると、次の島へ周回できます。研究「造船術」「観光学」「星図」で費用が半減します。2周目以降は、周回数に応じて費用が大きく上がります（×200<sup>周回数</sup>）。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th></th><th>脱出船</th><th>楽園リゾート</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>竜骨：木 1.0M・石 300K</td><td>浜辺の清掃：木 1.0M・果物 1.0M</td></tr>
+        <tr><td>2</td><td>船体：木 1.0B・部品 100K</td><td>水上コテージ：木 3.0B・石 1.0B</td></tr>
+        <tr><td>3</td><td>ヤシ繊維の帆：果物 100B・魚 30.0B</td><td>海辺のレストラン：魚 100B・果物 300B</td></tr>
+        <tr><td>4</td><td>舵と錨：石 500B・部品 100M</td><td>天然温泉：石 800B・部品 300M</td></tr>
+        <tr><td>5</td><td>食料と水：魚 40.0T・果物 60.0T</td><td>花火とお祭り広場：木 60.0T・石 6.0T・魚 30.0T・果物 60.0T</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>船で出ると「航海の星」（1個で全生産 +25%）、リゾートを開業すると「楽園の花」（1個で全生産 +15%・貝殻 +5%・オフライン上限 +0.5 時間）がもらえます。もらえる個数は、その周回で集めた資源量から決まり、最低 1 です。</p>
+</section>
+
+<section class="board" id="helpers">
+  <h2>助手</h2>
+  <p>地図を歩く仲間です。指示を出すと仕事の割合が変わります。25匹（体）ごとに、その助手の生産が 2 倍になります。レベルアップの上限は Lv50 です。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>助手</th><th>最初の雇用</th><th>倍率</th><th>基礎生産</th><th>解放</th></tr></thead>
+      <tbody>
+        <tr><td>猿</td><td>木 50・果物 20（2匹目から。1匹目はクエスト）</td><td>1.15</td><td>木 0.5・果物 0.5</td><td>野生の猿と仲良くなる</td></tr>
+        <tr><td>ロボット</td><td>石 4.0K・部品 25</td><td>1.15</td><td>木 20・石 20</td><td>工房</td></tr>
+        <tr><td>ドローン</td><td>魚 40.0K・部品 250</td><td>1.15</td><td>魚 120・果物 120・部品 0.3</td><td>ロボット 3 体</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>レベルアップ費用（1回目）：猿は果物 300・木 200、ロボットは部品 150、ドローンは部品 1.5K・魚 50.0K。以降は 10 倍ずつ増えます。研究「大量生産」でレベルアップ費用も 25% 安くなります。</p>
+  <p>研究での強化：猿は「猿とバナナ」で ×3、「猿の長老」でさらに ×5。ロボットは「ロボット工学」で ×3。ドローンは「航空力学」で ×3。</p>
+  <h3>指示</h3>
+  <ul>
+    <li>バランスよく：いつもの仕事を半々で。</li>
+    <li>木／果物／石／魚を優先：その資源の割合 ×1.6、ほか ×0.4（その助手が持つ生産に対して）。</li>
+    <li>ついてくる（猿・ロボット）：あなたのそばで手伝う。手で集める量 ×1.5（生産はそのまま）。</li>
+    <li>休む：生産を止めて元気をためる。再開すると、ためた分だけ 2 倍で働く（最大 60 秒）。たまっていく速さは 90 秒で満タンです。</li>
+    <li>森の手入れ（研究「猿の長老」のあと、猿のみ）：切り株をすぐ植え直す。木・果物 ×1.25。</li>
+  </ul>
+  <p>小屋 1 軒ごとに助手の生産 +25%。ガチャの一部の景品でも助手の生産が上がります。自動雇用は研究「からくり仕掛け」、または周回 5 回以降で使えます。</p>
+</section>
+
+<section class="board" id="gacha">
+  <h2>ガチャ（ゲーム内の貝殻のみ）</h2>
+  <p>課金の仕組みはありません。通貨は島で集める貝殻だけです。かぶりは強化素材になり、最大レベル済みの重複は貝殻が戻ります（N 2・R 5・SR 15・SSR 50）。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th></th><th>漂流ボトル</th><th>宝箱</th></tr></thead>
+      <tbody>
+        <tr><td>単発</td><td>貝殻 10</td><td>貝殻 40</td></tr>
+        <tr><td>10連</td><td>貝殻 90</td><td>貝殻 360</td></tr>
+        <tr><td>天井（必ず SSR）</td><td>60 回目</td><td>40 回目</td></tr>
+        <tr><td>排出率 N / R / SR / SSR</td><td>62% / 28% / 8% / 2%</td><td>35% / 40% / 19% / 6%</td></tr>
+        <tr><td>種類の出やすさ（同レア内）</td><td>助手 45・装飾 45・遺物 10</td><td>助手 20・装飾 20・遺物 60</td></tr>
+        <tr><td>特徴</td><td>手軽。助手と装飾が出やすい</td><td>高めだが遺物（恒久バフ）が出やすい</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>天井はソフト天井ではなく、その回数までに SSR が出なければその回は必ず SSR で、カウントは SSR が出るとリセットされます。画面の「排出率の詳細」でも同じ説明が出ます。</p>
+  <p>景品は 30 種（助手・装飾・遺物 各 10）。強化は同じ景品の重複素材が、今の Lv と同じ枚数だけ必要で、最大 Lv10 です。効果はレベルに比例します。</p>
+  <h3>貝殻の入り方（序盤が細かい理由）</h3>
+  <ul>
+    <li>基礎で 0.02 個/秒（見張り台で +0.03/秒、灯台で +0.2/秒）。研究「貝殻細工」で獲得 ×2。</li>
+    <li>実績の報酬（例：斧で +10、猿の仲間で +10、道具 4 種で +15 など）。</li>
+    <li>漂流物イベント：貝殻 3〜10 × 貝殻倍率（75% で図鑑の漂流物も）。</li>
+    <li>商人船：魚の 30% と交換で貝殻 15（「交易術」で 30）。</li>
+  </ul>
+  <p>基礎収入だけだとボトル 1 回（10 個）に 500 秒（約 8.3 分）かかります。実績と最初のイベントを拾うと、それより早く回せます。それでも、目標「貝殻で漂流ボトルを回そう」の前は少し待ちやすいです。</p>
+</section>
+
+<section class="board" id="ach">
+  <h2>実績</h2>
+  <p>全部で 46 個。報酬は貝殻か、全生産の加算です（複数の加算は足し算）。代表的なものを挙げます。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>実績</th><th>条件</th><th>報酬</th></tr></thead>
+      <tbody>
+        <tr><td>はじめの一歩</td><td>手で 10 回集める</td><td>貝殻 5</td></tr>
+        <tr><td>道具の力</td><td>斧を作る</td><td>貝殻 10</td></tr>
+        <tr><td>仲間ができた</td><td>猿を仲間にする</td><td>貝殻 10</td></tr>
+        <tr><td>道具そろい踏み</td><td>4種の道具をすべて作る</td><td>貝殻 15</td></tr>
+        <tr><td>名工</td><td>いずれかの道具を Lv10 にする</td><td>全生産 +5%</td></tr>
+        <tr><td>働き者 / 島いちばんの働き者</td><td>手で 300 回 / 3000 回</td><td>全生産 +5% / +10%</td></tr>
+        <tr><td>木こり見習い</td><td>木を累計 1.0K</td><td>貝殻 10</td></tr>
+        <tr><td>石の山 / 大漁旗 / 果樹園の主</td><td>石・魚・果物を累計 1.0M</td><td>各 全生産 +5%</td></tr>
+        <tr><td>部品職人</td><td>部品を累計 1.0K</td><td>貝殻 20</td></tr>
+        <tr><td>島の豊かさ / 豊かな島 / 楽園の兆し / 伝説の富</td><td>資源累計 1.0M / 1.0B / 1.0T / 1.0aa</td><td>貝殻 30 / +10% / +20% / +50%</td></tr>
+        <tr><td>猿の群れ / 猿の王国</td><td>猿 25 / 100 匹</td><td>+5% / +15%</td></tr>
+        <tr><td>機械じかけ / 空の目</td><td>ロボット / ドローンを作る</td><td>貝殻 20 / 30</td></tr>
+        <tr><td>頼れる相棒</td><td>助手を Lv5 にする</td><td>+5%</td></tr>
+        <tr><td>開拓者</td><td>灯台以外のすべての施設を建てる</td><td>貝殻 30</td></tr>
+        <tr><td>学びの始まり / 島の学者 / 古代の叡智</td><td>研究 5 / 12 / すべて</td><td>貝殻 15 / +5% / +25%</td></tr>
+        <tr><td>運だめし / コレクター / 宝探し名人</td><td>ガチャ 1 / 50 / 300 回</td><td>貝殻 5 / +5% / +15%</td></tr>
+        <tr><td>虹色の輝き / 愛着 / 完全なる蒐集</td><td>SSR を得る / 景品を Lv10 / 全 30 種</td><td>貝殻 30 / +10% / +50%</td></tr>
+        <tr><td>島の日常 / 海の便り</td><td>イベント 5 / 30 回</td><td>貝殻 15 / +10%</td></tr>
+        <tr><td>釣り好き / 海の博士</td><td>魚 10 種 / 魚図鑑完成（27種）</td><td>貝殻 20 / +30%</td></tr>
+        <tr><td>拾いもの上手 / 漂流物博士</td><td>漂流物 10 種 / 完成（20種）</td><td>貝殻 20 / +30%</td></tr>
+        <tr><td>海を渡る橋 / 石板の謎</td><td>橋を架ける / 欠片 3 つ</td><td>貝殻 40 / 40</td></tr>
+        <tr><td>いざ大海原へ / 楽園の主</td><td>船で出る / リゾート開業</td><td>各 +10%</td></tr>
+        <tr><td>旅慣れた漂流者 / 島めぐりの達人 / 七つの海</td><td>周回 5 / 10 / 25 回</td><td>+15% / +30% / +50%</td></tr>
+        <tr><td>三つの島 / すべての島へ</td><td>島 3 種類 / 5 種類すべて</td><td>貝殻 50 / +25%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="board" id="events">
+  <h2>イベント</h2>
+  <p>最初のイベントは、開始から 100 秒後に「漂流物」が来ます。それ以降は 150〜270 秒に、間隔補正を掛けた時間で、漂流物（45%）・嵐（25%）・商人船（30%）のどれかです。「天気読み」で間隔が 30% 短くなり、嵐の悪影響も半分になります。霧の島はイベントが多めです。見張り台と灯台、ガチャの一部効果でも間隔が変わります。</p>
+  <h3>漂流物が流れ着きました</h3>
+  <ul>
+    <li>中身を確かめる：75% で漂流物（図鑑）。必ず貝殻 3〜10 × 貝殻倍率。</li>
+    <li>流木として集める：木は約 150 秒ぶん（最低 60）、石は約 60 秒ぶん（最低 20）。</li>
+  </ul>
+  <p>序盤の貝殻が欲しいときは「中身を確かめる」がわかりやすいです。</p>
+  <h3>嵐が近づいています</h3>
+  <ul>
+    <li>小屋で嵐をやり過ごす：60 秒間、全生産 ×0.6（「天気読み」後は ×0.8）。終わりに、各基本資源 約 3 分ぶん（最低 30）と漂流物 1 つ。</li>
+    <li>嵐の海で大物を狙う：45 秒間、魚 ×6、ほかの資源 ×0.5（「天気読み」後は ×0.75）。その場で魚が 1 匹釣れ、珍しい魚が出やすい（図鑑の抽選が偏ります）。</li>
+  </ul>
+  <h3>商人船がやってきました</h3>
+  <p>1 つだけ選べます。「交易術」でお得さが 2 倍になります。</p>
+  <ul>
+    <li>魚の 30% → 貝殻 15（交易術で 30）。魚が 10 以上必要。</li>
+    <li>果物の 30% → 工房前は同じ量の石 ×1.5（交易術で ×3）。工房後は部品（約 300 秒ぶん、最低 10。交易術で 2 倍）。果物が 10 以上必要。</li>
+    <li>木の 20% → 未発見優先の漂流物。木が 10 以上必要。</li>
+    <li>見送ることもできます。</li>
+  </ul>
+  <p>画面上のお知らせをタップするとイベントが開きます。漂流物は浜辺を探す案内が出ます。</p>
+</section>
+
+<section class="board" id="dex">
+  <h2>図鑑</h2>
+  <p>記録タブに、魚（27 種）と漂流物（20 種）があります。種類を 1 つ見つけるごとに全生産 +2%。魚図鑑を完成させるとさらに ×1.5、漂流物図鑑を完成させるとさらに ×1.5 です。</p>
+  <p>魚は釣り・桟橋やドローンの定期釣り（釣り竿があり、15 秒ごとに 35% のチャンス）・嵐イベントで増えます。島ごとの固有種があります（森・火山・サンゴ・霧・星）。漂流物は探索のごく低い確率、漂流イベント、嵐のあと、商人船の「珍しい品」で増えます。</p>
+  <p>レア度の重み（図鑑の抽選）：N 60・R 26・SR 10・SSR 3。</p>
+  <h3>魚（抜粋：島ごとの固有）</h3>
+  <ul>
+    <li>どこでも：アジ、イワシ、サバ、イソガニ、クルマエビ、カクレクマノミ、ハリセンボン、アオリイカ、マダコ、イセエビ、ネムリブカ など。</li>
+    <li>森の島：ニジマス、オオナマズ、黄金のアユ（SSR）。</li>
+    <li>火山島：キンメダイ、チョウチンアンコウ、溶岩ガニ（SSR）。</li>
+    <li>サンゴ島：ナンヨウハギ、チョウチョウウオ、アオウミガメ、オニイトマキエイ（SSR）。</li>
+    <li>霧の島：ミズクラゲ、リュウグウノツカイ、シーラカンス（SSR）。</li>
+    <li>星の島：月光クラゲ、流れ星イカ、ホシゾラウオ（SSR）。</li>
+  </ul>
+</section>
+
+<section class="board" id="prestige">
+  <h2>周回と新しい島</h2>
+  <p>脱出船かリゾートを完成させて出航（開業）すると、次の島に移ります。貝殻、ガチャのコレクション、図鑑、実績、周回の勲章（星・花）は残ります。リセットされるのは、資源（貝殻以外）、施設、道と橋、研究（下記の例外あり）、船とリゾートの進捗、道具の強化（4種とも Lv1 の状態で残る）、助手（猿 1 匹だけ残る）です。</p>
+  <h3>島の種類</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>島</th><th>解放</th><th>特徴</th></tr></thead>
+      <tbody>
+        <tr><td>森の島</td><td>最初から</td><td>木・果物 ×1.5</td></tr>
+        <tr><td>火山島</td><td>周回 1 回</td><td>石 ×2・部品 ×1.5／魚 ×0.8</td></tr>
+        <tr><td>サンゴ島</td><td>周回 1 回</td><td>魚 ×2・貝殻 ×1.5／木 ×0.8</td></tr>
+        <tr><td>霧の島</td><td>周回 3 回</td><td>全資源 ×1.3・イベント多め</td></tr>
+        <tr><td>星の島</td><td>周回 6 回</td><td>全資源 ×1.5・貝殻 ×3。夜が少し残ります</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>周回の節目</h3>
+  <ul>
+    <li>1 回：4種の道具（Lv1）と猿 1 匹を持って新しい島へ（実際の引き継ぎ内容）。</li>
+    <li>2 回：全生産 ×1.5</li>
+    <li>3 回：霧の島／橋の解放条件のひとつ</li>
+    <li>4 回：研究コスト −25%</li>
+    <li>5 回：助手の自動雇用と施設の自動建設が最初から使える</li>
+    <li>6 回：星の島</li>
+    <li>8 回：オフライン上限 +12 時間</li>
+    <li>10 回：全生産 ×3</li>
+    <li>12 回：第1段階の研究を引き継ぐ</li>
+    <li>15 回：貝殻の獲得 ×2</li>
+    <li>20 回：全生産 ×5</li>
+    <li>30 回：全生産 ×10「島の伝説」</li>
+  </ul>
+  <p>船とリゾート、橋、灯台の費用は周回するほど大きくなります。研究の割引と「造船術」「観光学」「星図」で相殺していきます。</p>
+</section>
+
+<section class="board" id="offline">
+  <h2>オフライン進行</h2>
+  <figure>
+    <img src="guide/night.jpg" alt="夜の島。たいまつが灯り、地形が暗くなっている" width="1280" height="591">
+    <figcaption>昼夜は約 5 分周期です。灯台があると、夜の施設生産が ×1.5 になります。</figcaption>
+  </figure>
+  <p>タブを閉じているあいだも、仲間たちは働いたことになります。戻ったときに「おかえりなさい！」と、獲れた資源が表示されます（離れていた時間が 30 秒以上のとき）。</p>
+  <p>初期の上限は <strong>4 時間</strong>です。ガチャの「カメ」（+1 時間）や「星の砂時計」（+2 時間、レベルで増加）、楽園の花（1 個につき +0.5 時間、最大 +24 時間）、周回 8 回（+12 時間）で延びます。合計の上限は <strong>72 時間</strong>までです。</p>
+  <p>1 分以上操作が止まっても、同じようにオフライン計算が入ります。上限を超えた分は入りません。</p>
+  <p>昼夜は 300 秒（5 分）周期で、そのうち夜がだいたい 1 分前後あります。見た目のほか、灯台があるとき夜の施設生産が ×1.5 になります。</p>
+</section>
+
+<section class="board" id="save">
+  <h2>セーブのコツ</h2>
+  <p class="note warn">以前の版では「セーブしたのに、開き直すと戻っていた」ことがありました。スマホのファイルアプリや、ファイルを直接（file://）開くと、見た目は保存できても、タブを閉じると残らないことがあります。必ずこの攻略本と同じ https のページで遊んでください。</p>
+  <ul>
+    <li>自動保存は <strong>5 秒ごと</strong>と、タブを隠したとき・閉じる前・（対応ブラウザでは）ページが凍結されるときにも走ります。</li>
+    <li>設定に、手動の「セーブ」「ロード」、<strong>セーブコードの書き出し／読み込み</strong>があります。別の端末に移すときや、保存が使えないときの控えに使えます。</li>
+    <li>プライベートモードや保存が拒否された環境では、画面にトーストが出ます。そのときはセーブコードをコピーしてください。</li>
+    <li>設定の「ロード」と「セーブコードを読み込む」は、いまの進行を上書きします。読み込む前に、必要ならコードを書き出してください。</li>
+    <li>データのリセットは、周回・ガチャ・図鑑・実績も含めて全部消えます。二度確認があります。</li>
+    <li>セーブの保存先は、このブラウザの localStorage（キー <code>islandSlowLife_save_v2</code>）です。v1 のセーブがあれば起動時に移行します。</li>
+  </ul>
+  <p><strong>iPhone の Safari</strong> では、この公開 URL で遊んだあと、タブを完全に閉じて開き直し、進行が残るか一度確認してください。この環境では Safari 相当の自動テストができないため、実機確認をお願いしています。</p>
+</section>
+
+<section class="board" id="timeline">
+  <h2>時間の目安（1本目・森の島）</h2>
+  <p>ボットが「買えるものをすぐ買い、手作業も続ける」場合の目安です。歩行やメニュー操作はほぼ入っていません。</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>できごと</th><th>2行動/秒</th><th>1行動/秒</th></tr></thead>
+      <tbody>
+        <tr><td>斧・竹かご・つるはし</td><td>およそ 0.2 分まで</td><td>およそ 0.3 分まで</td></tr>
+        <tr><td>猿の寝床</td><td>約 1.2 分</td><td>約 2.2 分</td></tr>
+        <tr><td>猿が仲間になる</td><td>約 2.9 分</td><td>約 3.8 分</td></tr>
+        <tr><td>研いだ刃</td><td>約 2.9 分</td><td>約 4.4 分</td></tr>
+        <tr><td>ヤシの草履</td><td>約 3.7 分</td><td>約 5.6 分</td></tr>
+        <tr><td>小屋・島の道</td><td>約 4.5 分</td><td>約 6.3〜6.5 分</td></tr>
+        <tr><td>猿とバナナ</td><td>約 6.0 分</td><td>約 8.8 分</td></tr>
+        <tr><td>道しるべ・革の長靴</td><td>約 6.1 分</td><td>約 8.9〜9.0 分</td></tr>
+        <tr><td>工房・ロボット</td><td>約 7.4〜7.5 分</td><td>約 9.8〜10.0 分</td></tr>
+        <tr><td>脱出船の竜骨</td><td>約 8.5 分</td><td>約 11.1 分</td></tr>
+        <tr><td>島の調和</td><td>約 13.1 分</td><td>約 15.8 分</td></tr>
+        <tr><td>橋</td><td>約 13.1 分</td><td>約 15.9 分</td></tr>
+        <tr><td>脱出船の完成（5工程すべて）</td><td>約 15.8 分</td><td>約 18.4 分</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">実プレイでは、歩く・待つ・メニューを開く分だけ遅くなります。とくに貝殻待ちと、「島の調和」前後の大きな費用は、間が空きやすいところです。シムは貝殻を多めに拾い、宝箱ガチャの目標も内部で早めに満たしているため、ガチャ関連の時刻は参考にしませんでした。</p>
+  <p>2周目以降は、引き継ぎと勲章でかなり速くなります。シムの 2 本目は条件が違うので、1本目の目安とは比べないでください。</p>
+</section>
+
+<section class="board" id="misc">
+  <h2>そのほか</h2>
+  <ul>
+    <li>石板の欠片は、研究「遺跡の調査」のあと、小島の岩を掘ると出ます。1回あたり 12%、または 10 回掘ると必ず 1 つ。3 つ集めて石碑で「古代の叡智」を解読します。</li>
+    <li>設定の「目標への矢印」は、次の目標の場所を指す案内のオン／オフです。この攻略本とは別のスイッチです。</li>
+    <li>効果音と BGM は、端末内で合成しています。最初の操作まで無音です。</li>
+    <li>数値は JavaScript の浮動小数のため、およそ 1.8e308 が上限です。</li>
+  </ul>
+</section>
+</main>
+<footer>
+  <p><a href="index.html">ゲームに戻る</a>　・　この攻略本の数値はゲーム v3 のソースに基づきます。</p>
+</footer>
+</body>
+</html>
