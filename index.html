@@ -27,9 +27,9 @@ button{font:inherit;color:inherit;touch-action:manipulation}
 #isle{min-width:0;max-width:150px;padding:0 4px;line-height:1.1;font-size:12px;white-space:nowrap;overflow:hidden}
 #isle b{display:block;font-size:13px}#isle small{font-size:10px;opacity:.85}
 #chips{display:flex;gap:4px;flex:1;min-width:0;flex-wrap:nowrap}
-.chip{display:flex;align-items:center;gap:3px;background:rgba(40,24,12,.78);border:2px solid #6a4020;border-radius:8px;padding:2px 6px 2px 3px;min-width:0;color:#fff3d6;box-shadow:inset 0 1px 0 rgba(255,220,160,.25)}
-.chip b{display:block;font-size:13px;line-height:1.05;font-variant-numeric:tabular-nums;white-space:nowrap}
-.chip small{display:block;font-size:9px;opacity:.8;line-height:1;white-space:nowrap;color:#cfe8b0}
+.chip{display:flex;align-items:center;gap:3px;background:linear-gradient(rgba(58,34,16,.94),rgba(34,20,10,.94));border:2px solid #9a6a36;border-radius:8px;padding:2px 6px 2px 3px;min-width:0;color:#fff3d6;box-shadow:inset 0 1px 0 rgba(255,220,160,.25)}
+.chip b{display:block;text-shadow:0 1px 0 #000;font-size:13px;line-height:1.05;font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip small{display:block;font-size:9px;opacity:1;line-height:1;white-space:nowrap;color:#cfe8b0}
 #menu{display:flex;gap:3px;margin-left:auto}
 .mbtn{position:relative;width:46px;height:46px;border-radius:10px;border:2px solid #3a2210;background:linear-gradient(#c98e52,#8a5a2c);box-shadow:inset 0 2px 0 rgba(255,230,180,.5),inset 0 -3px 0 rgba(60,30,10,.4),0 2px 0 rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;cursor:pointer;color:#fff3d6;text-shadow:0 1px 0 #3a2210}
 .mbtn span{font-size:9px;font-weight:800;line-height:1;margin-top:1px}
@@ -39,10 +39,10 @@ button{font:inherit;color:inherit;touch-action:manipulation}
 @keyframes pop{50%{transform:scale(1.25)}}
 #goal{position:absolute;left:max(6px,env(safe-area-inset-left));top:calc(max(4px,env(safe-area-inset-top)) + 50px);width:min(270px,36vw);padding:2px 6px;cursor:pointer;font-size:12px}
 #goal .gh{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:800;color:#ffe08a;letter-spacing:.05em}
-#gtext{font-weight:800;line-height:1.25;font-size:12.5px}
+#gtext{font-weight:800;line-height:1.25;font-size:12.5px;text-shadow:0 1px 0 #2a1408,0 0 3px rgba(0,0,0,.5)}
 #goal .bar{height:6px;background:rgba(0,0,0,.4);border-radius:3px;margin:3px 0 2px;overflow:hidden}
 #gbar{height:100%;background:linear-gradient(90deg,#8fd14f,#f2c440);width:0;transition:width .3s}
-#gsub{font-size:10.5px;opacity:.95;min-height:13px}
+#gsub{font-size:10.5px;opacity:1;color:#ffeccc;text-shadow:0 1px 0 #2a1408;min-height:13px}
 #goal.ready{animation:glow 1.2s infinite}
 #goal.pulse{animation:gpulse .6s}
 @keyframes glow{50%{filter:brightness(1.25) drop-shadow(0 0 6px #ffe08a)}}
@@ -70,7 +70,11 @@ body.touch #joy{display:block}
 @keyframes actp{50%{box-shadow:inset 0 4px 0 rgba(255,230,180,.35),inset 0 -6px 0 rgba(40,20,5,.45),0 4px 0 rgba(0,0,0,.4),0 0 14px #ffd27a}}
 body:not(.touch) #act{width:84px;height:84px;font-size:12px}
 #act span{white-space:nowrap}
-#keyhint{position:absolute;left:10px;bottom:8px;font-size:11px;color:#fff3d6;text-shadow:0 1px 2px #000;opacity:.8;pointer-events:none}
+#dash{position:absolute;right:calc(max(16px,env(safe-area-inset-right)) + 104px);bottom:max(14px,env(safe-area-inset-bottom));width:58px;height:58px;border-radius:50%;border:3px solid #2a1408;background:radial-gradient(circle at 40% 30%,#8fd0e0,#2f7a8a 65%,#1a4a55);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 3px 0 rgba(0,0,0,.4);color:#fff;font-weight:900;font-size:10px;white-space:nowrap;padding:0;text-shadow:0 1px 0 #0a2a30;touch-action:none;cursor:pointer}
+#dash.cd{filter:grayscale(.7) brightness(.8)}
+body:not(.touch) #dash{right:110px;width:52px;height:52px}
+.okm{display:inline-block;background:#5d8a2c;color:#fff;border-radius:4px;padding:0 3px;font-size:10px}
+#keyhint{position:absolute;left:10px;bottom:8px;font-size:11px;color:#fff3d6;text-shadow:0 1px 2px #000,0 0 4px #000;opacity:.95;pointer-events:none}
 body.touch #keyhint{display:none}
 /* パネル */
 #panel{position:fixed;inset:0;background:rgba(10,20,25,.45);display:flex;align-items:center;justify-content:center;padding:max(6px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));z-index:20}
@@ -213,7 +217,8 @@ table{width:100%;border-collapse:collapse;font-size:12px}td,th{padding:2px 4px;b
   <div id="toasts"></div>
   <div id="joy" aria-label="移動スティック"><div id="joyk"></div></div>
   <button id="act" aria-label="アクション"></button>
-  <div id="keyhint">WASD・矢印：移動　E・スペース：アクション　クリック：そこへ歩く</div>
+  <button id="dash" class="hidden" data-act="dash" aria-label="ダッシュ"><span>ダッシュ</span></button>
+  <div id="keyhint">WASD・矢印：移動　E・スペース：アクション　クリック：そこへ歩く　Shift：ダッシュ（解放後）</div>
 </div>
 <div id="panel" class="hidden"><div class="pbox board"><div class="phead"><h2 id="ptitle"></h2><button class="x" id="pclose" aria-label="閉じる">×</button></div><div id="ptabs"></div><div class="pbody" id="pbody"></div></div></div>
 <div id="modal" class="hidden"></div>
@@ -309,7 +314,7 @@ const FACS=[
   {id:'light',name:'灯台',icon:'tower',cost:{stone:6e11,parts:1e8},g:1.3,prod:{fish:1e6,stone:1e6},unlock:()=>has('lightdesign'),lock:'研究「灯台の設計」',extra:'貝殻 +0.2/秒・夜の生産 ×1.5',area:'east'},
 ];
 const HELPERS=[
-  {id:'monkey',name:'猿',icon:'m_walk0',cost:{wood:50,fruit:20},g:1.15,prod:{wood:0.5,fruit:0.5},unlock:()=>S.tools.axe>=1,lock:'斧を作る',lv:l=>({fruit:300*Math.pow(10,l-1),wood:200*Math.pow(10,l-1)}),cmds:['bal','wood','fruit','follow','rest']},
+  {id:'monkey',name:'猿',icon:'m_walk0',cost:{wood:50,fruit:20},g:1.15,prod:{wood:0.5,fruit:0.5},unlock:()=>S.helpers.monkey.n>=1,lock:'野生の猿と仲良くなる（目標を進める）',lv:l=>({fruit:300*Math.pow(10,l-1),wood:200*Math.pow(10,l-1)}),cmds:['bal','wood','fruit','follow','rest']},
   {id:'robot',name:'ロボット',icon:'r_walk0',cost:{stone:4000,parts:25},g:1.15,prod:{wood:20,stone:20},unlock:()=>S.fac.shop>=1,lock:'工房を建てる',lv:l=>({parts:150*Math.pow(10,l-1)}),cmds:['bal','stone','wood','follow','rest']},
   {id:'drone',name:'ドローン',icon:'d_fly0',cost:{fish:40000,parts:250},g:1.15,prod:{fish:120,fruit:120,parts:0.3},unlock:()=>S.helpers.robot.n>=3,lock:'ロボットを3体にする',lv:l=>({parts:1500*Math.pow(10,l-1),fish:5e4*Math.pow(10,l-1)}),cmds:['bal','fish','fruit','rest']},
 ];
@@ -317,6 +322,7 @@ const CMDN={care:'森の手入れ',bal:'バランスよく',wood:'木を優先',
 const CMDD={care:'切り株をすぐ植え直す。木・果物 ×1.25',bal:'いつもの仕事を半々で',wood:'木の割合 ×1.6（ほか ×0.4）',fruit:'果物の割合 ×1.6（ほか ×0.4）',stone:'石の割合 ×1.6（ほか ×0.4）',fish:'魚の割合 ×1.6（ほか ×0.4）',follow:'あなたのそばで手伝う：手で集める量 ×1.5（生産はそのまま）',rest:'生産を止めて元気をためる。再開すると、ためた分だけ2倍で働く（最大60秒）'};
 const RESEARCH=[
   {id:'sharp',t:1,name:'研いだ刃',d:'手で採取 ×2',cost:{wood:200},req:[]},
+  {id:'sandals',t:1,name:'ヤシの草履',d:'歩く速さ +20%',cost:{wood:350,fruit:150},req:['sharp']},
   {id:'lumber',t:1,name:'製材の技',d:'木 ×2',cost:{wood:600,stone:100},req:['sharp']},
   {id:'masonry',t:1,name:'石工術',d:'石 ×2',cost:{stone:500},req:['sharp']},
   {id:'bait',t:1,name:'釣り餌の工夫',d:'魚 ×2',cost:{fish:400},req:['sharp']},
@@ -325,6 +331,8 @@ const RESEARCH=[
   {id:'firecraft',t:2,name:'火の番',d:'焚き火の効果 2倍',cost:{wood:4000,stone:2500},req:['masonry','lumber']},
   {id:'irrigation',t:2,name:'灌漑',d:'畑と桟橋 ×3',cost:{fruit:6000,fish:6000},req:['bait','compost']},
   {id:'shellcraft',t:2,name:'貝殻細工',d:'貝殻の獲得 ×2',cost:{fish:10000},req:['bait']},
+  {id:'signpost',t:2,name:'道しるべ',d:'計画の「行く」で建設地点へひとっ飛び（ファストトラベル）',cost:{wood:5000,stone:3000},req:['sandals','masonry']},
+  {id:'boots',t:3,name:'革の長靴',d:'歩く速さ +25%・ダッシュ解放（Shift／ダッシュボタン）',cost:{fish:20000,fruit:15000},req:['signpost','bait']},
   {id:'gears',t:3,name:'歯車',d:'工房 ×2・変換コスト半減',cost:{wood:40000,stone:40000},req:['firecraft']},
   {id:'clockwork',t:3,name:'からくり仕掛け',d:'助手の自動雇用を解放',cost:{wood:1e5,parts:200},req:['gears','bananas']},
   {id:'weather',t:3,name:'天気読み',d:'嵐の悪影響が半分・イベント間隔 −30%',cost:{fish:30000,fruit:20000},req:['shellcraft']},
@@ -488,23 +496,51 @@ const ACH=[
   ['isl3','t_island','三つの島','3種類の島を訪れる',()=>Object.keys(S.meta.visited).length>=3,{shell:50}],
   ['islall','ui_star','すべての島へ','5種類すべての島を訪れる',()=>Object.keys(S.meta.visited).length>=5,{mult:0.25}],
 ];
+/* 野生の猿クエスト（最初の仲間） */
+const NEST_COST={wood:150,stone:60,fruit:30};
+const OFFER_COST=[30,60,100];
+const OFFER_WAIT=45000;
+function qm(){ if(!S.quest) S.quest={monkey:0,offers:0,t:0}; return S.quest; }
+function monkeyJoined(){ return S.helpers.monkey.n>=1||S.meta.trips>0; }
+function wildVisible(){ return !monkeyJoined()&&S.tools.axe>=1; }
+function nestBuilt(){ return qm().monkey>=1||monkeyJoined(); }
+function offerWaitLeft(){ const q=qm(); return Math.max(0,(q.t||0)-now()); }
+function offerCost(){ return {fruit:OFFER_COST[Math.min(OFFER_COST.length-1,qm().offers)]}; }
+function buildNest(){ if(nestBuilt()||!wildVisible()||!canPay(NEST_COST)) return false; pay(NEST_COST); const q=qm(); q.monkey=1; q.t=now()+8000; return true; }
+/* 戻り値: 0=不可 1=前進 2=仲間になった */
+function offerFruit(){ if(!nestBuilt()||monkeyJoined()) return 0; if(offerWaitLeft()>0) return 0; const c=offerCost(); if(!canPay(c)) return 0; pay(c); const q=qm(); q.offers++; q.t=now()+OFFER_WAIT; if(q.offers>=OFFER_COST.length){ q.monkey=2; S.helpers.monkey.n=Math.max(1,S.helpers.monkey.n); return 2; } return 1; }
+/* 移動の便利さ */
+const ROAD_COST=[{wood:400,stone:250},{wood:6000,stone:5000},{wood:2e5,stone:2e5,parts:500}];
+const ROAD_MAX=ROAD_COST.length;
+function roadLv(){ return (S.world&&S.world.road)||0; }
+function roadCost(){ const l=roadLv(); return l>=ROAD_MAX?null:ROAD_COST[l]; }
+function roadOpen(){ return S.tools.pick>=1&&S.fac.fire>=1; }
+function buildRoad(){ const c=roadCost(); if(!c||!roadOpen()||!canPay(c)) return false; pay(c); S.world.road=roadLv()+1; return true; }
+function moveMult(){ return (has('sandals')?1.2:1)*(has('boots')?1.25:1); }
+function dashOpen(){ return has('boots'); }
+function fastTravelOpen(){ return has('signpost'); }
 /* 次の目標。target は地図上のオブジェクトid（案内矢印） */
 const GOALS=[
   {t:'木を切って、作業台で「斧」を作ろう',done:()=>S.tools.axe>=1,a:['tool','axe'],target:'bench'},
-  {t:'猿が仲間になった！ 話しかけて指示を見てみよう',done:()=>S.flags.talked||S.helpers.monkey.n>=2,a:null,target:'monkey'},
   {t:'果物を集めて「竹かご」を作ろう',done:()=>S.tools.basket>=1,a:['tool','basket'],target:'bench'},
   {t:'岩を割って「つるはし」を作ろう',done:()=>S.tools.pick>=1,a:['tool','pick'],target:'bench'},
+  {t:'森の猿がこちらを見ている。キャンプの東に「猿の寝床」を作ろう',done:()=>nestBuilt(),a:['nest'],target:'nest'},
+  {t:'猿に果物をあげて仲良くなろう',done:()=>monkeyJoined(),a:['offer'],target:'wild',prog:()=>qm().offers/OFFER_COST.length,sub:()=>{ const w=offerWaitLeft(); return `なかよし ${qm().offers}/${OFFER_COST.length}`+(w>0?`・猿が食べ終わるまで あと${Math.ceil(w/1000)}秒（その間に資源集め）`:`・次は果物${OFFER_COST[Math.min(2,qm().offers)]}個`); }},
+  {t:'猿が仲間になった！ 話しかけて指示を見てみよう',done:()=>S.flags.talked||S.helpers.monkey.n>=2,a:null,target:'monkey'},
   {t:'キャンプに「焚き火」を起こそう',done:()=>S.fac.fire>=1,a:['fac','fire'],target:'site_fire'},
   {t:'「釣り竿」を作って岸で釣ろう',done:()=>S.tools.rod>=1,a:['tool','rod'],target:'bench'},
   {t:'2匹目の猿を迎えよう（話しかけて「仲間を増やす」）',done:()=>S.helpers.monkey.n>=2,a:['helper','monkey'],target:'monkey'},
   {t:'貝殻で「漂流ボトル」を回そう',done:()=>S.stats.pulls>=1,a:['gacha'],target:null},
   {t:'研究「研いだ刃」を完成させよう',done:()=>has('sharp'),a:['res','sharp'],target:null},
+  {t:'研究「ヤシの草履」で歩く速さアップ',done:()=>has('sandals'),a:['res','sandals'],target:null},
   {t:'「畑」を作ろう',done:()=>S.fac.field>=1,a:['fac','field'],target:'site_field'},
   {t:'「採石場」を建てよう',done:()=>S.fac.quarry>=1,a:['fac','quarry'],target:'site_quarry'},
   {t:'猿を5匹にしよう',done:()=>S.helpers.monkey.n>=5,a:['helper','monkey'],target:'monkey'},
   {t:'「小屋」を建てよう',done:()=>S.fac.hut>=1,a:['fac','hut'],target:'site_hut'},
+  {t:'計画から「島の道」を敷こう（道の上は速く歩ける）',done:()=>roadLv()>=1,a:['road'],target:null},
   {t:'研究「猿とバナナ」で猿を強くしよう',done:()=>has('bananas'),a:['res','bananas'],target:null},
   {t:'池のそばに「水車」を建てよう',done:()=>S.fac.wheel>=1,a:['fac','wheel'],target:'site_wheel'},
+  {t:'研究「道しるべ」でファストトラベル',done:()=>has('signpost'),a:['res','signpost'],target:null},
   {t:'焚き火を5基にしよう',done:()=>S.fac.fire>=5,a:['fac','fire'],target:'site_fire'},
   {t:'「工房」で部品づくりを始めよう',done:()=>S.fac.shop>=1,a:['fac','shop'],target:'site_shop'},
   {t:'工房で「ロボット」を作ろう',done:()=>S.helpers.robot.n>=1,a:['helper','robot'],target:'site_shop'},
@@ -543,7 +579,8 @@ function defaultState(){
     fac:{fire:0,field:0,pier:0,quarry:0,hut:0,wheel:0,shop:0,tower:0,light:0},
     helpers:{monkey:{n:0,lv:1,cmd:'bal',morale:0,boost:0},robot:{n:0,lv:1,cmd:'bal',morale:0,boost:0},drone:{n:0,lv:1,cmd:'bal',morale:0,boost:0}},
     research:{},ship:[0,0,0,0,0],resort:[0,0,0,0,0],
-    world:{bridge:0,shards:0,tablet:0,ruinHits:0},
+    world:{bridge:0,shards:0,tablet:0,ruinHits:0,road:0},
+    quest:{monkey:0,offers:0,t:0},
     run:{type:'forest',name:'みどり島',earned:0,start:t,taps:0,seed:1},
     meta:{trips:0,ships:0,resorts:0,compass:0,flower:0,visited:{forest:1}},
     stats:{taps:0,got:{wood:0,stone:0,fish:0,fruit:0,parts:0,shell:0},earned:0,pulls:0,events:0,ssr:0,play:0,started:t},
@@ -590,6 +627,14 @@ function migrateSave(d){
   if(d.v){ d.v=2; return d; }
   return null;
 }
+/* 旧セーブの補正（v2 のまま項目を足すだけ。猿がいるセーブはクエスト完了扱い） */
+function fixupState(){
+  if(!isObj(S.quest)) S.quest={monkey:0,offers:0,t:0};
+  if(!(S.world.road>=0)) S.world.road=0;
+  if(S.helpers.monkey.n>=1||S.meta.trips>0){ S.quest.monkey=2; S.quest.offers=OFFER_COST.length; }
+  if(!(S.quest.t>=0)) S.quest.t=0;
+  if(S.quest.t>now()+OFFER_WAIT) S.quest.t=now()+OFFER_WAIT;
+}
 function load(){
   S=defaultState();
   try{
@@ -600,7 +645,7 @@ function load(){
       const d=migrateSave(JSON.parse(raw));
       if(d){
         S=merge(defaultState(),d);
-        S.v=2;
+        S.v=2; fixupState();
         storageOK=true;
         if(fromV1){ try{ localStorage.setItem(SAVE_KEY,JSON.stringify(S)); }catch(e){} }
         return true;
@@ -657,7 +702,7 @@ function importSaveCode(code){
   d=migrateSave(d);
   if(!d){ if(typeof toast==='function') toast('このコードは使えません','warn'); return false; }
   S=merge(defaultState(),d);
-  S.v=2;
+  S.v=2; fixupState();
   if(typeof newIsland==='function') newIsland();
   if(typeof closePanel==='function') closePanel();
   if(typeof closeModal==='function') closeModal();
@@ -953,7 +998,7 @@ function departReset(kind,type){
   if(m.trips>=12) for(const r of RESEARCH) if(r.t===1&&S.research[r.id]) keep[r.id]=1;
   S.research=keep;
   S.ship=[0,0,0,0,0]; S.resort=[0,0,0,0,0];
-  S.world={bridge:0,shards:0,tablet:0,ruinHits:0};
+  S.world={bridge:0,shards:0,tablet:0,ruinHits:0,road:0};
   S.flags.tabletSeen=false;
   S.buffs=[]; S.stormAt=0;
   S.run={type,name,earned:0,start:now(),taps:0,seed:1+Math.floor(Math.random()*9999)};
@@ -968,7 +1013,7 @@ const T=32, MW=50, MH=32;
 const DEEP=0,SHAL=1,SAND=2,GRASS=3,FOREST=4,ROCKG=5,CLIFF=6,POND=7,DIRT=8,BRIDGE=9,PLANK=10;
 const PRIO={0:0,1:0,7:0,9:0,2:2,10:2,8:3,3:4,4:4.5,5:5,6:6};
 const isWater=t=>t===DEEP||t===SHAL||t===POND||t===BRIDGE;
-let tiles=null, area=null, blockObj=null, OBJ=[], OBJID={}, SITES={}, FISHSPOTS=[], SHORE=[], ISL={};
+let roadMask=null, tiles=null, area=null, blockObj=null, OBJ=[], OBJID={}, SITES={}, FISHSPOTS=[], SHORE=[], ISL={};
 function mulberry(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
 function hash2(x,y){ let h=x*374761393+y*668265263; h=(h^(h>>>13))*1274126177; return ((h^(h>>>16))>>>0)/4294967296; }
 const tileAt=(x,y)=>(x<0||y<0||x>=MW||y>=MH)?DEEP:tiles[y*MW+x];
@@ -1044,6 +1089,8 @@ function buildObjects(R){
   addObj({id:'bench',kind:'bench',x:19.5*T,y:23*T,tx:19,ty:22}); blockObj[22*MW+19]=1; reserve(19,22,1);
   addObj({id:'stock',kind:'stock',x:24.5*T,y:23*T,tx:24,ty:22}); blockObj[22*MW+24]=1; reserve(24,22,1);
   site('site_fire','fire',21,20,1,1);
+  addObj({id:'nest',kind:'nest',x:26.5*T,y:22*T-2,tx:26,ty:21}); blockObj[21*MW+26]=1; reserve(26,21,0);
+  addObj({id:'wild',kind:'wild',x:14.5*T,y:22.6*T,hx:14.5*T,hy:22.6*T,tx:14,ty:22,dir:'down',t:0,anim:0,flip:false,mv:false});
   site('site_hut','hut',16,20,3,2);
   site('site_field','field',27,19,3,2,{walk:true});
   site('site_wheel','wheel',12,21,3,2);
@@ -1098,7 +1145,23 @@ function buildObjects(R){
     const ok=(f.stand.x===20&&f.stand.y===23)||findPath(20,23,f.stand.x,f.stand.y,false,true);
     if(!ok){ FISHSPOTS.splice(i,1); OBJ.splice(OBJ.indexOf(f),1); delete OBJID[f.id]; } }
   computeShore();
+  computeRoads();
 }
+/* 島の道：レベルごとにキャンプから各地点へ */
+const ROAD_TARGETS=[['site_fire','site_hut','site_field','nest','bench','stock'],['site_wheel','site_quarry','site_pier','site_shop','fish0'],['site_harbor','site_tower','site_bridge','fish1','fish2']];
+function computeRoads(){
+  roadMask=new Uint8Array(MW*MH);
+  const lv=roadLv(); if(!lv) return;
+  const mark=(x,y)=>{ if(x>=0&&y>=0&&x<MW&&y<MH&&!isWater(tileAt(x,y))&&tileAt(x,y)!==CLIFF) roadMask[y*MW+x]=1; };
+  for(let y=21;y<=24;y++) for(let x=19;x<=24;x++) if(tileAt(x,y)===DIRT) mark(x,y);
+  for(let l=0;l<lv;l++) for(const id of ROAD_TARGETS[l]){
+    const o=OBJID[id]; if(!o) continue;
+    const st=o.stand||standTileFor(o,21.5*T,23.5*T); if(!st) continue;
+    const p=findPath(21,23,st.x,st.y,false,true); if(!p) continue;
+    mark(21,23); for(const q of p){ mark(Math.floor(q.x/T),Math.floor(q.y/T)); }
+  }
+}
+function onRoad(x,y){ return !!(roadMask&&roadMask[Math.floor(y/T)*MW+Math.floor(x/T)]); }
 function computeShore(){
   SHORE=[];
   for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){
@@ -1161,6 +1224,8 @@ function objArea(o){ return o.area==='east'; }
 function objAvailable(o){
   if(o.area==='east'&&!S.world.bridge) return false;
   if(o.kind==='site'){ return siteState(o)!=='hidden'; }
+  if(o.kind==='wild') return wildVisible();
+  if(o.kind==='nest') return wildVisible()||nestBuilt();
   return true;
 }
 function siteState(o){
@@ -1212,6 +1277,7 @@ function interactables(){
     if(!objAvailable(o)) continue;
     if(o.kind==='site'&&siteState(o)==='locked') continue;
     if(o.kind==='bridge'&&S.world.bridge) continue;
+    if(o.kind==='nest'&&monkeyJoined()) continue;
     L.push(o);
   }
   for(const a of actors) if(a.type!=='drone') L.push(a);
@@ -1219,7 +1285,7 @@ function interactables(){
   return L;
 }
 function objPoint(o){ if(o.kind==='site') return {x:o.x,y:o.y}; return {x:o.x,y:o.y}; }
-function rangeOf(o){ if(o.kind==='site') return 18+(o.fw||1)*16; if(o.kind==='fish') return 40; if(o.kind==='actor') return 34; if(o.kind==='bridge') return 40; return 38; }
+function rangeOf(o){ if(o.kind==='wild') return 40; if(o.kind==='site') return 18+(o.fw||1)*16; if(o.kind==='fish') return 40; if(o.kind==='actor') return 34; if(o.kind==='bridge') return 40; return 38; }
 function findTarget(){
   let best=null,bs=1e9;
   const fx={down:[0,1],up:[0,-1],left:[-1,0],right:[1,0]}[player.dir];
@@ -1243,6 +1309,8 @@ function verbOf(o){
     case 'bridge': return '橋';
     case 'tablet': return '調べる';
     case 'actor': return '指示';
+    case 'nest': return nestBuilt()?(monkeyJoined()?null:'果物をあげる'):'寝床を作る';
+    case 'wild': return nestBuilt()?'果物をあげる':'様子を見る';
     case 'ev': return o.ev==='merchant'?'取引':'拾う';
   }
   return null;
@@ -1257,6 +1325,8 @@ function nameOf(o){
     case 'bridge': return '東の小島への橋';
     case 'tablet': return '古代の石碑';
     case 'actor': return HELPERS.find(h=>h.id===o.type).name;
+    case 'nest': return '猿の寝床';
+    case 'wild': return '野生の猿';
     case 'ev': return o.ev==='merchant'?'商人':'漂流物';
   }
   return '';
@@ -1316,7 +1386,7 @@ function updatePlayer(dt){
     }
   }
   if(mx||my){
-    const sp=PSPEED*dt;
+    const sp=curSpeed()*dt;
     const nx=p.x+mx*sp, ny=p.y+my*sp;
     const pathing=!!(p.path&&p.path.length);
     if(canStand(nx,p.y)||pathing&&walkablePx(nx,p.y)) p.x=nx;
@@ -1340,6 +1410,35 @@ function updatePlayer(dt){
   // オブジェクトの再生
   const t=now();
   for(const o of OBJ){ if(o.regrowAt&&t>=o.regrowAt){ o.regrowAt=0; o.hp=o.maxhp; o.grow=0.6; } if(o.shake>0) o.shake-=dt; if(o.grow>0) o.grow-=dt; }
+}
+/* 移動速度：草履・長靴・道・ダッシュ */
+let dashT=0, dashCD=0;
+function curSpeed(){ return PSPEED*moveMult()*(onRoad(player.x,player.y)?1.45:1)*(dashT>0?1.75:1); }
+function tryDash(){ if(!dashOpen()||dashCD>0||uiBlocking()) return false; dashT=0.9; dashCD=3; burst(player.x,player.y-2,['#e8dcc0','#fff'],8,{lift:10,g:60}); Sfx.play('step'); return true; }
+function updateDash(dt){ if(dashT>0){ dashT-=dt; if(player.moving&&Math.random()<0.6) parts.push({x:player.x+rnd(-3,3),y:player.y,vx:rnd(-8,8),vy:-rnd(4,10),g:20,life:0.4,t:0,c:'rgba(230,215,180,0.8)',s:2}); } if(dashCD>0) dashCD-=dt; if(keys.dash&&dashT<=0) tryDash(); }
+function fastTravel(o){
+  const st=standTileFor(o,player.x,player.y); if(!st) return false;
+  burst(player.x,player.y-10,['#ffe9a0','#fff'],18,{lift:40});
+  player.x=(st.x+0.5)*T; player.y=(st.y+0.5)*T; player.path=null; player.act=null; player.goalObj=null;
+  updateCam(0,true); burst(player.x,player.y-10,['#ffe9a0','#fff'],22,{lift:50}); Sfx.play('pop');
+  faceTo(o.x,o.y); return true;
+}
+/* 野生の猿（まだ仲間ではない） */
+function updateWild(dt){
+  const w=OBJID.wild; if(!w||!wildVisible()) return;
+  const nest=OBJID.nest, built=nestBuilt();
+  if(built){ w.hx=nest.x-18; w.hy=nest.y+10; }
+  w.t-=dt; w.anim+=dt;
+  const dp=Math.hypot(player.x-w.x,player.y-w.y);
+  if(w.t<=0){ w.t=rnd(1.5,4);
+    let tx=w.hx+rnd(-26,26), ty=w.hy+rnd(-14,14);
+    // まだ寝床がないときは、近づくと少し逃げる
+    if(!built&&dp<46){ const a=Math.atan2(w.y-player.y,w.x-player.x); tx=w.x+Math.cos(a)*30; ty=w.y+Math.sin(a)*20; if(Math.random()<0.5) popText(w.x,w.y-30,'キキッ',null); }
+    if(canStand(tx,ty,3)){ w.gx=tx; w.gy=ty; }
+  }
+  if(w.gx!=null){ const dx=w.gx-w.x, dy=w.gy-w.y, d=Math.hypot(dx,dy);
+    if(d>1.5){ const sp=Math.min(d,(d>80?70:34)*dt); const nx=w.x+dx/d*sp, ny=w.y+dy/d*sp; if(canStand(nx,ny,3)||d>80){ w.x=nx; w.y=ny; } else w.gx=null; w.flip=dx<0; w.mv=true; } else w.mv=false; }
+  w.tx=Math.floor(w.x/T); w.ty=Math.floor(w.y/T);
 }
 function tryActionOn(o){
   const p=objPoint(o); if(Math.hypot(p.x-player.x,p.y-player.y)>rangeOf(o)+6) return;
@@ -1429,6 +1528,7 @@ function routeTo(a,x,y){
 }
 function updateActors(dt){
   const D=Dc||calc();
+  updateWild(dt); updateDash(dt);
   for(const a of actors){
     const st=S.helpers[a.type]; const sp=a.type==='robot'?46:a.type==='drone'?70:58;
     a.t-=dt; a.anim+=a.state==='work'?dt*5:0;
@@ -1565,113 +1665,6 @@ function texCanvas(name,tint,mode){
   if(tint){ g.globalCompositeOperation=mode||'source-atop'; g.fillStyle=tint; g.fillRect(0,0,T,T); }
   return c;
 }
-let TEX={};
-function buildTextures(){
-  const tt=TINT[S.run.type]||{};
-  TEX={sand:[0,1,2].map(i=>texCanvas('g_sand'+i,tt.sand)),grass:[0,1,2].map(i=>texCanvas('g_grass'+i,tt.grass)),
-    forest:[0,1,2].map(i=>texCanvas('g_grass'+i,'rgba(20,60,30,0.32)')),rock:[0,1,2].map(i=>texCanvas('g_sand'+i,tt.rock||'rgba(105,100,90,0.55)')),
-    cliff:[0,1,2].map(i=>texCanvas('g_rock'+i,'rgba(30,25,20,0.25)')),dirt:[texCanvas('g_dirt0'),texCanvas('g_dirt1')],
-    patch:[texCanvas('g_patch0',tt.grass),texCanvas('g_patch1',tt.grass)],
-    pond:[0,1,2].map(i=>texCanvas('g_sea'+i,'rgba(40,120,90,0.35)')),shallow:[0,1,2].map(i=>texCanvas('g_shallow'+i,tt.sea))};
-  const sc=document.createElement('canvas'); sc.width=T*2; sc.height=T*2; const g=sc.getContext('2d');
-  for(let i=0;i<4;i++){ const r=ATLAS['g_sea'+(i%3)]; g.drawImage(atlasImg,r[0],r[1],r[2],r[3],(i%2)*T,(i>>1)*T,T,T); }
-  if(tt.sea){ g.globalCompositeOperation='source-atop'; g.fillStyle=tt.sea; g.fillRect(0,0,T*2,T*2); }
-  seaPat=ctx.createPattern(sc,'repeat');
-}
-function texFor(t,x,y){
-  const h=hash2(x,y), v=Math.floor(h*3)%3;
-  switch(t){
-    case SAND: case PLANK: return TEX.sand[v];
-    case GRASS: return h<0.025?TEX.patch[v%2]:TEX.grass[v];
-    case FOREST: return TEX.forest[v];
-    case ROCKG: return TEX.rock[v];
-    case CLIFF: return TEX.cliff[v];
-    case DIRT: return TEX.dirt[v%2];
-    case POND: return TEX.pond[v];
-    case SHAL: case BRIDGE: return TEX.shallow[v];
-  }
-  return null;
-}
-function buildTerrain(){
-  buildTextures();
-  terrainCv=document.createElement('canvas'); terrainCv.width=MW*T; terrainCv.height=MH*T;
-  const g=terrainCv.getContext('2d');
-  g.imageSmoothingEnabled=false;
-  // 水深：陸からの距離で色を変え、ぼかして四角を消す
-  const dist=new Uint8Array(MW*MH).fill(255); const q=[];
-  for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){ const t=tileAt(x,y); if(!(t===DEEP||t===SHAL||t===BRIDGE)){ dist[y*MW+x]=0; q.push(y*MW+x); } }
-  for(let i=0;i<q.length;i++){ const c=q[i], x=c%MW, y=(c/MW)|0; for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const nx=x+dx, ny=y+dy; if(nx<0||ny<0||nx>=MW||ny>=MH) continue; const n=ny*MW+nx; if(dist[n]>dist[c]+1){ dist[n]=dist[c]+1; q.push(n); } } }
-  const sh=document.createElement('canvas'); sh.width=MW*T; sh.height=MH*T; const sg=sh.getContext('2d');
-  const shal=S.run.type==='coral'?'rgba(120,240,225,0.75)':S.run.type==='volcano'?'rgba(90,170,170,0.55)':'rgba(110,215,205,0.65)';
-  for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){ const d=dist[y*MW+x]; if(d===0) { sg.fillStyle=shal; sg.fillRect(x*T,y*T,T,T); continue; }
-    if(d===1){ sg.fillStyle=shal; } else if(d===2){ sg.fillStyle='rgba(90,190,190,0.35)'; } else { sg.fillStyle=`rgba(8,30,60,${Math.min(0.45,(d-3)*0.09)})`; }
-    sg.fillRect(x*T,y*T,T,T); }
-  g.save(); g.filter='blur(10px)'; g.drawImage(sh,0,0); g.restore();
-  // 基本
-  for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){
-    const t=tileAt(x,y); if(t===DEEP||t===SHAL||t===BRIDGE) continue;
-    const tex=texFor(t,x,y); if(!tex) continue;
-    g.drawImage(tex,x*T,y*T);
-  }
-  // 境界：高い地形を低い隣へギザギザにはみ出させる
-  const order=[2,3,4,4.5,5,6];
-  for(const pr of order){
-    for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){
-      const t=tileAt(x,y); if(PRIO[t]!==pr) continue;
-      const tex=texFor(t===PLANK?SAND:t,x,y);
-      for(const [dx,dy] of [[0,1],[0,-1],[1,0],[-1,0]]){
-        const n=tileAt(x+dx,y+dy); if(PRIO[n]>=pr) continue;
-        const water=isWater(n);
-        g.save(); g.beginPath();
-        const depth=water?4:5;
-        const pts=[];
-        for(let i=0;i<=8;i++){ const k=i/8*T; const gk=(dx?y:x)*T+k; const d=water?2+Math.round(3+2.5*Math.sin(gk*0.13)+1.5*Math.sin(gk*0.37)):1+Math.floor(hash2(x*13+i+dx*7,y*17+i+dy*5)*depth); pts.push([k,d]); }
-        const ox=x*T, oy=y*T;
-        const P=(k,d)=>dy===1?[ox+k,oy+T+d]:dy===-1?[ox+k,oy-d]:dx===1?[ox+T+d,oy+k]:[ox-d,oy+k];
-        const base=(k)=>dy===1?[ox+k,oy+T]:dy===-1?[ox+k,oy]:dx===1?[ox+T,oy+k]:[ox,oy+k];
-        g.moveTo(...base(0)); for(const [k,d] of pts) g.lineTo(...P(k,d)); g.lineTo(...base(T)); g.closePath();
-        g.clip();
-        if(water){ g.drawImage(tex,ox+dx*T,oy+dy*T); g.fillStyle=t===SAND||t===PLANK?'rgba(120,90,50,0.35)':'rgba(40,40,30,0.3)'; g.fillRect(ox-T,oy-T,T*3,T*3); }
-        else g.drawImage(tex,ox+dx*T,oy+dy*T);
-        g.restore();
-        // 輪郭（暗い線）
-        if(!water&&(t===GRASS||t===FOREST)){
-          g.fillStyle='rgba(40,70,25,0.45)';
-          for(const [k,d] of pts){ const p=P(k,d); g.fillRect(Math.round(p[0])-(dx?0:0),Math.round(p[1]),dx?1:4,dx?4:1); }
-        }
-      }
-    }
-  }
-  // 海岸の角を丸める（凸角を削り、凹角を埋める）
-  const wet=(x,y)=>{ const t=tileAt(x,y); return t===DEEP||t===SHAL||t===BRIDGE||t===POND; };
-  for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){
-    const land=!wet(x,y);
-    for(const [dx,dy] of [[-1,-1],[1,-1],[-1,1],[1,1]]){
-      const cx=x*T+(dx>0?T:0), cy=y*T+(dy>0?T:0);
-      if(land&&wet(x+dx,y)&&wet(x,y+dy)){
-        g.save(); g.beginPath(); g.moveTo(cx,cy); g.lineTo(cx-dx*16,cy); g.quadraticCurveTo(cx-dx*3,cy-dy*3,cx,cy-dy*16); g.closePath();
-        g.globalCompositeOperation='destination-out'; g.fill(); g.restore();
-      } else if(!land&&!wet(x+dx,y)&&!wet(x,y+dy)){
-        const tex=texFor(tileAt(x+dx,y),x+dx,y)||TEX.sand[0];
-        g.save(); g.beginPath(); g.moveTo(cx,cy); g.lineTo(cx-dx*14,cy); g.quadraticCurveTo(cx-dx*3,cy-dy*3,cx,cy-dy*14); g.closePath(); g.clip(); g.drawImage(tex,x*T,y*T); g.restore();
-      }
-    }
-  }
-  // 崖の南面
-  for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){
-    if(tileAt(x,y)!==CLIFF||tileAt(x,y+1)===CLIFF) continue;
-    const gr=g.createLinearGradient(0,(y+1)*T,0,(y+1)*T+10); gr.addColorStop(0,'rgba(40,30,25,0.9)'); gr.addColorStop(1,'rgba(40,30,25,0)');
-    g.fillStyle='#5a4a3c'; g.fillRect(x*T,(y+1)*T-6,T,6); g.fillStyle=gr; g.fillRect(x*T,(y+1)*T,T,10);
-  }
-  // 細かい装飾（草・小石・サンゴ）
-  for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){
-    const t=tileAt(x,y), h=hash2(x*5,y*11);
-    if((t===GRASS||t===FOREST)&&h<0.5){ g.fillStyle=t===FOREST?'#2f5a1e':'#4f8a2a'; for(let i=0;i<3;i++){ const px=x*T+Math.floor(hash2(x+i,y*3)*28)+2, py=y*T+Math.floor(hash2(x*2,y+i)*26)+4; g.fillRect(px,py,1,3); g.fillRect(px+2,py+1,1,2); } }
-    if(t===ROCKG){ g.fillStyle='#5e5850'; for(let i=0;i<4;i++){ const px=x*T+Math.floor(hash2(x+i*3,y)*28)+2, py=y*T+Math.floor(hash2(x,y+i*5)*28)+2; g.fillRect(px,py,3,2); g.fillStyle='#9a958a'; g.fillRect(px,py,2,1); g.fillStyle='#5e5850'; } }
-    if(t===SAND&&h<0.15){ g.fillStyle='#c9a46a'; g.fillRect(x*T+Math.floor(h*200)%28+2,y*T+Math.floor(h*500)%28+2,2,1); }
-    if(t===SHAL&&S.run.type==='coral'&&h<0.3){ const cols=['#f06a8a','#f0a04a','#e8d06a','#c86ad0']; g.fillStyle=cols[Math.floor(h*40)%4]; const px=x*T+8+Math.floor(h*90)%14, py=y*T+8+Math.floor(h*300)%14; g.fillRect(px,py,4,3); g.fillRect(px+1,py-2,2,2); g.fillRect(px+5,py+1,2,3); }
-  }
-}
 /* ---------- カメラ ---------- */
 function resize(){
   DPR=Math.min(3,window.devicePixelRatio||1);
@@ -1714,8 +1707,10 @@ function render(dt){
   ctx.setTransform(Z,0,0,Z,-cx*Z,-cy*Z);
   const vw=viewW(), vh=viewH();
   // 海
-  const m=new DOMMatrix(); m.translateSelf((timeS*3)%64,(Math.sin(timeS*0.3)*4)); seaPat.setTransform(m);
+  const m=new DOMMatrix(); m.translateSelf((timeS*2.2)%128,(Math.sin(timeS*0.25)*5)); seaPat.setTransform(m);
   ctx.fillStyle=seaPat; ctx.fillRect(cx-2,cy-2,vw+4,vh+4);
+  if(seaPat2){ const m2=new DOMMatrix(); m2.translateSelf((-timeS*4.5)%128,(timeS*1.5)%128); seaPat2.setTransform(m2); ctx.globalAlpha=0.55+0.25*Math.sin(timeS*0.8); ctx.fillStyle=seaPat2; ctx.fillRect(cx-2,cy-2,vw+4,vh+4); ctx.globalAlpha=1; }
+  updAmbient(dt);
   // 外洋の影（島から遠いほど暗く）
   // きらめき
   ctx.fillStyle='rgba(230,255,255,0.7)';
@@ -1728,21 +1723,8 @@ function render(dt){
   ctx.globalAlpha=1;
   ctx.drawImage(terrainCv,cx,cy,vw,vh,cx,cy,vw,vh);
   drawBridge();
-  // 波打ち際の泡（辺に沿って揺れる波線）
-  ctx.fillStyle='rgb(240,255,255)';
-  for(const s of SHORE){
-    const px=s.x*T, py=s.y*T; if(px<cx-T||px>cx+vw+T||py<cy-T||py>cy+vh+T) continue;
-    for(let i=0;i<T;i+=2){
-      const gi=(s.side==='n'||s.side==='s')?px+i:py+i;
-      const w=Math.sin(timeS*1.6+gi*0.21+s.ph*0.2);
-      const o=3+Math.round(2.5+2.5*w+Math.sin(gi*0.5)*1.2);
-      const a=0.25+0.45*(0.5+0.5*Math.sin(timeS*1.6+gi*0.21+1.2));
-      ctx.globalAlpha=a;
-      if(s.side==='n') ctx.fillRect(px+i,py+o,2,1); else if(s.side==='s') ctx.fillRect(px+i,py+T-o-1,2,1);
-      else if(s.side==='w') ctx.fillRect(px+o,py+i,1,2); else ctx.fillRect(px+T-o-1,py+i,1,2);
-      if(hash2(gi,s.y*3+s.x)<0.18){ ctx.globalAlpha=a*0.5; const o2=o+4; if(s.side==='n') ctx.fillRect(px+i,py+o2,1,1); else if(s.side==='s') ctx.fillRect(px+i,py+T-o2-1,1,1); else if(s.side==='w') ctx.fillRect(px+o2,py+i,1,1); else ctx.fillRect(px+T-o2-1,py+i,1,1); }
-    }
-  }
+  drawCoast(cx,cy,vw,vh);
+  drawGroundAmbient(cx,cy,vw,vh);
   ctx.globalAlpha=1;
   lights=[];
   // 釣り場
@@ -1757,8 +1739,10 @@ function render(dt){
   for(const e of mapEvents) L.push(e);
   for(const d of decoList()) L.push(d);
   L.push(player);
-  harborDrawables(L);
+  harborDrawables(L); campDrawables(L);
   L.sort((a,b)=>a.y-b.y);
+  for(const o of L) queueShadow(o);
+  flushShadows(cx,cy);
   const tgt=uiBlocking()?null:findTarget();
   for(const o of L){
     if(o===player) drawPlayer();
@@ -1782,18 +1766,79 @@ function render(dt){
     else { ctx.fillStyle=p.c; ctx.fillRect(Math.round(p.x),Math.round(p.y),p.s,p.s); }
   }
   ctx.globalAlpha=1;
+  drawSkyAmbient(cx,cy,vw,vh);
   drawWeather(dt);
   // 夜
   drawNight(n);
   // スクリーン座標
   ctx.setTransform(DPR,0,0,DPR,0,0);
+  drawGrade();
   if(S.run.type==='mist') drawFog();
   drawPopups(dt);
   if(tgt) drawPrompt(tgt);
   drawGuide();
 }
+/* ---------- 影の登録 ---------- */
+function queueShadow(o){
+  if(o===player){ shSpr('p_idle',o.x,o.y+3,1); return; }
+  switch(o.kind){
+    case 'tree': if(o.hp>0) shSpr(o.spr[0],o.x,o.y+4,o.grow>0?1-o.grow/0.6*0.4:1); break;
+    case 'actor': if(o.type!=='drone') shSpr(o.type==='monkey'?'m_walk0':'r_walk0',o.x,o.y+3,1,o.dir==='left'); break;
+    case 'wild': if(wildVisible()) shSpr('m_walk0',o.x,o.y+3,1); break;
+    case 'critter': if(!o.c.fly&&!o.c.sea) shSpr('g_'+o.c.id,o.x,o.y+2,0.8); break;
+    case 'site': { if(o.fac==='harbor'||siteState(o)!=='built') break; const sp={hut:'hut',wheel:'wheel',shop:'shop',tower:'tower',quarry:'quarry',fire:null}[o.fac]; if(sp) shSpr(sp,o.x,o.y+6,1); if(o.fac==='hut'&&S.fac.hut>=5) shSpr('hut',o.x-38,o.y-16,0.72); if(o.fac==='hut'&&S.fac.hut>=15) shSpr('hut',o.x+38,o.y-18,0.72); break; }
+    case 'deco': if(o.sh) shSpr(o.sh,o.x,o.y+4,o.shs||1); break;
+  }
+}
+/* ---------- キャンプの小物（たいまつ・木箱） ---------- */
+function campDrawables(L){
+  if(S.fac.fire<1) return;
+  for(const [tx,ty] of [[18.3,21.0],[25.7,21.0],[18.3,24.6],[25.7,24.6]]){ const x=tx*T, y=ty*T; if(!onScreen(x,y,60)) continue;
+    L.push({kind:'deco',x,y,draw:()=>{ ctx.fillStyle='#4a2c14'; ctx.fillRect(x-1,y-18,3,18); ctx.fillStyle='#7a4a26'; ctx.fillRect(x-1,y-18,1,18); ctx.fillStyle='#3a2210'; ctx.fillRect(x-3,y-20,7,3);
+      const n=nightAmount(); const fl=Math.sin(timeS*17+x)*1; ctx.fillStyle='#ff8a2a'; ctx.fillRect(x-2,y-25+fl,5,5); ctx.fillStyle='#ffd84a'; ctx.fillRect(x-1,y-24+fl,3,3);
+      if(Math.random()<0.15) parts.push({x:x+rnd(-1,1),y:y-26,vx:rnd(-3,3),vy:-rnd(10,20),g:-2,life:0.6,t:0,c:'#ffb84a',s:1});
+      lights.push({x,y:y-22,r:46+fl*2,c:'rgba(255,170,80,0.55)'}); }});
+  }
+}
+function drawNest(o){
+  const built=nestBuilt();
+  if(!built&&!wildVisible()) return;
+  if(!built){
+    ctx.fillStyle='#7a4a26'; for(const [dx,dy] of [[-12,-8],[12,-8],[-12,2],[12,2]]) ctx.fillRect(o.x+dx-1,o.y+dy-6,2,7);
+    ctx.fillStyle='rgba(230,210,160,0.7)'; ctx.fillRect(o.x-12,o.y-12,24,1); ctx.fillRect(o.x-12,o.y-2,24,1);
+    ctx.globalAlpha=0.35+0.1*Math.sin(timeS*3); drawNestBody(o); ctx.globalAlpha=1; spr('ui_sign',o.x+20,o.y,{}); return;
+  }
+  shadow(o.x,o.y,16); drawNestBody(o);
+}
+function drawNestBody(o){
+  const x=o.x, y=o.y;
+  // 葉の屋根（差し掛け）
+  ctx.fillStyle='#5a3a1e'; ctx.fillRect(x-14,y-22,2,22); ctx.fillRect(x+12,y-22,2,22);
+  ctx.fillStyle='#3e6a1c'; ctx.beginPath(); ctx.moveTo(x-18,y-18); ctx.lineTo(x,y-30); ctx.lineTo(x+18,y-18); ctx.lineTo(x+16,y-14); ctx.lineTo(x-16,y-14); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#5f9a2a'; for(let i=0;i<6;i++){ ctx.fillRect(x-15+i*5,y-22+Math.abs(i-2.5)*2,4,2); }
+  ctx.fillStyle='#8fc046'; ctx.fillRect(x-6,y-27,12,1);
+  // わらの寝床
+  ctx.fillStyle='#a07a3a'; ctx.beginPath(); ctx.ellipse(x,y-3,13,5,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#d8b060'; ctx.beginPath(); ctx.ellipse(x,y-4,11,3.5,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#f0d080'; for(let i=0;i<5;i++) ctx.fillRect(x-9+i*4,y-6+(i%2),3,1);
+  // バナナの房
+  ctx.fillStyle='#f2d03a'; ctx.fillRect(x+8,y-12,2,5); ctx.fillRect(x+10,y-11,2,5); ctx.fillRect(x+12,y-12,2,4); ctx.fillStyle='#6a4a1a'; ctx.fillRect(x+10,y-13,2,1);
+}
+function drawWild(o){
+  if(!wildVisible()) return;
+  shadow(o.x,o.y,6);
+  const name=o.mv?'m_walk'+(Math.floor(timeS*8)%5):(Math.sin(timeS*1.3+o.x)>0.6?'m_reach':'m_walk0');
+  spr(name,o.x,o.y+3,{flip:o.flip});
+  // 頭上のふきだし
+  const by=o.y-34+Math.sin(timeS*3)*1.5;
+  const q=qm(); const txt=nestBuilt()?(offerWaitLeft()>0?'もぐもぐ':'？'):'…';
+  ctx.font='800 8px system-ui,sans-serif'; const w=ctx.measureText(txt).width+8;
+  ctx.fillStyle='rgba(255,250,235,0.92)'; ctx.fillRect(o.x-w/2,by-6,w,11); ctx.fillStyle='rgba(255,250,235,0.92)'; ctx.fillRect(o.x-1,by+5,3,2);
+  ctx.fillStyle='#3a2210'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(txt,o.x,by);
+  if(q.offers>0){ for(let i=0;i<OFFER_COST.length;i++){ ctx.fillStyle=i<q.offers?'#f06a8a':'rgba(60,40,30,0.4)'; ctx.fillRect(o.x-7+i*5,by-11,3,3); } }
+}
 /* ---------- 個別描画 ---------- */
-function shadow(x,y,w){ ctx.fillStyle='rgba(20,30,20,0.28)'; ctx.beginPath(); ctx.ellipse(x,y,w,w*0.38,0,0,Math.PI*2); ctx.fill(); }
+function shadow(x,y,w){ ctx.fillStyle='rgba(20,30,20,0.22)'; ctx.beginPath(); ctx.ellipse(x,y,w,w*0.38,0,0,Math.PI*2); ctx.fill(); }
 function drawObj(o){
   switch(o.kind){
     case 'tree': {
@@ -1821,17 +1866,24 @@ function drawObj(o){
     case 'site': drawSite(o); break;
     case 'bridge': if(!S.world.bridge&&bridgeOpen()){ spr('ui_sign',o.x,o.y,{}); } break;
     case 'tablet': drawTablet(o); break;
+    case 'nest': drawNest(o); break;
+    case 'wild': drawWild(o); break;
   }
 }
 function drawBench(o){
-  shadow(o.x,o.y,14);
+  shadow(o.x,o.y,16);
+  // 切り株の台と木くず
+  ctx.fillStyle='#6a4020'; ctx.fillRect(o.x+16,o.y-7,8,7); ctx.fillStyle='#c9965a'; ctx.fillRect(o.x+16,o.y-8,8,2); ctx.fillStyle='#8a5a2c'; ctx.fillRect(o.x+18,o.y-8,4,1);
+  ctx.fillStyle='#e8c690'; ctx.fillRect(o.x-10,o.y+2,2,1); ctx.fillRect(o.x+4,o.y+3,2,1); ctx.fillRect(o.x+12,o.y+1,1,1);
   ctx.fillStyle='#5a3a1e'; ctx.fillRect(o.x-13,o.y-8,3,9); ctx.fillRect(o.x+10,o.y-8,3,9);
   ctx.fillStyle='#a0683a'; ctx.fillRect(o.x-15,o.y-14,30,7); ctx.fillStyle='#c98a50'; ctx.fillRect(o.x-15,o.y-14,30,2);
   ctx.fillStyle='#2a1a10'; ctx.fillRect(o.x-15,o.y-7,30,1);
   spr('g_hammer',o.x-5,o.y-12,{s:0.6}); spr('g_key',o.x+7,o.y-12,{s:0.45});
 }
 function drawStock(o){
-  shadow(o.x,o.y,16);
+  shadow(o.x,o.y,18);
+  // 木箱
+  ctx.fillStyle='#6a4020'; ctx.fillRect(o.x+14,o.y-12,12,12); ctx.fillStyle='#a8723e'; ctx.fillRect(o.x+15,o.y-11,10,10); ctx.fillStyle='#6a4020'; ctx.fillRect(o.x+15,o.y-7,10,1); ctx.fillRect(o.x+19,o.y-11,1,10); ctx.fillStyle='#d09a5a'; ctx.fillRect(o.x+15,o.y-11,10,1);
   spr('logs',o.x-6,o.y+2,{s:0.7});
   if(S.res.stone>0) spr('i_stone',o.x+10,o.y+2,{s:0.5});
   if(S.res.fruit>0) spr('i_fruit',o.x+14,o.y-6,{s:0.4});
@@ -1881,6 +1933,7 @@ function drawSite(o){
     if(extra>=1) { shadow(o.x-38,o.y-18,22); spr('hut',o.x-38,o.y-16,{s:0.72}); lights.push({x:o.x-34,y:o.y-30,r:30,c:'rgba(255,200,120,0.45)'}); }
     if(extra>=2) { shadow(o.x+38,o.y-20,22); spr('hut',o.x+38,o.y-18,{s:0.72,flip:true}); lights.push({x:o.x+34,y:o.y-32,r:30,c:'rgba(255,200,120,0.45)'}); }
     shadow(o.x,o.y,30); spr('hut',o.x,o.y+6,{s:sc});
+    if(Math.random()<0.12) parts.push({x:o.x+10+rnd(-2,2),y:o.y-sprH('hut')*0.85,vx:rnd(2,7),vy:-rnd(8,14),g:-1,life:2.6,t:0,c:'rgba(225,225,220,0.45)',s:3});
     lights.push({x:o.x+8,y:o.y-22,r:40,c:'rgba(255,200,120,0.5)'});
     if(tr>=3) spr('lantern',o.x+40,o.y+4,{s:0.7});
   } else if(f==='field'){
@@ -2169,6 +2222,315 @@ function drawGuide(){
   ctx.beginPath(); ctx.moveTo(14,0); ctx.lineTo(-6,-10); ctx.lineTo(-2,0); ctx.lineTo(-6,10); ctx.closePath(); ctx.stroke(); ctx.fill(); ctx.restore();
 }
 
+/* ================= terrain v3: 滑らかな地形（ピクセル単位）・水・泡・影・環境アニメ ================= */
+function hexRGB(h){ return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]; }
+function tintPal(pal,tint){
+  const P=pal.map(hexRGB); if(!tint) return P;
+  const m=tint.match(/rgba?\(([^)]+)\)/); if(!m) return P;
+  const v=m[1].split(',').map(Number); const a=v[3]==null?1:v[3];
+  return P.map(c=>[c[0]+(v[0]-c[0])*a,c[1]+(v[1]-c[1])*a,c[2]+(v[2]-c[2])*a].map(Math.round));
+}
+const PAL={
+  grass:['#4c7621','#5a8727','#69982d','#7aa934','#8fbd40','#a6cf52'],
+  forest:['#2f4f19','#38601d','#426e22','#4d7c27','#5a8a2d'],
+  sand:['#d2a66a','#ddb477','#e8c384','#efcf92','#f5dba3','#fbe8bd'],
+  wet:['#b98f5a','#c59b64','#cfa76f'],
+  dirt:['#86592f','#956637','#a57442','#b4844e','#c2955d'],
+  road:['#9c7a50','#ad8b5e','#bd9c6d','#cdb07f'],
+  rock:['#645c50','#726a5c','#81786a','#908778','#a09886'],
+  cliff:['#3e372f','#4a4238','#574e43','#655b4e'],
+  ledge:['#6a5428','#57431f','#433318'],
+  rockedge:['#3a342c','#2d2822'],
+};
+const BAYER=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5].map(v=>v/16-0.47);
+let COAST=[], TUFTS=[], AMB=null, shadowCv=null, shadowCtx=null, shadowAtlas=null;
+function noiseGrid(w,h,seed){ const R=mulberry(seed); const a=new Float32Array(w*h); for(let i=0;i<a.length;i++) a[i]=R(); return {w,h,a}; }
+function sampleN(g,x,y,cell){ const fx=x/cell, fy=y/cell; const x0=Math.floor(fx), y0=Math.floor(fy); const tx=fx-x0, ty=fy-y0;
+  const sx=tx*tx*(3-2*tx), sy=ty*ty*(3-2*ty); const w=g.w, a=g.a;
+  const i=(y0%g.h)*w+(x0%w), i2=(y0%g.h)*w+((x0+1)%w), i3=((y0+1)%g.h)*w+(x0%w), i4=((y0+1)%g.h)*w+((x0+1)%w);
+  return (a[i]*(1-sx)+a[i2]*sx)*(1-sy)+(a[i3]*(1-sx)+a[i4]*sx)*sy; }
+function buildTextures(){
+  // 海のパターン（周期的なノイズを量子化した、継ぎ目のない 128px タイル）
+  const tt=TINT[S.run.type]||{};
+  const N=128, sc=document.createElement('canvas'); sc.width=N; sc.height=N; const g=sc.getContext('2d');
+  const id=g.createImageData(N,N), d=id.data;
+  const seaP=tintPal(['#0f5a70','#136579','#187184','#1d7d8e','#2a8d9c','#4aa8b2'],tt.sea);
+  const TP=Math.PI*2/N;
+  for(let y=0;y<N;y++) for(let x=0;x<N;x++){
+    let v=0.5+0.13*Math.sin(x*TP*2+Math.sin(y*TP*3)*1.3)+0.11*Math.sin(y*TP*4+Math.sin(x*TP*2)*1.1)+0.07*Math.sin((x+y)*TP*6);
+    v+=BAYER[(y&3)*4+(x&3)]*0.22;
+    let k=Math.max(0,Math.min(4,Math.floor(v*5))); // 0..4
+    // 波頭（細い明るい線）
+    const crest=Math.sin(x*TP*3+y*TP*1+Math.sin(y*TP*2)*2);
+    if(crest>0.985) k=5;
+    const c=seaP[k], o=(y*N+x)*4; d[o]=c[0]; d[o+1]=c[1]; d[o+2]=c[2]; d[o+3]=255;
+  }
+  g.putImageData(id,0,0);
+  seaPat=ctx.createPattern(sc,'repeat');
+  // 2枚目（重ねてゆらめかせる半透明のきらめき層）
+  const s2=document.createElement('canvas'); s2.width=N; s2.height=N; const g2=s2.getContext('2d');
+  const R=mulberry(77);
+  for(let i=0;i<70;i++){ const x=Math.floor(R()*N), y=Math.floor(R()*N), w=2+Math.floor(R()*5); g2.fillStyle=`rgba(200,245,250,${0.25+R()*0.35})`; g2.fillRect(x,y,w,1); if(R()<0.4) g2.fillRect(x+1,y-1,Math.max(1,w-2),1); }
+  seaPat2=ctx.createPattern(s2,'repeat');
+}
+let seaPat2=null;
+function buildTerrain(){
+  buildTextures();
+  const W=MW*T, H=MH*T;
+  terrainCv=document.createElement('canvas'); terrainCv.width=W; terrainCv.height=H;
+  const g=terrainCv.getContext('2d'); g.imageSmoothingEnabled=false;
+  const tt=TINT[S.run.type]||{};
+  const P={grass:tintPal(PAL.grass,tt.grass),forest:tintPal(PAL.forest,tt.grass),sand:tintPal(PAL.sand,tt.sand),wet:tintPal(PAL.wet,tt.sand),dirt:tintPal(PAL.dirt),road:tintPal(PAL.road),
+    rock:tintPal(PAL.rock,tt.rock),cliff:tintPal(PAL.cliff,tt.rock),ledge:tintPal(PAL.ledge),rockedge:tintPal(PAL.rockedge)};
+  // タイルごとのビット
+  const bits=new Uint8Array((MW+2)*(MH+2));
+  const BW=MW+2;
+  for(let y=-1;y<=MH;y++) for(let x=-1;x<=MW;x++){
+    const t=tileAt(x,y); let b=0;
+    const land=!(t===DEEP||t===SHAL||t===POND||t===BRIDGE||t===PLANK);
+    if(land) b|=1;
+    if(t===DIRT) b|=2;
+    if(t===GRASS||t===FOREST||t===ROCKG||t===CLIFF) b|=4;
+    if(t===FOREST) b|=8;
+    if(t===ROCKG||t===CLIFF) b|=16;
+    if(t===CLIFF) b|=32;
+    if(roadMask&&x>=0&&y>=0&&x<MW&&y<MH&&roadMask[y*MW+x]&&land) b|=64;
+    if(t===POND||t===PLANK) b|=128;
+    bits[(y+1)*BW+(x+1)]=b;
+  }
+  // 水深（タイル距離）
+  const dist=new Float32Array(MW*MH).fill(99); const q=[];
+  for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){ const t=tileAt(x,y); if(!(t===DEEP||t===SHAL||t===BRIDGE)){ dist[y*MW+x]=0; q.push(y*MW+x); } }
+  for(let i=0;i<q.length;i++){ const c=q[i], x=c%MW, y=(c/MW)|0; for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){ const nx=x+dx, ny=y+dy; if(nx<0||ny<0||nx>=MW||ny>=MH) continue; const n=ny*MW+nx, nd=dist[c]+(dx&&dy?1.41:1); if(dist[n]>nd){ dist[n]=nd; q.push(n); } } }
+  const n8=noiseGrid(Math.ceil(W/8)+2,Math.ceil(H/8)+2,S.run.seed*31+5), n24=noiseGrid(Math.ceil(W/24)+2,Math.ceil(H/24)+2,S.run.seed*17+3), n64=noiseGrid(Math.ceil(W/64)+2,Math.ceil(H/64)+2,S.run.seed*7+1);
+  // 滑らかな場（タイル中心のスムーズ補間）
+  const F=new Float32Array(8);
+  function field(px,py,out){
+    const u=px/T-0.5, v=py/T-0.5; const x0=Math.floor(u), y0=Math.floor(v); let fx=u-x0, fy=v-y0;
+    fx=fx*fx*(3-2*fx); fy=fy*fy*(3-2*fy);
+    const i=(y0+1)*BW+(x0+1);
+    const a=bits[i]|0, b=bits[i+1]|0, c=bits[i+BW]|0, d=bits[i+BW+1]|0;
+    const wa=(1-fx)*(1-fy), wb=fx*(1-fy), wc=(1-fx)*fy, wd=fx*fy;
+    for(let k=0;k<8;k++){ const m=1<<k; out[k]=(a&m?wa:0)+(b&m?wb:0)+(c&m?wc:0)+(d&m?wd:0); }
+    return out;
+  }
+  function dep(px,py){ const u=px/T-0.5, v=py/T-0.5; const x0=clamp(Math.floor(u),0,MW-2), y0=clamp(Math.floor(v),0,MH-2); const fx=clamp(u-x0,0,1), fy=clamp(v-y0,0,1);
+    return (dist[y0*MW+x0]*(1-fx)+dist[y0*MW+x0+1]*fx)*(1-fy)+(dist[(y0+1)*MW+x0]*(1-fx)+dist[(y0+1)*MW+x0+1]*fx)*fy; }
+  const F2=new Float32Array(8), F3=new Float32Array(8);
+  const img=g.createImageData(W,H), D=img.data;
+  const landBM=new Uint8Array(W*H);
+  const pick=(pal,tone)=>pal[Math.max(0,Math.min(pal.length-1,Math.floor(tone*pal.length)))];
+  const shalC=S.run.type==='coral'?[120,236,220]:S.run.type==='volcano'?[90,170,170]:[110,214,204];
+  for(let py=0;py<H;py++){
+    for(let px=0;px<W;px++){
+      const o=(py*W+px)*4;
+      const nA=sampleN(n8,px,py,8), nB=sampleN(n24,px,py,24), nC=sampleN(n64,px,py,64);
+      const wob=(nB-0.5)*0.42+(nA-0.5)*0.22;
+      field(px,py,F);
+      const bay=BAYER[(py&3)*4+(px&3)];
+      const landV=F[0]+wob*0.75;
+      let r,gg,b,a=255;
+      if(landV<0.5){
+        landBM[py*W+px]=0;
+        // 水：浅瀬の明るさと深みの暗さ
+        const depth=dep(px,py)+(nB-0.5)*0.8;
+        if(F[7]>0.3&&F[7]+wob*0.5>0.5){ // 池
+          const rim=landV>0.44?1:0; r=34;gg=104;b=92; a=rim?190:165; if(rim){ r=150;gg=220;b=200; }
+        } else if(landV>0.43){ r=225;gg=250;b=245; a=landV>0.47?150:90; } // 波打ち際の明るい帯
+        else {
+          const sh=Math.max(0,Math.min(1,1.25-depth*0.45));
+          const dp=Math.max(0,Math.min(0.5,(depth-2.2)*0.085));
+          if(sh>dp){ r=shalC[0];gg=shalC[1];b=shalC[2]; a=Math.round(255*Math.min(0.7,sh*0.72+bay*0.08)); if(sh>0.75&&(bay>0.3)) a=Math.min(255,a+30); }
+          else { r=6;gg=26;b=58; a=Math.round(255*(dp+bay*0.03)); }
+        }
+        D[o]=r;D[o+1]=gg;D[o+2]=b;D[o+3]=Math.max(0,Math.min(255,a));
+        continue;
+      }
+      landBM[py*W+px]=1;
+      const tone=clamp(nB*0.55+nC*0.25+nA*0.2+bay*0.22,0,0.999);
+      let c;
+      const greenV=F[2]+wob*0.7, rockV=F[4]+wob*0.6, cliffV=F[5]+wob*0.5, dirtV=F[1]+wob*0.35, roadV=F[6]+(nA-0.5)*0.35;
+      if(cliffV>0.5){ c=pick(P.cliff,tone); if(cliffV<0.56) c=P.rockedge[0];
+        else { field(px,py+4,F2); if(F2[5]+wob*0.5<0.5) c=P.cliff[0]; } }
+      else if(rockV>0.5){ c=pick(P.rock,tone); if(rockV<0.535) c=P.rockedge[0]; else { field(px,py-2,F2); if(F2[4]+wob*0.6<0.5) c=P.rock[P.rock.length-1]; } }
+      else if(roadV>0.5&&dirtV<=0.5){ c=pick(P.road,tone); if(roadV<0.56) c=P.road[0]; else if(hash2(px>>2,py>>2)<0.12) c=P.road[3]; }
+      else if(greenV>0.5){
+        // 森は草地の上にディザで溶け込ませる
+        const forV=F[3]+wob*0.5;
+        const fm=(forV-0.5)*3+0.5+bay*0.5;
+        c=fm>0.5?pick(P.forest,tone):pick(P.grass,tone);
+        if(greenV<0.53) c=fm>0.5?P.forest[0]:P.grass[0];
+        else { field(px,py+4,F2); const below=F2[2]+wob*0.7; if(below<0.5){ c=P.ledge[Math.min(2,Math.floor((0.5-below)*30))]; }
+          else { field(px,py-3,F3); if(F3[2]+wob*0.7<0.5&&!(fm>0.5)) c=P.grass[P.grass.length-1]; } }
+      }
+      else if(dirtV>0.5){ c=pick(P.dirt,tone); if(dirtV<0.53) c=P.dirt[0]; if(roadV>0.55&&hash2(px>>2,py>>2)<0.25) c=P.road[2]; }
+      else {
+        // 砂：水際は濡れた砂、草の下側には影
+        c=pick(P.sand,tone);
+        if(landV<0.56) c=pick(P.wet,(landV-0.5)/0.06*0.9);
+        field(px-3,py-4,F2); if(F2[2]+wob*0.7>0.5||F2[1]+wob*0.35>0.5) c=[c[0]*0.86|0,c[1]*0.84|0,c[2]*0.8|0];
+      }
+      // 細かい粒（テクスチャ）
+      const hh=hash2(px,py);
+      let k=1; if(hh<0.05) k=0.9; else if(hh>0.965) k=1.07;
+      D[o]=Math.min(255,c[0]*k); D[o+1]=Math.min(255,c[1]*k); D[o+2]=Math.min(255,c[2]*k); D[o+3]=255;
+    }
+  }
+  g.putImageData(img,0,0);
+  // 板の橋（小川）
+  for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){ if(tileAt(x,y)!==PLANK) continue; const px=x*T, py=y*T;
+    g.fillStyle='rgba(10,30,30,0.35)'; g.fillRect(px+2,py+T-4,T-2,4);
+    for(let i=0;i<7;i++){ g.fillStyle=i%2?'#a0683a':'#b47a46'; g.fillRect(px+1+i*4.4,py+3,4,T-6); g.fillStyle='#6a4020'; g.fillRect(px+1+i*4.4,py+3,1,T-6); }
+    g.fillStyle='#5a3a1e'; g.fillRect(px,py+4,T,2); g.fillRect(px,py+T-6,T,2); }
+  // 崖の南面
+  for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){
+    if(tileAt(x,y)!==CLIFF||tileAt(x,y+1)===CLIFF) continue;
+    const gr=g.createLinearGradient(0,(y+1)*T-4,0,(y+1)*T+12); gr.addColorStop(0,'rgba(40,30,25,0.55)'); gr.addColorStop(1,'rgba(40,30,25,0)');
+    g.fillStyle=gr; g.fillRect(x*T,(y+1)*T-4,T,16);
+    g.fillStyle='rgba(20,16,12,0.35)'; for(let i=0;i<4;i++) g.fillRect(x*T+4+i*7,(y+1)*T-10+((i*7)%5),1,8);
+  }
+  // 小物（草・花・小石・貝殻・サンゴ）と、毎フレーム揺らす草の候補
+  TUFTS=[];
+  const R=mulberry(S.run.seed*13+7);
+  const lb=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&landBM[y*W+x];
+  for(let y=0;y<MH;y++) for(let x=0;x<MW;x++){
+    const t=tileAt(x,y);
+    for(let i=0;i<5;i++){
+      const px=x*T+Math.floor(R()*T), py=y*T+Math.floor(R()*T); const h=R();
+      if(!lb(px,py)||!lb(px,py+3)) continue;
+      if(t===GRASS||t===FOREST){
+        if(h<0.5){ const dark=t===FOREST?'#2a4716':'#43691d', lite=t===FOREST?'#5f8f30':'#9ccc4c';
+          g.fillStyle=dark; g.fillRect(px,py,1,3); g.fillRect(px+2,py-1,1,4); g.fillRect(px+4,py+1,1,2);
+          g.fillStyle=lite; g.fillRect(px+2,py-1,1,1); g.fillRect(px,py,1,1); }
+        else if(h<0.56&&t===GRASS){ const fc=['#f2e9d8','#f0d040','#e86a8a','#a0a8f0'][Math.floor(R()*4)]; g.fillStyle='#3e6a1c'; g.fillRect(px+1,py+1,1,2); g.fillStyle=fc; g.fillRect(px,py,3,1); g.fillRect(px+1,py-1,1,3); g.fillStyle='#ffe890'; g.fillRect(px+1,py,1,1); }
+        else if(h<0.66&&i<2) TUFTS.push({x:px,y:py,ph:R()*6,f:t===FOREST,s:R()<0.3?1:0});
+      } else if(t===SAND){
+        if(h<0.05){ g.fillStyle='#f6c8c0'; g.fillRect(px,py,2,1); g.fillStyle='#e0a090'; g.fillRect(px,py+1,2,1); }
+        else if(h<0.12){ g.fillStyle='rgba(150,110,70,0.5)'; g.fillRect(px,py,2,1); }
+        else if(h<0.15&&i===0) TUFTS.push({x:px,y:py,ph:R()*6,sand:true});
+      } else if(t===ROCKG){
+        if(h<0.4){ g.fillStyle='#4f483e'; g.fillRect(px,py,3,2); g.fillStyle='#b0a894'; g.fillRect(px,py,2,1); }
+      } else if(t===DIRT&&h<0.45){ if(h<0.2){ g.fillStyle='#7a5230'; g.fillRect(px,py,2,1); g.fillStyle='#d0a870'; g.fillRect(px+1,py-1,1,1); } else if(h<0.3){ g.fillStyle='rgba(90,60,30,0.35)'; g.fillRect(px,py,2,2); g.fillRect(px+3,py+3,2,2); } else { g.fillStyle='#8a8478'; g.fillRect(px,py,2,2); g.fillStyle='#b8b0a0'; g.fillRect(px,py,1,1); } }
+      else if(t===SHAL&&S.run.type==='coral'&&h<0.25){ const cols=['#f06a8a','#f0a04a','#e8d06a','#c86ad0']; g.fillStyle=cols[Math.floor(R()*4)]; g.fillRect(px,py,4,3); g.fillRect(px+1,py-2,2,2); g.fillRect(px+5,py+1,2,3); }
+    }
+  }
+  // 海岸線の点（泡のアニメ用）：陸の端のピクセルと、水へ向かう法線
+  COAST=[];
+  for(let py=2;py<H-2;py+=2) for(let px=2;px<W-2;px+=2){
+    if(!landBM[py*W+px]) continue;
+    let nx=0,ny=0;
+    if(!landBM[py*W+px+2]) nx+=1; if(!landBM[py*W+px-2]) nx-=1; if(!landBM[(py+2)*W+px]) ny+=1; if(!landBM[(py-2)*W+px]) ny-=1;
+    if(!nx&&!ny) continue;
+    const t=tileAt(Math.floor((px+nx*4)/T),Math.floor((py+ny*4)/T)); if(t===POND||t===PLANK) continue;
+    const l=Math.hypot(nx,ny); COAST.push({x:px,y:py,nx:nx/l,ny:ny/l,ph:(px*0.09+py*0.07)+hash2(px,py)*0.8});
+  }
+  initAmbient();
+}
+/* ---------- 影（スプライトのシルエットを低解像度で描いて、柔らかく重ねる） ---------- */
+function ensureShadowAtlas(){
+  if(shadowAtlas||!atlasImg.naturalWidth) return;
+  shadowAtlas=document.createElement('canvas'); shadowAtlas.width=atlasImg.naturalWidth; shadowAtlas.height=atlasImg.naturalHeight;
+  const g=shadowAtlas.getContext('2d'); g.drawImage(atlasImg,0,0); g.globalCompositeOperation='source-in'; g.fillStyle='#000'; g.fillRect(0,0,shadowAtlas.width,shadowAtlas.height);
+}
+function sunVec(){ const p=dayPhase(); // 0..0.62 昼
+  const k=clamp(p/0.66,0,1); return {sx:-0.6+1.2*k, len:0.3+0.18*Math.abs(k-0.5)*2}; }
+let SHQ=[];
+function shSpr(name,x,y,s,flip){ SHQ.push([name,x,y,s||1,flip]); }
+function flushShadows(cx,cy){
+  ensureShadowAtlas(); if(!shadowAtlas){ SHQ=[]; return; }
+  const n=nightAmount(); const alpha=0.24*(1-n*0.8);
+  const sw=Math.max(1,Math.round(cv.width/3)), sh=Math.max(1,Math.round(cv.height/3));
+  if(!shadowCv){ shadowCv=document.createElement('canvas'); shadowCtx=shadowCv.getContext('2d'); }
+  if(shadowCv.width!==sw||shadowCv.height!==sh){ shadowCv.width=sw; shadowCv.height=sh; }
+  const g=shadowCtx, k=sw/cv.width*Z; g.setTransform(1,0,0,1,0,0); g.clearRect(0,0,sw,sh);
+  const sv=sunVec();
+  for(const [name,x,y,s,flip] of SHQ){ const r=ATLAS[name]; if(!r) continue;
+    const w=r[2]*s, h=r[3]*s;
+    g.setTransform(k,0,0,k,(x-cx)*k,(y-cy)*k); g.transform(1,0,-sv.sx*0.9,-sv.len,0,0);
+    if(flip) g.scale(-1,1);
+    g.drawImage(shadowAtlas,r[0],r[1],r[2],r[3],-w/2,-h,w,h); }
+  SHQ=[];
+  ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.globalAlpha=alpha; ctx.imageSmoothingEnabled=true; ctx.drawImage(shadowCv,0,0,cv.width,cv.height); ctx.restore(); ctx.imageSmoothingEnabled=false;
+}
+/* ---------- 環境アニメ：鳥・蝶・ホタル・落ち葉・跳ねる魚・雲の影 ---------- */
+function initAmbient(){
+  const R=mulberry(S.run.seed*3+11);
+  AMB={birds:[],flies:[],bugs:[],clouds:[],jumps:[],leaves:[]};
+  for(let i=0;i<4;i++) AMB.birds.push({x:R()*MW*T,y:R()*MH*T,vx:(R()<0.5?-1:1)*(18+R()*14),vy:(R()-0.5)*6,ph:R()*6,h:40+R()*30});
+  for(let i=0;i<7;i++){ const x=(10+R()*24)*T, y=(9+R()*14)*T; AMB.flies.push({x,y,hx:x,hy:y,ph:R()*6,c:['#f6f0e0','#f2c040','#7ab8f0','#f08aa8'][i%4]}); }
+  for(let i=0;i<22;i++){ const x=(6+R()*30)*T, y=(6+R()*18)*T; AMB.bugs.push({x,y,hx:x,hy:y,ph:R()*6}); }
+  for(let i=0;i<3;i++) AMB.clouds.push({x:R()*MW*T,y:R()*MH*T,r:120+R()*90,v:6+R()*5});
+}
+function updAmbient(dt){
+  if(!AMB) return;
+  const W=MW*T,H=MH*T, n=nightAmount();
+  for(const b of AMB.birds){ b.x+=b.vx*dt; b.y+=b.vy*dt+Math.sin(timeS*0.5+b.ph)*4*dt; if(b.x<-60) b.x=W+60; if(b.x>W+60) b.x=-60; if(b.y<-40) b.y=H; if(b.y>H+40) b.y=0; }
+  for(const f of AMB.flies){ f.ph+=dt; f.x=f.hx+Math.sin(f.ph*0.7)*30+Math.sin(f.ph*1.9)*8; f.y=f.hy+Math.cos(f.ph*0.5)*18+Math.sin(f.ph*2.3)*5; }
+  for(const f of AMB.bugs){ f.ph+=dt*0.6; f.x=f.hx+Math.sin(f.ph*0.8)*24; f.y=f.hy+Math.cos(f.ph*0.6)*14; }
+  for(const c of AMB.clouds){ c.x+=c.v*dt; c.y+=c.v*0.35*dt; if(c.x-c.r>W) { c.x=-c.r; c.y=Math.random()*H; } if(c.y-c.r>H) c.y=-c.r; }
+  // 跳ねる魚
+  if(Math.random()<dt*0.25&&AMB.jumps.length<3){ for(let i=0;i<10;i++){ const x=cam.x+Math.random()*viewW(), y=cam.y+Math.random()*viewH(); if(tileAt(Math.floor(x/T),Math.floor(y/T))===DEEP){ AMB.jumps.push({x,y,t:0}); break; } } }
+  for(let i=AMB.jumps.length-1;i>=0;i--){ const j=AMB.jumps[i]; j.t+=dt; if(j.t>1.1) AMB.jumps.splice(i,1); }
+  // 落ち葉（画面内の木から）
+  if(n<0.6&&Math.random()<dt*1.2&&AMB.leaves.length<14){ const trees=OBJ.filter(o=>o.kind==='tree'&&o.hp>0&&onScreen(o.x,o.y,0)); if(trees.length){ const o=trees[Math.floor(Math.random()*trees.length)]; AMB.leaves.push({x:o.x+rnd(-12,12),y:o.y-rnd(30,50),y0:o.y,vx:rnd(4,10),t:0,c:o.res==='fruit'?'#7aa934':Math.random()<0.5?'#8fbd40':'#c9b048'}); } }
+  for(let i=AMB.leaves.length-1;i>=0;i--){ const l=AMB.leaves[i]; l.t+=dt; l.x+=(l.vx+Math.sin(l.t*3)*12)*dt; l.y+=12*dt; if(l.y>l.y0+4||l.t>5) AMB.leaves.splice(i,1); }
+}
+function drawGroundAmbient(cx,cy,vw,vh){
+  // 揺れる草
+  const sw=Math.sin(timeS*1.7);
+  for(const t of TUFTS){ if(t.x<cx-8||t.x>cx+vw+8||t.y<cy-8||t.y>cy+vh+8) continue;
+    const s=Math.sin(timeS*1.8+t.x*0.05+t.ph)*1.2+sw*0.4; const o=Math.round(s);
+    if(t.sand){ ctx.fillStyle='#8a9a3a'; ctx.fillRect(t.x,t.y-3,1,3); ctx.fillRect(t.x+2+o,t.y-5,1,5); ctx.fillRect(t.x+4,t.y-3,1,3); ctx.fillStyle='#b8c060'; ctx.fillRect(t.x+2+o,t.y-5,1,1); continue; }
+    ctx.fillStyle=t.f?'#2c4a17':'#3f661b'; ctx.fillRect(t.x,t.y-4,1,4); ctx.fillRect(t.x+2+o,t.y-6,1,6); ctx.fillRect(t.x+4+Math.round(o*0.5),t.y-5,1,5); ctx.fillRect(t.x-2+Math.round(o*0.5),t.y-3,1,3);
+    ctx.fillStyle=t.f?'#5f8f30':'#a6cf52'; ctx.fillRect(t.x+2+o,t.y-6,1,2); ctx.fillRect(t.x+4+Math.round(o*0.5),t.y-5,1,1);
+    if(t.s){ ctx.fillStyle='#f0e8d0'; ctx.fillRect(t.x+1+o,t.y-8,3,2); }
+  }
+  // 雲の影
+  const n=nightAmount();
+  if(AMB&&n<0.8){ for(const c of AMB.clouds){ if(c.x+c.r<cx||c.x-c.r>cx+vw||c.y+c.r<cy||c.y-c.r>cy+vh) continue;
+    const gr=ctx.createRadialGradient(c.x,c.y,0,c.x,c.y,c.r); gr.addColorStop(0,`rgba(10,30,40,${0.13*(1-n)})`); gr.addColorStop(0.6,`rgba(10,30,40,${0.08*(1-n)})`); gr.addColorStop(1,'rgba(10,30,40,0)');
+    ctx.fillStyle=gr; ctx.save(); ctx.translate(c.x,c.y); ctx.scale(1.6,0.8); ctx.translate(-c.x,-c.y); ctx.fillRect(c.x-c.r,c.y-c.r,c.r*2,c.r*2); ctx.restore(); } }
+  // 跳ねる魚
+  if(AMB) for(const j of AMB.jumps){ const k=j.t/1.1; if(k<0.7){ const a=k/0.7; const x=j.x+a*14, y=j.y-Math.sin(a*Math.PI)*10; ctx.fillStyle='#d8eef0'; ctx.fillRect(x,y,3,1); ctx.fillStyle='#5a8aa0'; ctx.fillRect(x-1,y+1,3,1); }
+    const rk=Math.max(0,(k-0.1)); ctx.strokeStyle=`rgba(230,255,255,${0.6*(1-k)})`; ctx.lineWidth=1; ctx.beginPath(); ctx.ellipse(j.x,j.y,2+rk*10,(2+rk*10)*0.4,0,0,Math.PI*2); ctx.stroke();
+    if(k>0.6){ ctx.beginPath(); ctx.ellipse(j.x+14,j.y,2+(k-0.6)*16,(2+(k-0.6)*16)*0.4,0,0,Math.PI*2); ctx.stroke(); } }
+}
+function drawCoast(cx,cy,vw,vh){
+  // 寄せては返す泡：法線方向に揺れる2本の線
+  for(const p of COAST){ if(p.x<cx-12||p.x>cx+vw+12||p.y<cy-12||p.y>cy+vh+12) continue;
+    const w=Math.sin(timeS*1.3+p.ph);
+    const d1=2.5+2.5*w; ctx.globalAlpha=0.55+0.35*w*w; ctx.fillStyle='#f4ffff';
+    ctx.fillRect(Math.round(p.x+p.nx*d1),Math.round(p.y+p.ny*d1),2,1);
+    const k=((timeS*0.32+p.ph*0.05)%1); const d2=5+k*9; ctx.globalAlpha=0.45*(1-k);
+    if(((p.x+p.y)>>1)%3!==0) ctx.fillRect(Math.round(p.x+p.nx*d2),Math.round(p.y+p.ny*d2),1,1);
+  }
+  ctx.globalAlpha=1;
+}
+function drawSkyAmbient(cx,cy,vw,vh){
+  if(!AMB) return; const n=nightAmount();
+  // 落ち葉
+  for(const l of AMB.leaves){ ctx.fillStyle=l.c; const f=Math.sin(l.t*6)>0; ctx.fillRect(l.x,l.y,f?2:1,f?1:2); }
+  // 蝶（昼）
+  if(n<0.5) for(const f of AMB.flies){ if(!onScreen(f.x,f.y)) continue; const fl=Math.sin(timeS*18+f.ph)>0; ctx.fillStyle='rgba(20,30,20,0.18)'; ctx.fillRect(f.x,f.y+10,2,1);
+    ctx.fillStyle=f.c; if(fl){ ctx.fillRect(f.x-2,f.y-1,2,2); ctx.fillRect(f.x+1,f.y-1,2,2); } else { ctx.fillRect(f.x-1,f.y-2,1,3); ctx.fillRect(f.x+1,f.y-2,1,3); } ctx.fillStyle='#3a2a1a'; ctx.fillRect(f.x,f.y-1,1,2); }
+  // ホタル（夜）
+  if(n>0.3) for(const f of AMB.bugs){ if(!onScreen(f.x,f.y)) continue; const a=(0.5+0.5*Math.sin(timeS*3+f.ph*5))*n; if(a<0.15) continue; ctx.fillStyle=`rgba(220,255,140,${a})`; ctx.fillRect(f.x,f.y,1,1); lights.push({x:f.x,y:f.y,r:8,c:'rgba(200,255,120,0.6)'}); }
+  // 鳥（海鳥）
+  for(const b of AMB.birds){ if(!onScreen(b.x,b.y,80)) continue; const up=Math.sin(timeS*7+b.ph)>0; const dir=b.vx<0?-1:1;
+    ctx.fillStyle=`rgba(10,25,30,${0.16*(1-n)})`; ctx.fillRect(b.x+12,b.y+b.h*0.5,4,1);
+    const y=b.y-0; ctx.fillStyle=n>0.5?'#9aa4b0':'#f4f6f2';
+    if(up){ ctx.fillRect(b.x-3,y-2,2,1); ctx.fillRect(b.x-1,y-1,3,1); ctx.fillRect(b.x+2,y-2,2,1); }
+    else { ctx.fillRect(b.x-3,y,2,1); ctx.fillRect(b.x-1,y-1,3,1); ctx.fillRect(b.x+2,y,2,1); }
+    ctx.fillStyle='#e8a040'; ctx.fillRect(b.x+dir*2,y-1,1,1); }
+}
+/* 画面全体の光：昼のやわらかな日差しと周辺減光 */
+function drawGrade(){
+  const n=nightAmount(), du=duskAmount();
+  const W=VW, H=VH;
+  if(n<0.9){ const g=ctx.createLinearGradient(0,0,W*0.7,H); g.addColorStop(0,`rgba(255,240,200,${0.10*(1-n)})`); g.addColorStop(0.5,'rgba(255,240,200,0)'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
+  const v=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.45,W/2,H/2,Math.max(W,H)*0.75); v.addColorStop(0,'rgba(0,0,0,0)'); v.addColorStop(1,`rgba(10,15,30,${0.22+0.15*n+0.1*du})`); ctx.fillStyle=v; ctx.fillRect(0,0,W,H);
+}
+
 /* ================= audio（WebAudioで自作。最初の操作まで無音） ================= */
 const Sfx=(()=>{
   let ac=null, master=null, sfxG=null, bgmG=null, noiseBuf=null, bgmTimer=0, nextBar=0, bar=0;
@@ -2282,6 +2644,8 @@ function goalCost(g){
   if(k==='res'){ const n=RESEARCH.find(x=>x.id===id); return resAvail(n)?resCost(n):null; }
   if(k==='ship'){ const i=S.ship.findIndex(x=>!x); const j=S.resort.findIndex(x=>!x); const a=i>=0?shipCost(i):null, b=j>=0?resortCost(j):null; if(a&&b) return payProgress(a)>=payProgress(b)?a:b; return a||b; }
   if(k==='bridge') return bridgeOpen()?bridgeCost():null;
+  if(k==='nest') return nestBuilt()?null:NEST_COST;
+  if(k==='road') return roadOpen()?roadCost():null;
   if(k==='gacha') return {shell:S.stats.pulls>=1?GACHA.chest.cost:GACHA.bottle.cost};
   return null;
 }
@@ -2317,10 +2681,12 @@ function updateHud(){
   // アクションボタン
   const tg=uiBlocking()?null:findTarget(); const v=verbOf(tg);
   const ab=$('#act');
+  const db=$('#dash'); if(db) db.addEventListener('pointerdown',e=>{ e.preventDefault(); tryDash(); });
   const key=v?(v+'|'+(tg.res||tg.kind)):'';
   if(ab.dataset.k!==key){ ab.dataset.k=key;
     const icon=!tg?'ui_hand':tg.kind==='tree'?RI[tg.res].i:tg.kind==='rock'?'i_stone':tg.kind==='fish'?'i_fish':tg.kind==='actor'?HELPERS.find(h=>h.id===tg.type).icon:tg.kind==='bench'?'g_hammer':tg.kind==='ev'?'u_bottle':tg.kind==='tablet'?'it_tablet':'ui_build';
     ab.innerHTML=`${icHTML(icon,30)}<span>${v||'アクション'}</span>`; ab.classList.toggle('on',!!v); }
+  const dbn=$('#dash'); if(dbn){ const on=dashOpen(); if(dbn.classList.contains('hidden')===on) dbn.classList.toggle('hidden',!on); dbn.classList.toggle('cd',dashCD>0); }
   $('#isle').innerHTML=`<b>${S.run.name}</b><small>${ISLANDS[S.run.type].name}・${S.meta.trips+1}島目</small>`;
 }
 function costHTMLPlain(c){ let h=''; for(const r in c){ h+=`<span class="cs ${S.res[r]>=c[r]?'':'ng'}">${icHTML(RI[r].i,13)}${fmt(S.res[r])}/${fmt(c[r])}</span>`; } return h; }
@@ -2419,6 +2785,18 @@ const PANELS={
     else h+=`<p class="hint ok">石碑は解読されました。島の古い力があなたを助けています。</p>`;
     return {title:`${icHTML('it_tablet',24)} 古代の石碑`,html:h};
   },
+  wild:()=>{
+    const q=qm(); let h='';
+    if(monkeyJoined()){ return {title:`${icHTML('m_walk0',26)} 猿の寝床`,html:`<p class="hint">仲間の猿たちが休む寝床です。</p>`}; }
+    h+=`<div class="card">${icHTML('m_walk0',46)}<div class="bd"><div class="t">野生の猿</div><div class="d">${nestBuilt()?'寝床のそばで、こちらの様子をうかがっています。果物をあげて仲良くなりましょう。':'森の木陰からこちらを見ています。近づくと逃げてしまいます。安心して休める寝床があれば、来てくれるかもしれません。'}</div></div></div>`;
+    if(!nestBuilt()){
+      h+=`<div class="card">${icHTML('hut',44)}<div class="bd"><div class="t">猿の寝床を作る</div><div class="d">キャンプの東に、ヤシの葉と丸太で寝床を作ります。</div><div class="cost" ${B(()=>costHTML(NEST_COST))}></div></div><button class="btn big" data-act="nest" ${C(()=>canPay(NEST_COST))}>作る</button></div>`;
+    } else {
+      h+=`<div class="card">${icHTML('i_fruit',44)}<div class="bd"><div class="t">果物をあげる</div><div class="d" ${B(()=>{ const w=offerWaitLeft(); return `なかよし ${qm().offers}/${OFFER_COST.length}`+(w>0?`・食べ終わるまで あと${Math.ceil(w/1000)}秒`:''); })}></div><div class="prog"><i ${B(()=>'')} style="width:${q.offers/OFFER_COST.length*100}%"></i></div><div class="cost" ${B(()=>costHTML(offerCost()))}></div></div><button class="btn big" data-act="offer" ${C(()=>offerWaitLeft()<=0&&canPay(offerCost()))}>あげる</button></div>`;
+    }
+    h+=`<p class="hint">それまでは、手で集めるしかありません。待っている間に木・石・果物を集めておきましょう。</p>`;
+    return {title:`${icHTML('m_walk0',26)} 野生の猿`,html:h};
+  },
   helper:(type)=>{ S.flags.talked=true; const h=HELPERS.find(x=>x.id===type); return {title:`${icHTML(h.icon,26)} ${h.name}たちへの指示`,html:`${BM()}${helperCard(h,true)}`}; },
   helpers:()=>{
     let h=`${BM()}`;
@@ -2442,6 +2820,8 @@ const PANELS={
     h+=`</div><div class="sec">そのほか</div><div class="grid2">
       <div class="card">${icHTML('g_hammer',36)}<div class="bd"><div class="t">作業台（道具）</div><div class="d">${TOOLS.map(t=>t.name+' Lv'+S.tools[t.id]).join('・')}</div></div><button class="btn" data-act="goto" data-id="bench">行く</button></div>
       <div class="card">${icHTML('dock',36)}<div class="bd"><div class="t">港（脱出船・リゾート）</div><div class="d">船 ${S.ship.filter(x=>x).length}/5・リゾート ${S.resort.filter(x=>x).length}/5</div></div>${siteState(OBJID.site_harbor)==='hidden'?'<span class="d">水車を建てると開く</span>':`<button class="btn" data-act="goto" data-id="site_harbor">行く</button><button class="btn" data-act="openp" data-k="harbor">開く</button>`}</div>
+      <div class="card">${icHTML('ui_sign',36)}<div class="bd"><div class="t">島の道 Lv${roadLv()}/${ROAD_MAX}</div><div class="d">${roadOpen()?'道の上は歩く速さ ×1.45。レベルごとに道が遠くまで延びます。':'解放：つるはし・焚き火'}</div>${roadCost()&&roadOpen()?`<div class="cost" ${B(()=>roadCost()?costHTML(roadCost()):'')}></div>`:''}</div>${roadCost()&&roadOpen()?`<button class="btn big" data-act="road" ${C(()=>roadCost()&&canPay(roadCost()))}>敷く</button>`:`<span class="d">${roadCost()?'':'完成'}</span>`}</div>
+      <div class="card">${icHTML('ui_hand',36)}<div class="bd"><div class="t">移動の便利さ</div><div class="d">歩く速さ ×${moveMult().toFixed(2)}${has('sandals')?'':'（研究「ヤシの草履」）'}<br>${fastTravelOpen()?'「行く」でひとっ飛び（道しるべ）':'ファストトラベル：研究「道しるべ」'}<br>${dashOpen()?'ダッシュ：Shift／ダッシュボタン':'ダッシュ：研究「革の長靴」'}</div></div></div>
       <div class="card">${icHTML('ui_bridge',36)}<div class="bd"><div class="t">東の小島への橋</div><div class="d">${S.world.bridge?'完成':bridgeOpen()?'架けられます':'研究「島の調和」のあと'}</div></div><button class="btn" data-act="goto" data-id="site_bridge">行く</button></div></div>`;
     return {title:`${icHTML('ui_build',24)} 島の計画`,html:h};
   },
@@ -2454,7 +2834,7 @@ const PANELS={
       h+=`<div class="sec">${names[t]}</div><div class="grid3">`;
       for(const n of RESEARCH.filter(x=>x.t===t)){
         const done=has(n.id), av=resAvail(n);
-        h+=`<div class="card rs ${done?'done':av?'':'locked'}"><div class="bd"><div class="t">${done?'✔ ':''}${n.name}</div><div class="d">${n.d}</div>`;
+        h+=`<div class="card rs ${done?'done':av?'':'locked'}"><div class="bd"><div class="t">${done?'<span class="okm">済</span> ':''}${n.name}</div><div class="d">${n.d}</div>`;
         if(done) h+=`<div class="d ok">完了</div></div>`;
         else if(av) h+=`<div class="cost" ${B(()=>costHTML(resCost(n)))}></div></div><button class="btn" data-act="res" data-id="${n.id}" ${C(()=>canPay(resCost(n)))}>研究</button>`;
         else h+=`<div class="d lock">${resLockText(n)}</div></div>`;
@@ -2541,6 +2921,7 @@ function openFor(o){
     case 'bridge': openPanel('bridge'); break;
     case 'tablet': openPanel('tablet'); break;
     case 'actor': openPanel('helper',o.type); break;
+    case 'nest': case 'wild': openPanel('wild'); break;
     case 'ev': openEvent(); break;
   }
 }
@@ -2710,7 +3091,7 @@ function built(id,first){
 const ACT={
   bm:(d)=>{ S.buyMode=d.v==='max'?'max':+d.v; renderPanel(); },
   tool:(d)=>{ const first=S.tools[d.id]===0; if(buyTool(d.id)){ Sfx.play('craft'); const t=TOOLS.find(x=>x.id===d.id); toast(`${icHTML(t.icon,20)} ${t.name}${first?'を作りました':'を Lv'+S.tools[d.id]+' に強化'}`);
-      if(d.id==='axe'&&S.helpers.monkey.n===0) firstMonkey();
+      if(d.id==='axe'&&first&&!monkeyJoined()) setTimeout(()=>{ const w=OBJID.wild; if(w) popText(w.x,w.y-30,'？',null); toast(`${icHTML('m_walk0',22)} 斧の音を聞いて、森の木陰から猿がこちらを見ています…`); },900);
       after(); } },
   buyfac:(d)=>{ const first=S.fac[d.id]===0; const q=buyItem('fac',d.id); if(q){ built(d.id,first); if(first) toast(`${FACS.find(f=>f.id===d.id).name}が完成しました！`); after(); } },
   hire:(d)=>{ const q=buyItem('helper',d.id); if(q){ Sfx.play('coin'); const h=HELPERS.find(x=>x.id===d.id); toast(`${icHTML(h.icon,20)} ${h.name}が${q>1?q+'体':''}仲間になりました`); const before=actors.length; after(); const a=actors[actors.length-1]; if(actors.length>before&&a){ const from=d.id==='monkey'?{x:player.x,y:player.y}:{x:OBJID.site_shop.x,y:OBJID.site_shop.y+20}; a.x=from.x; a.y=from.y; burst(a.x,a.y-10,['#ffe04a','#fff'],14,{lift:40}); } } },
@@ -2731,7 +3112,7 @@ const ACT={
   gagain:()=>{ if(!GA) return; const gid=GA.gid,n=GA.results.length; clearTimeout(GA.timer); GA=null; doPull(gid,n); },
   ev:(d)=>resolveEvent(d.c),
   mclose:()=>closeModal(),
-  goto:(d)=>{ const o=OBJID[d.id]; closePanel(); if(o){ if(!walkTo(o.x,o.y,o)) toast('そこへは今は行けません'); } },
+  goto:(d)=>{ const o=OBJID[d.id]; closePanel(); if(!o) return; if(o.area==='east'&&!S.world.bridge){ toast('そこへは今は行けません'); return; } if(fastTravelOpen()&&Math.hypot(o.x-player.x,o.y-player.y)>120&&fastTravel(o)) return; if(!walkTo(o.x,o.y,o)) toast('そこへは今は行けません'); },
   openp:(d)=>openPanel(d.k),
   opt:(d)=>{ if(d.k==='guide') S.opt.guide=S.opt.guide===false; else S.opt[d.k]=!S.opt[d.k]; Sfx.apply(); renderPanel(); saveSoon(); },
   vol:(d)=>{ S.opt.vol=+d.v; Sfx.apply(); renderPanel(); saveSoon(); Sfx.play('coin'); },
@@ -2767,27 +3148,33 @@ const ACT={
   reset1:()=>{ closePanel(); modal(`<h2>本当にリセットしますか？</h2><p>すべての進行（周回・ガチャの景品・図鑑・実績を含む）が消えます。<b>元に戻せません。</b></p><div class="choices"><button class="btn big" data-act="mclose">やめる</button><button class="btn red" data-act="reset2">消して最初から始める</button></div>`); },
   reset2:()=>{ closeModal(); modal(`<h2>最終確認</h2><p class="c">セーブデータを完全に削除します。</p><div class="choices"><button class="btn big" data-act="mclose">やめる</button><button class="btn red" data-act="reset3">完全に削除する</button></div>`); },
   reset3:()=>{ resetting=true; try{ localStorage.removeItem(SAVE_KEY); }catch(e){} const opt=S.opt; S=defaultState(); S.opt=opt; closeModal(); newIsland(); resetting=false; save(); welcome(); },
+  nest:()=>{ if(buildNest()){ const o=OBJID.nest; burst(o.x,o.y-14,['#c9a46a','#8fbf3a','#fff6d0'],26,{lift:60}); popText(o.x,o.y-40,'完成！',null); Sfx.play('build'); toast(`${icHTML('m_walk0',22)} 寝床ができました。猿が近くまで来ています。果物をあげてみましょう`,'ach'); after(); } },
+  offer:()=>{ const r=offerFruit(); if(!r) return; const w=OBJID.wild||OBJID.nest; burst(w.x,w.y-16,['#f2b02a','#e0402a','#fff'],12,{lift:40}); Sfx.play('coin');
+    if(r===2){ closePanel(); firstMonkey(); after(); return; }
+    popText(w.x,w.y-34,'なかよし +1',null); toast(`猿が果物をおいしそうに食べています（なかよし ${qm().offers}/${OFFER_COST.length}）。食べ終わるまで少し待ちましょう`); after(); },
+  road:()=>{ if(buildRoad()){ computeRoads(); buildTerrain(); Sfx.play('build'); shakeT=0.15; toast(`${icHTML('ui_sign',20)} 島の道が Lv${roadLv()} になりました。道の上は速く歩けます`,'ach'); after(); } },
+  dash:()=>{ tryDash(); },
   welcomeOk:()=>{ S.flags.welcome=true; closeModal(); saveSoon(); },
 };
 function firstMonkey(){
   S.helpers.monkey.n=1; syncActors();
   const a=actors.find(x=>x.type==='monkey');
   // 森の端から走ってくる
-  let sx=player.x-180, sy=player.y-120; for(let i=0;i<20&&!canStand(sx,sy,3);i++){ sx+=18; sy+=12; }
+  const w=OBJID.wild; let sx=w?w.x:player.x-180, sy=w?w.y:player.y-120; for(let i=0;i<20&&!canStand(sx,sy,3);i++){ sx+=18; sy+=12; }
   if(!canStand(sx,sy,3)){ sx=player.x; sy=player.y; }
   a.x=sx; a.y=sy; a.state='idle'; a.t=1.2;
   burst(a.x,a.y-16,['#ffe04a','#fff'],16,{lift:40});
   popText(a.x,a.y-40,'仲間になった！',null);
-  toast(`${icHTML('m_walk0',22)} 斧の音を聞いて、猿が仲間になりました！ さっそく木を切りに行きます`,'ach');
+  toast(`${icHTML('m_walk0',22)} 猿が仲間になりました！ さっそく木を切りに行きます。これからは「仲間」から増やせます`,'ach');
   Sfx.play('rare');
 }
 /* ---------- 入力 ---------- */
-const keys={left:false,right:false,up:false,down:false,act:false};
+const keys={left:false,right:false,up:false,down:false,act:false,dash:false};
 const joy={active:false,id:null,x:0,y:0,cx:0,cy:0};
 let actBtnHeld=false;
 function actionHeld(){ return (keys.act||actBtnHeld)&&!uiBlocking(); }
 function setupInput(){
-  const KM={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'up',KeyW:'up',ArrowDown:'down',KeyS:'down',KeyE:'act',Space:'act',Enter:'act'};
+  const KM={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'up',KeyW:'up',ArrowDown:'down',KeyS:'down',KeyE:'act',Space:'act',Enter:'act',ShiftLeft:'dash',ShiftRight:'dash'};
   window.addEventListener('keydown',e=>{
     Sfx.unlock();
     if(e.code==='Escape'){ if(GA){ if(GA.phase==='done') gClose(); else gSummary(); } else if(modalOpen) closeModal(); else if(panel) closePanel(); return; }
@@ -2795,7 +3182,7 @@ function setupInput(){
     if(uiBlocking()&&k==='act'&&(e.code==='Space'||e.code==='Enter')) return;
     e.preventDefault();
     if(k==='act'&&!keys.act&&!uiBlocking()){ keys.act=true; tryAction(false); return; }
-    keys[k]=true; if(k!=='act'){ player.path=null; }
+    keys[k]=true; if(k!=='act'&&k!=='dash'){ player.path=null; }
   });
   window.addEventListener('keyup',e=>{ const k=KM[e.code]; if(k) keys[k]=false; });
   window.addEventListener('blur',()=>{ for(const k in keys) keys[k]=false; actBtnHeld=false; joy.active=false; $('#joyk').style.transform=''; });
@@ -2845,7 +3232,7 @@ function goalClick(){
   if(g.a&&(g.a[0]==='helper')) openPanel('helpers');
 }
 function welcome(){
-  modal(`<div class="mart">${icHTML('p_idle',64)}${icHTML('t_island',64)}</div><h2>無人島へようこそ</h2><p>目が覚めると、見知らぬ島の浜辺にいました。<br><b>木に近づいて「伐採」</b>し、<b>作業台で斧</b>を作りましょう。斧の音を聞きつけて、きっと仲間が現れます。</p>
+  modal(`<div class="mart">${icHTML('p_idle',64)}${icHTML('t_island',64)}</div><h2>無人島へようこそ</h2><p>目が覚めると、見知らぬ島の浜辺にいました。<br><b>木に近づいて「伐採」</b>し、<b>作業台で斧</b>を作りましょう。最初は全部自分の手作業。森の猿と仲良くなれば、仲間として働いてくれます。</p>
     <div class="howto"><div>${icHTML('u_stick',34)}<span><b>移動</b>：左下スティック／地図をタップ<br>PC：WASD・矢印・クリック</span></div><div>${icHTML('ui_hand',30)}<span><b>アクション</b>：右下ボタン（長押しで連続）<br>PC：E・スペース</span></div></div>
     <button class="btn big wide gold" data-act="welcomeOk">はじめる</button>`);
 }
@@ -2949,6 +3336,7 @@ window.__island={
   offline:(sec)=>offline(sec,true),
   forceEvent:(type)=>{ S.ev.pending={type}; placeEventObj(type); },
   get modalOpen(){return modalOpen;}, get GA(){return GA;},
+  curSpeed,moveMult,dashOpen,tryDash,fastTravelOpen,offerFruit,buildNest,
 };
 
 })();
