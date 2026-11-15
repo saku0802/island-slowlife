@@ -222,6 +222,29 @@ table{width:100%;border-collapse:collapse;font-size:12px}td,th{padding:2px 4px;b
 @media (max-width:760px){#isle{display:none}.chip small{display:none}.mbtn span{display:none}.mbtn{width:44px;height:44px}}
 @media (max-height:420px){.toast{font-size:11px;padding:3px 8px}#toasts{bottom:6px}#goal{width:min(250px,34vw)}.chip{padding:1px 4px 1px 2px;border-width:1.5px}.chip b{font-size:12px}.chip small{font-size:8.5px}#joy{width:118px;height:118px}#act{width:88px;height:88px}.gc{min-height:190px;width:180px}.gsum .gm2{min-height:84px}}
 @media (min-width:1100px){.chip b{font-size:15px}.chip{padding:3px 10px 3px 4px}#goal{width:300px;font-size:13px}#gtext{font-size:14px}}
+
+/* v5.1 LEGEND / CHAOS */
+.rt.LG{background:linear-gradient(90deg,#ff6a1a,#ffd84a,#ff6a1a);color:#3a1600;font-weight:800}
+.rt.CH{background:linear-gradient(90deg,#1a0030,#c02aff,#00e0ff,#ff2a6a,#1a0030);background-size:300% 100%;animation:chg 2s linear infinite;color:#fff;font-weight:800;text-shadow:0 0 4px #000}
+@keyframes chg{to{background-position:300% 0}}
+.cc.LG,.gc.LG,.gm2.LG{border-image-source:url(assets/ui_card_SSR.png);filter:hue-rotate(-25deg) saturate(1.6);box-shadow:0 0 26px #ff8a1a}
+.cc.CH,.gc.CH,.gm2.CH{border-image-source:url(assets/ui_card_SSR.png);filter:hue-rotate(200deg) saturate(2);box-shadow:0 0 34px #c02aff,0 0 60px #00e0ff}
+.gc.LG{animation:flip .5s,lgc .8s infinite alternate}.gc.CH{animation:flip .5s,chc .5s infinite alternate}
+@keyframes lgc{from{box-shadow:0 0 30px #ff8a1a}to{box-shadow:0 0 80px #ffd84a,0 0 140px #ff6a1a}}
+@keyframes chc{from{box-shadow:0 0 40px #c02aff,0 0 80px #00e0ff;transform:scale(1)}to{box-shadow:0 0 100px #ff2a6a,0 0 180px #c02aff;transform:scale(1.04)}}
+#gacha.r-LG.opening .gglow{background:radial-gradient(#fff,#ffd84a 30%,#ff6a1a 60%,transparent);width:560px;height:560px;animation:ssr .35s infinite alternate}
+#gacha.r-LG.opening .gobj{animation:shake .06s infinite;filter:drop-shadow(0 0 30px #ff8a1a) drop-shadow(0 0 60px #ffd84a)}
+#gacha.r-CH{background:radial-gradient(circle at 50% 45%,#2a0040,#05000a 75%)}
+#gacha.r-CH.opening .gglow{background:conic-gradient(#c02aff,#00e0ff,#ff2a6a,#ffd84a,#c02aff);width:680px;height:680px;filter:blur(30px);animation:spin 1.2s linear infinite}
+#gacha.r-CH.opening .gobj{animation:shake .05s infinite;filter:drop-shadow(0 0 30px #c02aff) drop-shadow(0 0 70px #00e0ff) hue-rotate(90deg)}
+#gacha.r-CH.opening .grays,#gacha.r-LG.opening .grays{opacity:1;animation:spin 2s linear infinite}
+#gacha.rumble.opening{animation:rumble .1s infinite}
+@keyframes rumble{0%{transform:translate(0,0)}25%{transform:translate(3px,-2px)}50%{transform:translate(-3px,2px)}75%{transform:translate(2px,3px)}100%{transform:translate(0,0)}}
+#gacha.r-CH.revealed{animation:chflash .6s 1}
+@keyframes chflash{0%{background:#fff}100%{background:radial-gradient(circle at 50% 45%,#2a0040,#05000a 75%)}}
+#gacha.r-LG.revealed{animation:lgflash .5s 1}
+@keyframes lgflash{0%{background:#fff6d0}100%{background:radial-gradient(circle at 50% 45%,#5a3a10,#120a02 75%)}}
+.gm .bd .t{position:relative}
 </style>
 </head>
 <body>
@@ -255,8 +278,12 @@ const clamp=(v,a,b)=>v<a?a:v>b?b:v;
 const BASIC=['wood','stone','fish','fruit'];
 const RES=['wood','stone','fish','fruit','parts','shell'];
 const RI={wood:{n:'木',i:'i_wood'},stone:{n:'石',i:'i_stone'},fish:{n:'魚',i:'i_fish'},fruit:{n:'果物',i:'i_fruit'},parts:{n:'部品',i:'i_parts'},shell:{n:'貝殻',i:'i_shell'}};
-const RARS=['N','R','SR','SSR'];
-const RANK={N:0,R:1,SR:2,SSR:3};
+const RARS=['N','R','SR','SSR','LG','CH'];
+const RANK={N:0,R:1,SR:2,SSR:3,LG:4,CH:5};
+/* v5.1：SSRの上に レジェンダリー(LG)・カオス(CH) */
+const RNAME={N:'N',R:'R',SR:'SR',SSR:'SSR',LG:'LEGEND',CH:'CHAOS'};
+const RNAMEJ={N:'N',R:'R',SR:'SR',SSR:'SSR',LG:'レジェンダリー',CH:'カオス'};
+function rN(r){ return RNAME[r]||r; }
 
 function suffix(e){
   if(e<=4) return ['','K','M','B','T'][e];
@@ -411,7 +438,7 @@ const ITEMS=[
   {id:'pearl',n:'真珠',r:'SR'},{id:'chart',n:'海図の切れ端',r:'SR'},{id:'tablet',n:'謎の石板',r:'SR'},{id:'ring',n:'金の指輪',r:'SR'},
   {id:'starsand',n:'星の砂',r:'SSR'},{id:'scale',n:'人魚の鱗',r:'SSR'},{id:'crownI',n:'沈んだ王冠',r:'SSR'},
 ];
-const DEXW={N:60,R:26,SR:10,SSR:3};
+const DEXW={N:60,R:26,SR:10,SSR:3,LG:1,CH:0.2};
 const GITEMS=[
   {id:'hermit',t:'helper',r:'N',name:'ヤドカリ',eff:[['shell',0.05]]},
   {id:'hen',t:'helper',r:'N',name:'ニワトリ',eff:[['fruit',0.1]]},
@@ -447,7 +474,7 @@ const GITEMS=[
 const GTYPE={helper:'助手',deco:'装飾',relic:'遺物',charm:'お守り',gear:'助手の装備',pet:'ペット',orn:'置き物'};
 for(const it of GITEMS) it.pool='base';
 const GLV_MAX=10;
-const DUP_REFUND={N:2,R:5,SR:15,SSR:50};
+const DUP_REFUND={N:2,R:5,SR:15,SSR:50,LG:400,CH:2000};
 const GACHA={
   bottle:{name:'漂流ボトル',icon:'u_bottle',cost:10,cost10:90,pity:60,rates:{N:62,R:28,SR:8,SSR:2},w:{helper:45,deco:45,relic:10},pools:['base'],desc:'手軽なガチャ。助手と装飾が出やすい'},
   chest:{name:'宝箱',icon:'u_chest',cost:40,cost10:360,pity:40,rates:{N:35,R:40,SR:19,SSR:6},w:{helper:20,deco:20,relic:60},pools:['base'],desc:'高めだが遺物が出やすい'},
@@ -492,6 +519,8 @@ const ACH=[
   ['gacha50','u_chest','コレクター','ガチャを50回まわす',()=>S.stats.pulls>=50,{mult:0.05}],
   ['gacha300','u_chesto','宝探し名人','ガチャを300回まわす',()=>S.stats.pulls>=300,{mult:0.15}],
   ['ssr1','g_rainbow','虹色の輝き','SSRを手に入れる',()=>S.stats.ssr>=1,{shell:30}],
+  ['lg1','u_chesto','伝説との出会い','レジェンダリーを手に入れる',()=>(S.stats.lg|0)>=1,{shell:500}],
+  ['ch1','i_mana','混沌に触れた者','カオスを手に入れる',()=>(S.stats.ch|0)>=1,{shell:3000}],
   ['glv10','ui_star','愛着','ガチャの景品をLv10にする',()=>Object.values(S.gacha.owned).some(o=>o.lv>=GLV_MAX),{mult:0.1}],
   ['gachaall','g_crown','完全なる蒐集','ガチャ図鑑を60種うめる',()=>Object.keys(S.dex.gacha||{}).length>=60,{mult:0.5}],
   ['ev5','t_wave','島の日常','イベントを5回体験する',()=>S.stats.events>=5,{shell:15}],
@@ -608,7 +637,7 @@ function defaultState(){
   const t=now();
   const fac={}; for(const f of FACS) fac[f.id]=0;
   const helpers={}; for(const h of HELPERS) helpers[h.id]={n:0,lv:1,cmd:'bal',morale:0,boost:0};
-  return {v:4,res:zeroRes(),
+  return {v:4,econ:5,pioneer:true,res:zeroRes(),
     tools:{axe:0,basket:0,pick:0,rod:0},
     fac, helpers, research:{}, ship:[0,0,0,0,0], isle:0, maxIsle:0, startIsle:0,
     world:{bridge:0,shards:0,tablet:0,ruinHits:0,road:0,depth:0,gear:{pick:0,boots:0,glove:0},boats:[0,0,0],contracts:[],dig:{},consts:{},artifacts:{},power:false,blizzard:0},
@@ -687,6 +716,20 @@ function fixupState(){
   if(!isObj(S.meta.skLv)) S.meta.skLv={};
   skCache=null;
 }
+/* v5.1 以前のセーブで「新しい島」にいる場合、基本資源の在庫を島の単位に直す（同じ価値のまま数字だけ小さくなる） */
+function econFix(d){
+  if(d&&d.econ>=5){ S.econ=5; return null; }
+  S.econ=5;
+  if(!S.freshIsle||!(S.isle>0)) return null;
+  const div=isleRichRaw(S.isle|0); if(!(div>1)) return null;
+  const early=!(S.fac.shop>=1); // 工房の前＝ほぼ着いたばかり：不具合で増えた分は消して、着いた直後の状態に近づける
+  const before={}, after={}, hb={};
+  for(const r of ['wood','stone','fish','fruit','parts']){ before[r]=S.res[r]||0; let v=Math.floor((S.res[r]||0)/div); if(early) v=Math.min(v,500); S.res[r]=v; after[r]=v; }
+  for(const h of HELPERS){ const st=S.helpers[h.id]; if(st&&st.n) hb[h.id]={n:st.n,lv:st.lv}; }
+  if(early){ for(const h of HELPERS){ const st=S.helpers[h.id]; st.n=0; st.lv=1; st.boost=0; st.cmd='bal'; } S.helpers.monkey.n=1; S.quest.monkey=2; S.quest.offers=OFFER_COST.length; }
+  S.flags.econFixed={isle:S.isle|0,div,early,before,after,helpersBefore:hb,at:now()};
+  return S.flags.econFixed;
+}
 function load(){
   S=defaultState();
   try{
@@ -700,8 +743,9 @@ function load(){
       if(d){
         if(wasOld){ try{ localStorage.setItem(SAVE_KEY+'_backup_v3',raw); }catch(e){} }
         S=merge(defaultState(),d);
-        S.v=4; fixupState();
+        S.v=4; fixupState(); const ef=econFix(d);
         storageOK=true;
+        if(ef){ try{ localStorage.setItem(SAVE_KEY+'_backup_v5',raw); localStorage.setItem(SAVE_KEY,JSON.stringify(S)); }catch(e){} }
         if(fromV1||wasOld){ try{ localStorage.setItem(SAVE_KEY,JSON.stringify(S)); }catch(e){} }
         if(wasOld) S.flags.migrated=true;
         return true;
@@ -747,7 +791,7 @@ function importSaveCode(code){
   catch(e){ try{ d=JSON.parse(decodeURIComponent(escape(atob(t.replace(/\s+/g,''))))); } catch(e2){ if(typeof toast==='function') toast('セーブコードが読めませんでした','warn'); return false; } }
   d=migrateSave(d);
   if(!d){ if(typeof toast==='function') toast('このコードは使えません','warn'); return false; }
-  S=merge(defaultState(),d); S.v=4; fixupState();
+  S=merge(defaultState(),d); S.v=4; fixupState(); econFix(d);
   if(typeof newIsland==='function') newIsland();
   if(typeof closePanel==='function') closePanel();
   if(typeof closeModal==='function') closeModal();
@@ -796,52 +840,60 @@ function cmdWeight(h,r){
 const RUNIT=1e-3;
 function resUnit(r){ const k=RI[r].isl||0; return k===0?1:isleScale(k)*RUNIT; }
 /* 研究の効果を集める */
+/* 研究の値 2 = スキルでもらった研究（開拓中は生産の倍率に効かない。前提・移動などには効く） */
 function resFx(){
-  const R={res:{},hx:{},fx:{},glob:1,helperX:1,tapX:1,shellX:1};
-  for(const id in S.research){ const n=RESEARCH.find(x=>x.id===id); if(!n) continue;
+  const R={res:{},hx:{},fx:{},glob:1,helperX:1,tapX:1,shellX:1}; const po=pioneerOn();
+  for(const id in S.research){ const n=RESEARCH.find(x=>x.id===id); if(!n) continue; if(po&&S.research[id]===2) continue;
     if(n.res) for(const r in n.res) R.res[r]=(R.res[r]||1)*n.res[r];
     if(n.hx) for(const h in n.hx) R.hx[h]=(R.hx[h]||1)*n.hx[h];
     if(n.fx) for(const f in n.fx) R.fx[f]=(R.fx[f]||1)*n.fx[f];
     if(n.glob) R.glob*=n.glob; if(n.helperX) R.helperX*=n.helperX; if(n.tapX) R.tapX*=n.tapX; if(n.shellX) R.shellX*=n.shellX; }
   return R;
 }
+/* v5.1「開拓中」：島に着いた直後（転生のあとも）は、工房を建てるまで倍率に上限がある。
+   スキルや島わたりのボーナスで序盤が一瞬で終わらないようにするため。上限はスキルの数で少し上がる（最大 ×PIONEER_MAX）。 */
+let PIONEER_BASE=+(typeof process!=='undefined'&&process.env&&process.env.PB||3), PIONEER_MAX=+(typeof process!=='undefined'&&process.env&&process.env.PMAX||4.5), PIONEER_TAP=1.5;
+function pioneerOn(){ return !!S.pioneer&&!(S.fac.shop>=1); }
+function pioneerCap(){ return pioneerOn()?Math.min(PIONEER_MAX,PIONEER_BASE+0.012*skCount()):0; }
 function calc(){
   const g=gb(), I=isleOf(), K=SK(), M=mechMods(), RF=resFx();
-  const D={g,K,M};
-  let global=(1+S.fac.fire*fireStep())*achMult()*dexMult()*(1+g.global)*buffM('global')*K.global*M.global*RF.glob;
-  if(has('harmony')) global*=3;
-  if(has('starmap')) global*=2;
-  if(has('ancient')) global*=10;
+  const D={g,K,M}; const PO=pioneerOn(), hp=id=>PO?S.research[id]===1:has(id);
+  // PH>0（開拓中）：持ち越した力（スキル・ガチャ・実績・島わたり）だけ上限 PH。島で作った物（焚き火・研究・道具）はそのまま効く
+  const PH=pioneerCap(); D.pioneer=PH; const cap=(x,l)=>PH?Math.min(x,l):x;
+  let global=(1+S.fac.fire*(hp('firecraft')?0.2:0.1))*RF.glob*cap(achMult()*dexMult()*(1+g.global)*buffM('global')*K.global*M.global,PH);
+  if(hp('harmony')) global*=3;
+  if(hp('starmap')) global*=2;
+  if(hp('ancient')) global*=10;
   if(S.world.bridge) global*=1.5;
   D.global=global;
   const rm={};
   const resR={wood:'lumber',stone:'masonry',fish:'bait',fruit:'compost'};
-  const toolStep=has('irontools')?1.32:1.25;
+  const toolStep=hp('irontools')?1.32:1.25;
   for(const r of PRODR){
-    let x=(I.mult[r]||1)*(1+(g[r]||0))*global*resUnit(r)*(M.res[r]||1)*(RF.res[r]||1);
+    let x=(I.mult[r]||1)*cap(1+(g[r]||0),1.5)*global*resUnit(r)*(M.res[r]||1)*(RF.res[r]||1);
     const lv=toolLvOf(r); if(lv>=1) x*=Math.pow(toolStep,lv-1);
-    if(resR[r]&&has(resR[r])) x*=2;
-    if((r==='fish'||r==='fruit')&&has('tidal')) x*=3;
-    if(r==='wood'||r==='stone'||r==='fish'||r==='fruit') x*=K.basic;
-    if(r==='fish') x*=buffM('fish'); else if(r!=='parts') x*=buffM('other');
+    if(resR[r]&&hp(resR[r])) x*=2;
+    if((r==='fish'||r==='fruit')&&hp('tidal')) x*=3;
+    if((r==='wood'||r==='stone'||r==='fish'||r==='fruit')&&!PH) x*=K.basic;
+    if(!PH){ if(r==='fish') x*=buffM('fish'); else if(r!=='parts') x*=buffM('other'); }
     rm[r]=x;
   }
   D.rm=rm;
-  const hm=(1+0.25*S.fac.hut)*(1+g.helper)*K.helper*M.helper*RF.helperX;
-  const fm=(1+0.1*S.fac.wheel)*(1+g.fac)*(S.fac.light&&nightFactor>0.5?1.5:1)*K.fac*M.fac;
+  const hm=(1+0.25*S.fac.hut)*RF.helperX*cap((1+g.helper)*K.helper*M.helper,2);
+  const fm=(1+0.1*S.fac.wheel)*(S.fac.light&&nightFactor>0.5?1.5:1)*cap((1+g.fac)*K.fac*M.fac,2);
   D.hm=hm; D.fm=fm;
   const gross={}; for(const r of PRODR) gross[r]=0;
-  const hxBase={monkey:(has('bananas')?3:1)*(has('elder')?5:1)*K.monkey,robot:has('robotics')?3:1,drone:has('aero')?3:1,golem:M.fx.golemH||1};
+  const hxBase={monkey:(hp('bananas')?3:1)*(hp('elder')?5:1)*(PH?1:K.monkey),robot:hp('robotics')?3:1,drone:hp('aero')?3:1,golem:M.fx.golemH||1};
   D.hProd={}; D.hRes={};
   const t=now();
   for(const h of HELPERS){
     const st=S.helpers[h.id]; D.hRes[h.id]={};
-    if(!st||!st.n){ D.hProd[h.id]=0; continue; }
+    if(!st||!st.n||!(S.tools.axe>=1)){ D.hProd[h.id]=0; continue; } // 助手は斧ができてから働く（島に着いた直後の相棒の猿も）
     const k=st.n*hm*Math.pow(1.5,st.lv-1)*msMult(st.n,'h')*(hxBase[h.id]||1)*(RF.hx[h.id]||1)*(st.boost>t?2:1);
     D.hProd[h.id]=k;
     for(const r in h.prod){ const v=h.prod[r]*k*cmdWeight(h,r); D.hRes[h.id][r]=v*rm[r]; gross[r]+=v; }
   }
-  const irr=has('irrigation')?3:1;
+  const irr=hp('irrigation')?3:1;
   D.fRes={}; D.conv=[];
   for(const f of FACS){
     const n=S.fac[f.id]; if(!n) continue;
@@ -851,13 +903,14 @@ function calc(){
   }
   for(const r in gross) gross[r]*=rm[r];
   const follow=HELPERS.some(h=>S.helpers[h.id].n>0&&S.helpers[h.id].cmd==='follow');
-  const tapM=(has('sharp')?2:1)*(1+g.tap)*(follow?1.5:1)*2*K.tap*RF.tapX*Math.pow(1.5,S.world.gear.pick|0);
+  const tapM=(hp('sharp')?2:1)*(follow?1.5:1)*2*RF.tapX*cap((1+g.tap)*K.tap*Math.pow(1.5,S.world.gear.pick|0),PIONEER_TAP);
   D.tap={};
   for(const r of GATHER){ const tl=toolLvOf(r); D.tap[r]=(1+tl)*tapM*rm[r]*(RI[r].isl?3:1); }
   D.autotap=g.autotap+K.autotap+0.5*(S.world.gear.glove|0);
+  if(PH) D.autotap=Math.min(D.autotap,2);
   if(D.autotap>0) for(const r of ['wood','stone','fish','fruit']) gross[r]+=D.tap[r]*D.autotap*0.25;
   for(const r of GATHER) D.tap[r]+=0.05*(gross[r]||0);
-  D.shopRate=S.fac.shop>0? S.fac.shop*0.5*(has('gears')?2:1)*fm*msMult(S.fac.shop,'f')*rm.parts*powerX():0;
+  D.shopRate=S.fac.shop>0? S.fac.shop*0.5*(hp('gears')?2:1)*fm*msMult(S.fac.shop,'f')*rm.parts*powerX():0;
   D.cw=partCost();
   D.gross=gross; ECAP_G=gross.energy||0;
   const net={...gross};
@@ -867,10 +920,10 @@ function calc(){
     for(const c of D.conv){ let fr=1; for(const r in c.use) if(dem[r]>0) fr=Math.min(fr,0.5*(pa[r]||0)/dem[r]); fr=clamp(fr,0,1); c.fr=fr; pa[c.out]=(pa[c.out]||0)+c.rate*fr; net[c.out]+=c.rate*fr; for(const r in c.use) net[r]-=c.use[r]*fr; } }
   if(powerOn()) net.energy-=energyDrain();
   D.net=net;
-  D.shellMult=(has('shellcraft')?2:1)*(1+g.shell)*(I.mult.shell||1)*(has('ancient')?2:1)*K.shell*RF.shellX*M.shell;
+  D.shellMult=(hp('shellcraft')?2:1)*(1+g.shell)*(I.mult.shell||1)*(hp('ancient')?2:1)*K.shell*RF.shellX*M.shell;
   D.shellRate=(0.02+0.03*S.fac.tower+0.2*S.fac.light+0.05*S.fac.market)*D.shellMult;
   D.offH=Math.min(72+K.offline,4+g.offline+K.offline+Math.min(24,0.5*S.fac.spicehouse));
-  D.evMult=(has('weather')?0.7:1)/(1+g.event)*(1-Math.min(0.3,0.03*S.fac.tower))*(S.fac.light?0.7:1);
+  D.evMult=(hp('weather')?0.7:1)/(1+g.event)*(1-Math.min(0.3,0.03*S.fac.tower))*(S.fac.light?0.7:1);
   return D;
 }
 function energyDrain(){ return Math.max(1,(S.fac.shop+S.fac.smelter+S.fac.forge+S.fac.ranch+S.fac.circle))*0.5*resUnit('energy')*(S.fac.battery?Math.max(0.3,1-0.02*S.fac.battery):1); }
@@ -902,19 +955,24 @@ function produce(dt,D){
 }
 
 /* ================= 建設・雇用 ================= */
-function costMod(){ return (has('massprod')?0.75:1)*SK().cost; }
+function costMod(){ return (has('massprod')?0.75:1)*pioneerCost(SK().cost); }
+function pioneerCost(m){ return pioneerOn()?Math.max(m,0.75):m; }
 function ownedOf(k,id){ return k==='fac'?S.fac[id]:S.helpers[id].n; }
 function defOf(k,id){ return (k==='fac'?FACS:HELPERS).find(x=>x.id===id); }
 function gOf(def){ return SK().flags.craft?1+(def.g-1)*0.75:def.g; }
 function bulkCost(def,n,q){
   let nn=n; const sc=(def.id==='light'?1:1)*isleScale(def.isl||0)*(def.isl?1:1);
   const g=gOf(def);
-  const f=Math.pow(g,nn)*(Math.pow(g,q)-1)/(g-1)*(HELPERS.includes(def)?(has('massprod')?0.75:1)*SK().hcost:costMod())*sc;
+  const f=Math.pow(g,nn)*(Math.pow(g,q)-1)/(g-1)*(HELPERS.includes(def)?(has('massprod')?0.75:1)*pioneerCost(SK().hcost):costMod())*sc;
   const c={}; for(const r in def.cost) c[r]=def.cost[r]*f*(def.isl?resUnitCost(r,def.isl):1); return c;
 }
 /* 島 k のコストに出てくる資源 r の単位補正（後の島の資源ほど単位が大きい） */
 const BASIC_LATE=1e-6;
-function resUnitCost(r,k){ const ri=RI[r].isl||0; if(ri>=k) return 1; if(ri===0) return BASIC_LATE*Math.pow(0.003,Math.max(0,k-2)); return Math.pow(isleScale(ri)/isleScale(k),0.8); }
+function basicUnitRaw(k){ return BASIC_LATE*Math.pow(0.003,Math.max(0,k-2)); }
+/* v5.1：新しい島の基本資源（木・石・魚・果物・部品）は「島の単位」で数える。
+   以前は生産を ×isleRich（島2で約690万倍）にしていたため、斧や焚き火など島1と同じ値段のものが一瞬で買えてしまった。
+   いまは生産を増やさず、その島（の施設・研究）の基本資源のコストを同じ倍率で割る。前の島の施設を建て直すときは、その島の値段。 */
+function resUnitCost(r,k){ const ri=RI[r].isl||0; if(ri>=k) return 1; if(ri===0) return basicUnitRaw(k)/(S&&S.freshIsle?isleRichRaw(k):1); return Math.pow(isleScale(ri)/isleScale(k),0.8); }
 function maxBuy(def,n){
   let q=Infinity; const g=gOf(def);
   for(const r in def.cost){
@@ -1032,14 +1090,15 @@ function findItem(preferNew){
 }
 
 /* ================= ガチャ ================= */
+function pityR(gid){ return GACHA[gid].pityR||'SSR'; }
 function pityOf(gid){ const f=SK().flags; return Math.max(5,Math.round(GACHA[gid].pity*(1-Math.min(0.3,0.02*(S.fac.market|0)))*(f.time?0.75:1)*(f.luck?0.5:1))); }
 function gPool(gid){ const G=GACHA[gid]; return GITEMS.filter(x=>G.pools.includes(x.pool)&&(!G.w||G.w[x.t]!=null||!G.wStrict)); }
 function gW(G,t){ return G.w&&G.w[t]!=null?G.w[t]:10; }
 function gachaOpen(gid){ const G=GACHA[gid]; return !G.unlock||G.unlock(); }
 function itemProb(gid,item){
   const G=GACHA[gid]; const pool=gPool(gid); if(!pool.includes(item)) return 0;
-  const rars=RARS.filter(r=>pool.some(x=>x.r===r)); const rt=rars.reduce((a,r)=>a+G.rates[r],0);
-  const pr=G.rates[item.r]/rt;
+  const rars=RARS.filter(r=>pool.some(x=>x.r===r)); const rt=rars.reduce((a,r)=>a+(G.rates[r]||0),0);
+  const pr=(G.rates[item.r]||0)/rt;
   const same=pool.filter(x=>x.r===item.r); const types=[...new Set(same.map(x=>x.t))];
   const wt=types.reduce((a,t)=>a+gW(G,t),0);
   const cnt=same.filter(x=>x.t===item.t).length;
@@ -1050,9 +1109,12 @@ function pullOne(gid){
   st.pity[gid]=(st.pity[gid]|0)+1; st.pulls[gid]=(st.pulls[gid]|0)+1; S.stats.pulls++;
   const rars=RARS.filter(r=>pool.some(x=>x.r===r));
   let rar;
-  if(st.pity[gid]>=pityOf(gid)) rar='SSR';
-  else { const rt=rars.reduce((a,r)=>a+G.rates[r],0); let p=Math.random()*rt; rar=rars[rars.length-1]; for(const r of rars){ p-=G.rates[r]; if(p<0){rar=r;break;} } }
-  if(rar==='SSR'){ st.pity[gid]=0; S.stats.ssr++; }
+  const PR=pityR(gid);
+  if(st.pity[gid]>=pityOf(gid)) rar=PR;
+  else { const rt=rars.reduce((a,r)=>a+(G.rates[r]||0),0); let p=Math.random()*rt; rar=rars[rars.length-1]; for(const r of rars){ p-=(G.rates[r]||0); if(p<0){rar=r;break;} } }
+  if(RANK[rar]>=RANK[PR]) st.pity[gid]=0;
+  if(RANK[rar]>=3) S.stats.ssr++;
+  if(rar==='LG') S.stats.lg=(S.stats.lg|0)+1; if(rar==='CH') S.stats.ch=(S.stats.ch|0)+1;
   const cand=pool.filter(x=>x.r===rar);
   const tot=cand.reduce((a,it)=>a+itemProb(gid,it),0);
   let p=Math.random()*tot, item=cand[cand.length-1];
@@ -1106,8 +1168,8 @@ function islandReset(k){
   // 相棒の猿は一緒に海を渡る（猿のクエストは最初の島だけ）。道具は作り直し
   S.helpers.monkey.n=1; S.quest.monkey=2; S.quest.offers=OFFER_COST.length;
   if(f.kit){ S.res.wood+=500; S.res.stone+=500; S.res.fruit+=500; S.tools.axe=1; S.tools.basket=1; S.tools.pick=1; }
-  if(f.wind){ S.research.sandals=1; S.research.boots=1; S.research.signpost=1; S.research.sharp=1; S.research.masonry=1; }
-  if(f.lore){ for(const n of RESEARCH) if(!n.isl&&n.t<=3) S.research[n.id]=1; }
+  if(f.wind){ for(const id of ['sandals','boots','signpost','sharp','masonry']) S.research[id]=2; }
+  if(f.lore){ for(const n of RESEARCH) if(!n.isl&&n.t<=3) S.research[n.id]=2; }
   if(f.autof){ S.fac.fire=Math.max(S.fac.fire,5); S.auto.fac=true; }
   if(f.autoh) S.auto.helper=true;
 }
@@ -1131,8 +1193,8 @@ function applyStartBonuses(f,oldShell,oldGacha){
   if(f.keepg){ S.res.shell=Math.floor((oldShell||0)/2); const o={}; for(const id in (oldGacha&&oldGacha.owned)||{}) o[id]={lv:1,cp:0}; S.gacha.owned=o; S.gacha.pity=oldGacha?{...oldGacha.pity}:S.gacha.pity; }
   if(f.kit){ S.res.wood+=500; S.res.stone+=500; S.res.fruit+=500; S.tools.axe=1; S.tools.basket=1; S.tools.pick=1; }
   if(f.monkey){ S.helpers.monkey.n=1; S.quest.monkey=2; S.quest.offers=OFFER_COST.length; S.tools.axe=Math.max(1,S.tools.axe); }
-  if(f.wind){ S.research.sandals=1; S.research.boots=1; S.research.signpost=1; S.research.sharp=1; S.research.masonry=1; }
-  if(f.lore){ for(const n of RESEARCH) if(!n.isl&&n.t<=3) S.research[n.id]=1; }
+  if(f.wind){ for(const id of ['sandals','boots','signpost','sharp','masonry']) S.research[id]=2; }
+  if(f.lore){ for(const n of RESEARCH) if(!n.isl&&n.t<=3) S.research[n.id]=2; }
   if(f.autof){ S.fac.fire=Math.max(S.fac.fire,5); S.auto.fac=true; }
   if(f.autoh) S.auto.helper=true;
   const start=f.start3?3:f.start1?1:0;
@@ -1142,7 +1204,7 @@ function applyStartBonuses(f,oldShell,oldGacha){
     S.fac.fire=Math.max(10,S.fac.fire); S.fac.hut=Math.max(3,S.fac.hut); S.fac.wheel=Math.max(1,S.fac.wheel); S.fac.shop=Math.max(1,S.fac.shop); S.fac.field=Math.max(5,S.fac.field); S.fac.quarry=Math.max(5,S.fac.quarry); S.fac.pier=Math.max(5,S.fac.pier);
     S.helpers.monkey.n=Math.max(25,S.helpers.monkey.n); S.helpers.robot.n=Math.max(5,S.helpers.robot.n); S.quest.monkey=2; S.quest.offers=OFFER_COST.length;
     for(const n of RESEARCH) if(!n.isl&&n.t<=5&&!n.needBridge&&!n.needTablet) S.research[n.id]=1;
-    const sc=isleScale(start); for(const r of ['wood','stone','fish','fruit']) S.res[r]=Math.max(S.res[r],sc*0.02); S.res.parts=Math.max(S.res.parts,sc*1e-5);
+    const sc=isleScale(start)/isleRichRaw(start); for(const r of ['wood','stone','fish','fruit']) S.res[r]=Math.max(S.res[r],Math.round(sc*0.02)); S.res.parts=Math.max(S.res.parts,Math.round(sc*1e-5));
     for(let i=1;i<=start;i++){ const nr=Object.keys(RI).filter(r=>RI[r].isl===i); }
   }
 }
@@ -1385,7 +1447,10 @@ function linkConst(id){ const c=CONSTS.find(x=>x.id===id); if(!c||constHas(id)||
 /* 島わたりのボーナス：v5 では島ごとに一から始めるので、その島の豊かさ（基本の資源・生産）を大きくする */
 let RICH_E=+(typeof process!=='undefined'&&process.env&&process.env.RICH||0.9);
 function isleBoost(k){ return k<=0?1:Math.pow(3,k); }
-function isleRich(k){ if(k<=0||!S.freshIsle) return 1; return Math.pow(isleScale(k)*resUnitCost('wood',k),RICH_E); }
+function isleRichRaw(k){ if(k<=0) return 1; return Math.pow(isleScale(k)*basicUnitRaw(k),RICH_E); }
+function isleRich(k){ if(k<=0||!S.freshIsle) return 1; return isleRichRaw(k); }
+/* 新しい島の基本資源コストを割る数（生産はもう増やさない） */
+function isleDen(){ return isleRich(S.isle|0); }
 function mechMods(){
   const M={global:1,res:{},fx:{},helper:1,fac:1,voy:1,shell:1,rp:1};
   const rx=(r,v)=>{ M.res[r]=(M.res[r]||1)*v; };
@@ -1410,7 +1475,6 @@ function mechMods(){
   if(constHas('c_whale')) M.global*=2; if(constHas('c_ship')) M.voy*=0.7; if(constHas('c_monkey')) M.helper*=3; if(constHas('c_shell')) M.shell*=3; if(constHas('c_crown')) M.global*=3; if(constHas('c_island')){ M.global*=5; M.rp*=1.5; }
   // 島をわたるごとの航海ボーナス（この転生の間）
   M.global*=isleBoost(S.isle|0);
-  { const rb=isleRich(S.isle|0); if(rb!==1) for(const r of ['wood','stone','fish','fruit','parts']) rx(r,rb); }
   return M;
 }
 
@@ -1542,7 +1606,7 @@ function SK(){
 }
 /* 転生ポイント：進んだ島ほど大きく増える */
 function rebirthProgress(){ return (S.isle|0)+S.ship.filter(x=>x).length/5; }
-let RP_BASE=+(typeof process!=='undefined'&&process.env&&process.env.RPB||2);
+let RP_BASE=+(typeof process!=='undefined'&&process.env&&process.env.RPB||2.8);
 function rebirthStart(){ return S.startIsle|0; }
 function rebirthPts(){ const P=rebirthProgress(), P0=rebirthStart(); if(P<=P0) return 0; return Math.max(1,Math.floor(RP_BASE*(Math.pow(2.2,P)-Math.pow(2.2,P0))*SK().rp*mechMods().rp)); }
 function canRebirth(){ return rebirthProgress()>rebirthStart(); }
@@ -1610,6 +1674,20 @@ const GITEMS4=[
   ['e_amber','gear','SR','gear','琥珀のブローチ','it_amber',[['helper',0.12],['shell',0.08]]],
   ['e_cape','gear','SSR','gear','英雄のマント','it_redgl',[['helper',0.5]]],
   ['e_badge','gear','SSR','gear','島長のバッジ','it_rcoin',[['helper',0.3],['global',0.1]]],
+  // v5.1 レジェンダリー（伝説の宝箱・混沌の裂け目）
+  ['l_poseidon','relic','LG','legend','海王の大三叉槍','g_trident',[['global',0.8],['fish',1]]],
+  ['l_kingwhale','pet','LG','legend','白鯨の王','g_whale',[['global',0.6],['helper',0.8]]],
+  ['l_worldtree','deco','LG','legend','世界樹の若木','pr_startree',[['global',0.6],['wood',1.5],['fruit',1.5]]],
+  ['l_sunspirit','pet','LG','legend','太陽の精霊','g_spirit',[['autotap',4],['tap',1]]],
+  ['l_crown','orn','LG','legend','七つの海の王冠','it_crownI',[['global',0.7],['shell',0.6]]],
+  ['l_hourglass','charm','LG','legend','永遠の砂時計','g_hourglass',[['offline',6],['global',0.4]]],
+  ['l_hammer','gear','LG','legend','巨人の金槌','g_hammer',[['fac',1],['helper',0.4]]],
+  ['l_rainbow','deco','LG','legend','天空の虹橋','g_rainbow',[['global',0.9]]],
+  // v5.1 カオス（ごくまれ）
+  ['c_void','relic','CH','chaos','混沌の核','i_mana',[['global',2.5]]],
+  ['c_storm','charm','CH','chaos','終わらない嵐の瞳','ui_storm',[['global',1.5],['fac',1.5],['helper',1.5]]],
+  ['c_star','orn','CH','chaos','落ちてきた星の心臓','i_star',[['global',2],['shell',1.5]]],
+  ['c_relic','pet','CH','chaos','時を喰う遺物','i_relic',[['global',1.5],['offline',12],['autotap',6]]],
 ];
 for(const a of GITEMS4) GITEMS.push({id:a[0],t:a[1],r:a[2],pool:a[3],name:a[4],ic:a[5],eff:a[6]});
 for(const k of RES) if(!EFFN[k]) EFFN[k]=RI[k]?RI[k].name:k;
@@ -1622,6 +1700,8 @@ Object.assign(GACHA,{
   star:{name:'流れ星の福袋',icon:'i_star',cost:900,cost10:8100,pity:40,rates:{N:50,R:30,SR:13,SSR:7},pools:['star'],unlock:()=>S.isle>=9,lock:'星降る島に着くと解放',desc:'星くずと全生産の景品'},
   gear:{name:'仲間の衣装箱',icon:'ui_helpers',cost:80,cost10:720,pity:45,rates:{N:50,R:32,SR:13,SSR:5},pools:['gear'],unlock:()=>S.helpers.monkey.n>0,lock:'猿が仲間になると解放',desc:'助手の生産を上げる装備'},
   gold:{name:'黄金の宝箱',icon:'u_chesto',cost:400,cost10:3600,pity:20,rates:{N:0,R:45,SR:38,SSR:17},w:{helper:10,deco:10,relic:20,charm:20,gear:15,pet:15,orn:10},pools:['base'],dyn:true,unlock:()=>S.stats.pulls>=30,lock:'ガチャを30回まわすと解放',desc:'高いがSR以上が出やすい。解放済みの台すべての景品が出る'},
+  legend:{name:'伝説の宝箱',icon:'u_chesto',fx:'legend',cost:3000,cost10:27000,pity:60,pityR:'LG',rates:{N:0,R:0,SR:45,SSR:44,LG:10.5,CH:0.5},pools:['base','legend','chaos'],unlock:()=>(S.gacha.pulls.gold|0)>=20||(S.isle|0)>=3,lock:'黄金の宝箱を20回まわすか、珊瑚礁の島に着くと解放',desc:'黄金の宝箱の上。レジェンダリーが出る。60回でレジェンダリー確定。ごくまれにカオス'},
+  chaos:{name:'混沌の裂け目',icon:'i_mana',fx:'chaos',cost:15000,cost10:135000,pity:40,pityR:'LG',rates:{N:0,R:0,SR:0,SSR:55,LG:40,CH:5},pools:['base','legend','chaos'],unlock:()=>(S.isle|0)>=6&&(S.gacha.pulls.legend|0)>=10,lock:'雪の島に着き、伝説の宝箱を10回まわすと解放',desc:'いちばん高い台。SSR以上だけ。40回でレジェンダリー以上確定。カオス 5%'},
 });
 // 黄金の宝箱：解放済みの台の景品をまとめて
 function goldPools(){ const p=['base']; for(const g of ['mine','sea','trade','ancient','star','gear']) if(gachaOpen(g)) p.push(GACHA[g].pools[0]); return p; }
@@ -3405,7 +3485,7 @@ const Sfx=(()=>{
     pop:()=>{ noise(0.3,800,0.5,0.25,0,'lowpass'); },
     thunder:()=>{ noise(0.6,200,0.5,0.6,0,'lowpass'); },
     roll:(n)=>{ const t=ac.currentTime; for(let i=0;i<n;i++){ noise(0.04,700+i*20,2,0.12+i*0.008,t+i*(0.09-i*0.0018)); } },
-    reveal:(r)=>{ const t=ac.currentTime; const base={N:[523,659],R:[523,659,784],SR:[523,659,784,1046],SSR:[523,659,784,1046,1318,1568]}[r]; base.forEach((f,i)=>{ tone(f,0.5,'square',0.09,t+i*0.07); tone(f*2,0.4,'sine',0.05,t+i*0.07); }); if(r==='SSR') noise(1.2,5000,0.5,0.1,t+0.3,'highpass'); },
+    reveal:(r)=>{ const t=ac.currentTime; const base={N:[523,659],R:[523,659,784],SR:[523,659,784,1046],SSR:[523,659,784,1046,1318,1568],LG:[392,523,659,784,1046,1318,1568,2093],CH:[220,277,330,415,523,659,831,1046,1318,1661,2093]}[r]||[523]; base.forEach((f,i)=>{ tone(f,0.5,'square',0.09,t+i*0.07); tone(f*2,0.4,'sine',0.05,t+i*0.07); }); if(r==='SSR'||r==='LG'||r==='CH') noise(r==='SSR'?1.2:2.2,5000,0.5,r==='CH'?0.2:0.12,t+0.3,'highpass'); if(r==='LG'||r==='CH'){ [130,196,262].forEach((f,i)=>tone(f*(r==='CH'?0.75:1),1.6,'sawtooth',0.06,t+0.2+i*0.02)); } if(r==='CH'){ noise(0.9,180,0.5,0.5,t,'lowpass'); for(let i=0;i<6;i++) tone(2093-i*220,0.25,'square',0.05,t+0.8+i*0.09); } },
     open:()=>{ noise(0.2,1500,1,0.3); tone(300,0.2,'triangle',0.2,0,600); },
   };
   function play(n,arg){
@@ -3703,8 +3783,8 @@ const PANELS={
         if(!gachaOpen(gid)){ h+=`<div class="card gm locked">${icHTML(G.icon,48,'sil')}<div class="bd"><div class="t">${G.name}</div><div class="d">${G.lock}</div></div></div>`; continue; }
         const pool=gPool(gid); const own=pool.filter(x=>S.gacha.owned[x.id]).length;
         h+=`<div class="card gm">${icHTML(G.icon,60)}<div class="bd"><div class="t">${G.name}<span class="own">${own}/${pool.length}</span></div><div class="d">${G.desc}</div>
-          <div class="rates">${RARS.filter(r=>G.rates[r]>0&&pool.some(x=>x.r===r)).map(r=>`<span class="rt ${r}">${r} ${G.rates[r]}%</span>`).join('')}</div>
-          <div class="pity" ${B(()=>`天井：SSRまであと <b>${pityOf(gid)-(S.gacha.pity[gid]|0)}</b> 回`)}></div>
+          <div class="rates">${RARS.filter(r=>G.rates[r]>0&&pool.some(x=>x.r===r)).map(r=>`<span class="rt ${r}">${rN(r)} ${G.rates[r]}%</span>`).join('')}</div>
+          <div class="pity" ${B(()=>`天井：${RNAMEJ[pityR(gid)]}${pityR(gid)==='SSR'?'':'以上'}まであと <b>${pityOf(gid)-(S.gacha.pity[gid]|0)}</b> 回`)}></div>
           <div class="btns"><button class="btn big" data-act="pull" data-g="${gid}" data-n="1" ${C(()=>S.res.shell>=G.cost)}>単発 ${icHTML('i_shell',14)}${fmt(G.cost)}</button><button class="btn big gold" data-act="pull" data-g="${gid}" data-n="10" ${C(()=>S.res.shell>=G.cost10)}>10連 ${icHTML('i_shell',14)}${fmt(G.cost10)}</button></div>
           <button class="btn sm" data-act="rates" data-g="${gid}">排出率の詳細</button></div></div>`; }
       h+=`</div>`;
@@ -3713,8 +3793,8 @@ const PANELS={
       h+=`<p class="hint">かぶりは強化素材（最大Lv${GLV_MAX}）。所持 ${Object.keys(S.gacha.owned).length}・ガチャ図鑑 ${Object.keys(dx).length}/${GITEMS.length}（図鑑は転生しても残る記録で、効果はありません）</p><div class="coll">`;
       for(const it of [...GITEMS].sort((a,b)=>RANK[b.r]-RANK[a.r])){
         const o=S.gacha.owned[it.id];
-        if(!o){ h+=`<div class="cc ${it.r} unk"><span class="rt ${it.r}">${it.r}</span>${dx[it.id]?icHTML(gIcon(it),30,'sil'):icHTML('u_q',30)}<div class="cn">${dx[it.id]?it.name:'？？？'}</div><div class="cd">${GTYPE[it.t]}${dx[it.id]?'<br>図鑑登録済み':''}</div></div>`; continue; }
-        h+=`<div class="cc ${it.r}"><span class="rt ${it.r}">${it.r}</span>${icHTML(gIcon(it),36)}<div class="cn">${it.name}</div><div class="cd" ${B(()=>`Lv${S.gacha.owned[it.id].lv}・${GTYPE[it.t]}<br>${effText(it.eff,S.gacha.owned[it.id].lv)}<br>素材 ${S.gacha.owned[it.id].cp}/${S.gacha.owned[it.id].lv>=GLV_MAX?'—':S.gacha.owned[it.id].lv}`)}></div><button class="btn sm" data-act="enh" data-id="${it.id}" ${C(()=>{const q=S.gacha.owned[it.id];return q.lv<GLV_MAX&&q.cp>=q.lv;})}>強化</button></div>`;
+        if(!o){ h+=`<div class="cc ${it.r} unk"><span class="rt ${it.r}">${rN(it.r)}</span>${dx[it.id]?icHTML(gIcon(it),30,'sil'):icHTML('u_q',30)}<div class="cn">${dx[it.id]?it.name:'？？？'}</div><div class="cd">${GTYPE[it.t]}${dx[it.id]?'<br>図鑑登録済み':''}</div></div>`; continue; }
+        h+=`<div class="cc ${it.r}"><span class="rt ${it.r}">${rN(it.r)}</span>${icHTML(gIcon(it),36)}<div class="cn">${it.name}</div><div class="cd" ${B(()=>`Lv${S.gacha.owned[it.id].lv}・${GTYPE[it.t]}<br>${effText(it.eff,S.gacha.owned[it.id].lv)}<br>素材 ${S.gacha.owned[it.id].cp}/${S.gacha.owned[it.id].lv>=GLV_MAX?'—':S.gacha.owned[it.id].lv}`)}></div><button class="btn sm" data-act="enh" data-id="${it.id}" ${C(()=>{const q=S.gacha.owned[it.id];return q.lv<GLV_MAX&&q.cp>=q.lv;})}>強化</button></div>`;
       }
       h+=`</div>`;
     }
@@ -3726,7 +3806,7 @@ const PANELS={
       const list=tab==='fish'?FISH:ITEMS, got=dexN(tab);
       h+=`<div class="card"><div class="bd"><div class="t">${tab==='fish'?'魚図鑑':'漂流物図鑑'} ${got}/${list.length}</div><div class="prog"><i style="width:${got/list.length*100}%"></i></div><div class="d">1種ごとに全生産 +2%・完成で ×1.5。${tab==='fish'?'島ごとに釣れる魚が違います。釣り場で手で釣ると見つかりやすい。':'漂流物イベント・商人船・採取中にまれに見つかります。'}</div></div></div><div class="dex">`;
       for(const x of list){ const c=S.dex[tab][x.id]; const where=tab==='fish'?(x.isl==='all'?'どの島でも':(ISLANDS[x.isl]||{name:''}).name):'';
-        h+=`<div class="dx ${c?'':'unk'}">${icHTML((tab==='fish'?'f_':'it_')+x.id,34,c?'':'sil')}<div class="dn">${c?x.n:'？？？'}</div><div class="dc"><span class="rt ${x.r}">${x.r}</span>${c?(tab==='fish'?c+'匹':c+'個'):''}${tab==='fish'?'<br>'+where:''}</div></div>`; }
+        h+=`<div class="dx ${c?'':'unk'}">${icHTML((tab==='fish'?'f_':'it_')+x.id,34,c?'':'sil')}<div class="dn">${c?x.n:'？？？'}</div><div class="dc"><span class="rt ${x.r}">${rN(x.r)}</span>${c?(tab==='fish'?c+'匹':c+'個'):''}${tab==='fish'?'<br>'+where:''}</div></div>`; }
       h+=`</div>`;
     } else if(tab==='ach'){
       const got=ACH.filter(a=>S.ach[a[0]]).length;
@@ -3740,7 +3820,7 @@ const PANELS={
         <div class="stat"><span>転生回数</span><b>${m.rebirths|0}回</b></div><div class="stat"><span>${icHTML('ui_star',14)}転生ポイント（未使用／累計）</span><b>${fmt(m.rp)}／${fmt(m.rpTotal)}</b></div>
         <div class="stat"><span>スキル</span><b>${skCount()}/${SKW.N.length}</b></div><div class="stat"><span>最も遠い島</span><b>${ISLES[Math.min(ISLES.length-1,Math.max(m.best|0,S.isle|0))].name}</b></div><div class="stat"><span>クリア</span><b>${m.clears|0}回</b></div>
         ${m.lastRun?`<div class="stat"><span>前回の転生</span><b>${ISLES[m.lastRun.isle].short} ${m.lastRun.stages}/5・+${fmt(m.lastRun.pts)}・${fmtTime(m.lastRun.sec)}</b></div>`:''}</div></div>
-        <div class="card"><div class="bd"><div class="t">この転生</div><div class="stat"><span>いまの島</span><b>${isleOf().name}</b></div><div class="stat"><span>この転生の時間</span><b ${B(()=>fmtTime((now()-(S.meta.runStart||now()))/1000))}></b></div><div class="stat"><span>島わたりの全生産ボーナス</span><b>×${fmt(isleBoost(S.isle|0))}</b></div>${S.freshIsle&&S.isle?`<div class="stat"><span>島の恵み（木・石・魚・果物）</span><b>×${fmt(isleRich(S.isle|0))}</b></div>`:''}</div></div></div>
+        <div class="card"><div class="bd"><div class="t">この転生</div><div class="stat"><span>いまの島</span><b>${isleOf().name}</b></div><div class="stat"><span>この転生の時間</span><b ${B(()=>fmtTime((now()-(S.meta.runStart||now()))/1000))}></b></div><div class="stat"><span>島わたりの全生産ボーナス</span><b>×${fmt(isleBoost(S.isle|0))}</b></div>${pioneerOn()?`<div class="stat"><span>開拓中（工房を建てるまで）</span><b>持ち越しの倍率 最大×${fmtR(pioneerCap())}</b></div>`:''}</div></div></div>
         <div class="sec">島の一覧</div><div class="grid2">${ISLES.map((I,i)=>{const seen=i<=Math.max(m.best|0,S.isle|0);return `<div class="card ${seen?'':'no'}">${icHTML('t_island',40)}<div class="bd"><div class="t">${i+1}. ${seen?I.name:'？？？'}<span class="own">${I.w}×${I.h}</span></div><div class="d">${seen?I.intro:'まだ見ぬ島'}</div>${seen?`<div class="d">${I.adds.join('・')}</div>`:''}</div></div>`;}).join('')}</div>`;
     } else {
       h+=`<div class="card"><div class="bd">
@@ -3906,7 +3986,7 @@ function doPull(gid,count){
   save();
   const top=RARS[results.reduce((a,r)=>Math.max(a,RANK[r.rar]),0)];
   GA={gid,results,idx:-1,phase:'closed',top,timer:0};
-  const g=$('#gacha'); g.className='show r-'+top;
+  const g=$('#gacha'); g.className='show r-'+top+(G.fx?' m-'+G.fx:'');
   g.innerHTML=`<div class="gglow"></div><div class="grays"></div><div class="gtitle">${G.name} ${count>1?'10連':'単発'}</div>
     <button class="gobj" id="gobj" data-act="gtap" aria-label="開ける">${icHTML(G.icon,120)}</button>
     <div id="gcard"></div><div class="ghint" id="ghint">タップして開ける</div>
@@ -3917,8 +3997,9 @@ function gTap(){
   if(!GA) return; const g=$('#gacha');
   if(GA.phase==='closed'){
     GA.phase='opening'; g.classList.add('opening'); $('#ghint').textContent='';
-    const dur=GA.top==='SSR'?2600:GA.top==='SR'?1600:1000;
-    Sfx.play('roll',GA.top==='SSR'?34:GA.top==='SR'?22:12);
+    const dur=GA.top==='CH'?4600:GA.top==='LG'?3600:GA.top==='SSR'?2600:GA.top==='SR'?1600:1000;
+    Sfx.play('roll',GA.top==='CH'?60:GA.top==='LG'?46:GA.top==='SSR'?34:GA.top==='SR'?22:12);
+    if(RANK[GA.top]>=4){ setTimeout(()=>{ if(GA) Sfx.play('thunder'); },dur*0.55); g.classList.add('rumble'); }
     GA.timer=setTimeout(()=>{ if(GA&&GA.phase==='opening'){ g.classList.add('revealed'); Sfx.play('open'); GA.phase='reveal'; gReveal(0);} },dur);
   }else if(GA.phase==='reveal'){
     if(GA.idx<GA.results.length-1) gReveal(GA.idx+1); else gSummary();
@@ -3926,7 +4007,7 @@ function gTap(){
 }
 function gcardHTML(r){
   const it=r.item; const sub=r.isNew?'NEW！':r.refund?`最大Lv → 貝殻+${r.refund}`:'かぶり → 強化素材 +1';
-  return `<div class="gc ${r.rar}"><span class="rt ${r.rar}">${r.rar}</span>${icHTML(gIcon(it),64)}<div class="gn">${it.name}</div><div class="gt">${GTYPE[it.t]}・${effText(it.eff,1)}</div><div class="gs">${sub}</div></div>`;
+  return `<div class="gc ${r.rar}"><span class="rt ${r.rar}">${rN(r.rar)}</span>${icHTML(gIcon(it),64)}<div class="gn">${it.name}</div><div class="gt">${GTYPE[it.t]}・${effText(it.eff,1)}</div><div class="gs">${sub}</div></div>`;
 }
 function gReveal(i){
   GA.idx=i; const r=GA.results[i]; $('#gcard').innerHTML=gcardHTML(r);
@@ -3939,7 +4020,7 @@ function gSummary(){
   if(!GA) return; clearTimeout(GA.timer);
   const g=$('#gacha'); g.classList.add('opening','revealed'); GA.phase='done';
   if(GA.results.length===1) $('#gcard').innerHTML=gcardHTML(GA.results[0]);
-  else { $('#gcard').innerHTML=`<div class="gsum">${GA.results.map((r,i)=>`<div class="gm2 ${r.rar}" style="animation-delay:${i*0.06}s"><span class="rt ${r.rar}">${r.rar}</span>${icHTML(gIcon(r.item),36)}<div class="gn3">${r.item.name}</div><div class="gnew">${r.isNew?'NEW':r.refund?'貝殻+'+r.refund:'素材+1'}</div></div>`).join('')}</div>`; g.dataset.cur=GA.top; Sfx.play('reveal',GA.top); }
+  else { $('#gcard').innerHTML=`<div class="gsum">${GA.results.map((r,i)=>`<div class="gm2 ${r.rar}" style="animation-delay:${i*0.06}s"><span class="rt ${r.rar}">${rN(r.rar)}</span>${icHTML(gIcon(r.item),36)}<div class="gn3">${r.item.name}</div><div class="gnew">${r.isNew?'NEW':r.refund?'貝殻+'+r.refund:'素材+1'}</div></div>`).join('')}</div>`; g.dataset.cur=GA.top; Sfx.play('reveal',GA.top); }
   $('#ghint').textContent=''; gButtons();
 }
 function gButtons(){
@@ -3951,11 +4032,11 @@ function showRates(gid){
   const G=GACHA[gid]; let sum=0, rows='';
   for(const r of RARS){
     if(!gPool(gid).some(x=>x.r===r)||!G.rates[r]) continue;
-    rows+=`<tr class="rh"><th colspan="2"><span class="rt ${r}">${r}</span></th></tr>`;
+    rows+=`<tr class="rh"><th colspan="2"><span class="rt ${r}">${rN(r)}</span></th></tr>`;
     const pool=gPool(gid).filter(x=>x.r===r); if(!pool.length) continue;
     for(const it of pool){ const p=itemProb(gid,it)*100; sum+=p; rows+=`<tr><td>${icHTML(gIcon(it),18)} ${it.name}（${GTYPE[it.t]}）</td><td class="p">${p.toFixed(3)}%</td></tr>`; }
   }
-  modal(`<div class="mhead"><h2>${G.name} 排出率</h2><button class="x" data-act="mclose" aria-label="閉じる">×</button></div><div class="mscroll"><p class="d">レアリティ：${RARS.filter(r=>G.rates[r]>0&&gPool(gid).some(x=>x.r===r)).map(r=>`${r} ${G.rates[r]}%`).join('／')}<br>天井：${pityOf(gid)}回目までにSSRが出なかった場合、${pityOf(gid)}回目は必ずSSR（SSRでカウントはリセット）。<br>景品と天井は島を渡っても残り、転生でリセット（ガチャ図鑑の記録だけ残ります）。</p><table>${rows}<tr class="rh"><th>合計</th><td class="p">${sum.toFixed(1)}%</td></tr></table></div><div class="mfoot"><button class="btn big wide" data-act="mclose">閉じる</button></div>`,{cls:'tall'});
+  modal(`<div class="mhead"><h2>${G.name} 排出率</h2><button class="x" data-act="mclose" aria-label="閉じる">×</button></div><div class="mscroll"><p class="d">レアリティ：${RARS.filter(r=>G.rates[r]>0&&gPool(gid).some(x=>x.r===r)).map(r=>`${RNAMEJ[r]} ${G.rates[r]}%`).join('／')}<br>天井：${pityOf(gid)}回目までに${RNAMEJ[pityR(gid)]}${pityR(gid)==='SSR'?'':'以上'}が出なかった場合、${pityOf(gid)}回目は必ず${RNAMEJ[pityR(gid)]}（${RNAMEJ[pityR(gid)]}${pityR(gid)==='SSR'?'':'以上'}でカウントはリセット）。<br>景品と天井は島を渡っても残り、転生でリセット（ガチャ図鑑の記録だけ残ります）。</p><table>${rows}<tr class="rh"><th>合計</th><td class="p">${sum.toFixed(1)}%</td></tr></table></div><div class="mfoot"><button class="btn big wide" data-act="mclose">閉じる</button></div>`,{cls:'tall'});
 }
 /* ---------- 航海・転生 ---------- */
 function sailConfirm(){
@@ -3974,7 +4055,7 @@ function sailGo(){
   loadingThen(()=>{ newIsland(); checkAch(); save();
     for(let i=0;i<6;i++) setTimeout(()=>firework(player.x+rnd(-100,100),player.y-rnd(60,120)),i*250);
     const I=isleOf();
-    modal(`<div class="mart">${icHTML('t_island',90)}</div><h2>${I.name}に到着！</h2><p class="c">「<b>${S.run.name}</b>」（${(S.isle|0)+1}/${ISLES.length}・${I.w}×${I.h}）<br>${I.intro}</p><p class="c"><b>この島で増えるもの</b>：${I.adds.join('・')}</p><p class="c d">${S.freshIsle?`この島は何もないところから。島に着いたボーナスで転生ポイント +${fmt((S.meta.lastArrival||{}).rp||0)}、島の恵みで木・石・魚・果物 ×${fmt(isleRich(S.isle|0))}、全生産 ×${fmt(isleBoost(S.isle|0))}。ガチャの景品はそのまま使えます。`:'資源・施設・助手・研究はそのまま。'}</p>
+    modal(`<div class="mart">${icHTML('t_island',90)}</div><h2>${I.name}に到着！</h2><p class="c">「<b>${S.run.name}</b>」（${(S.isle|0)+1}/${ISLES.length}・${I.w}×${I.h}）<br>${I.intro}</p><p class="c"><b>この島で増えるもの</b>：${I.adds.join('・')}</p><p class="c d">${S.freshIsle?`この島は何もないところから。島に着いたボーナスで転生ポイント +${fmt((S.meta.lastArrival||{}).rp||0)}。連れてきた相棒の猿は1匹だけで、斧を作るまでは働きません。<b>工房を建てるまでは「開拓中」</b>で、スキルやガチャ・島わたりの倍率は最大 ×${fmtR(Math.min(PIONEER_MAX,PIONEER_BASE+0.012*skCount()))} までしか効きません（工房のあとは全生産 ×${fmt(isleBoost(S.isle|0))} などが全部効きます）。ガチャの景品はそのまま使えます。`:'資源・施設・助手・研究はそのまま。'}</p>
     <button class="btn big wide" data-act="mclose">島を歩く</button>`,{cls:'tall'}); });
 }
 function rebirthOpen(){
@@ -4333,6 +4414,8 @@ function boot(){
   if(hadSave){ const gap=(now()-S.last)/1000; if(gap>5) offline(gap,true); Dc=calc(); }
   else welcome();
   if(S.flags.migrated&&!S.flags.migratedSeen){ S.flags.migratedSeen=true; const L=S.meta.legacy||{}; modal(`<div class="mart">${icHTML('ui_star',72)}</div><h2>大きく生まれ変わりました（v4）</h2><p class="c">島は10個に、転生とスキルウェブが加わりました。前のセーブの資源・施設・助手はそのまま、これまでの周回（${L.trips|0}回）などの実績を <b>転生ポイント ${fmt(S.meta.legacyRP||S.meta.rp)}</b> に換えてお渡ししています。</p><p class="d">前のセーブは控えとして別の場所にも保存してあります。メニュー「転生」からスキルウェブを開いて、最初のスキルを取ってみましょう。図鑑と実績はそのまま残っています。</p><button class="btn big wide gold" data-act="mclose">はじめる</button>`,{cls:'tall'}); saveSoon(); }
+  if(S.flags.econFixed&&!S.flags.econFixedSeen){ S.flags.econFixedSeen=true; const E=S.flags.econFixed; const hb=E.helpersBefore||{}; const mk=hb.monkey?hb.monkey.n:0;
+    modal(`<div class="mart">${icHTML('t_island',72)}</div><h2>島の始まりを直しました（v5.1）</h2><p class="c">前の版では、新しい島に着いたとき木などの量に大きすぎる倍率がかかっていて、猿が勝手に増え、木だけ最初から大量に取れる状態になっていました。</p><p class="c">${E.early?`いまの島（${ISLES[E.isle].name}）は着いたばかりの状態に戻しました：相棒の猿1匹（${mk}匹→1匹）、木・石・魚・果物・部品は最大500まで。道具・研究・転生ポイント・スキル・ガチャの景品はそのままです。`:`いまの島の木・石・魚・果物・部品を新しい単位に直しました（価値は同じで、数字が小さくなります）。ほかの進み具合はそのままです。`}</p><p class="d">これからは、どの島も工房を建てるまで「開拓中」で、スキルの力は少しだけ効きます。</p><button class="btn big wide gold" data-act="mclose">はじめる</button>`,{cls:'tall'}); saveSoon(); }
   if(!S.flags.rule5Seen){ const show=hadSave&&((S.meta.rebirths|0)>0||(S.isle|0)>0||S.stats.play>300); S.flags.rule5Seen=true;
     const rule5=()=>{ if(!document.querySelector('#modal.hidden')){ setTimeout(rule5,1500); return; } modal(`<div class="mart">${icHTML('boat',72)}</div><h2>島わたりのルールが変わりました</h2><p class="c">これからは<b>次の島へ渡ると、その島は何もないところから</b>始まります（資源・施設・助手・研究などはリセット）。<br>残るのは 転生ポイント・スキル・ガチャの景品と天井・実績と図鑑 です。島に着くたびに転生ポイントがもらえ、新しい島では木・石・魚・果物がよく取れます。</p><p class="d">いま遊んでいる島はこのまま続けられます。新しいルールは次に出航したときから。後半の島7〜10の壁も厚くなり、スキルウェブの外側に何度でも上げられる「果ての記憶」が増えました（雪の島に着くと解放）。</p><button class="btn big wide gold" data-act="mclose">わかった</button>`,{cls:'tall'}); };
     if(show) rule5();
