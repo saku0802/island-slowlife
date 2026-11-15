@@ -350,8 +350,8 @@ const FACS=[
   {id:'hut',name:'小屋',icon:'hut',cost:{wood:400,stone:200,fruit:100},g:1.4,unlock:()=>S.fac.fire>=1,lock:'焚き火を起こす',desc:()=>'助手の生産 +25%（1軒ごと）'},
   {id:'wheel',name:'水車',icon:'wheel',cost:{wood:2500,stone:1500},g:1.32,prod:{wood:8,stone:8},unlock:()=>S.fac.hut>=1,lock:'小屋を建てる',extra:'施設の生産 +10%（1基ごと）'},
   {id:'shop',name:'工房',icon:'shop',cost:{wood:8000,stone:6000,fish:2000},g:1.2,unlock:()=>S.fac.wheel>=1,lock:'水車を建てる',desc:()=>`木と石を部品に変換：部品 ${fmtR(0.5*(has('gears')?2:1))}/秒（木・石 各${partCost()}で1個）。ロボット・ドローンもここで作る`},
-  {id:'tower',name:'見張り台',icon:'tower',cost:{stone:50000,parts:150},g:1.25,prod:{fish:30},unlock:()=>S.fac.shop>=1,lock:'工房を建てる',extra:'貝殻 +0.03/秒・イベント間隔 −3%'},
-  {id:'light',name:'灯台',icon:'tower',cost:{stone:6e11,parts:1e8},g:1.3,prod:{fish:1e6,stone:1e6},unlock:()=>has('lightdesign'),lock:'研究「灯台の設計」',extra:'貝殻 +0.2/秒・夜の生産 ×1.5',area:'east'},
+  {id:'tower',name:'見張り台',icon:'tower',cost:{stone:50000,parts:150},g:1.25,prod:{fish:30},unlock:()=>S.fac.shop>=1,lock:'工房を建てる',extra:'貝殻が少し増える（数が多いほどゆるやかに）・イベント間隔 −3%'},
+  {id:'light',name:'灯台',icon:'tower',cost:{stone:6e11,parts:1e8},g:1.3,prod:{fish:1e6,stone:1e6},unlock:()=>has('lightdesign'),lock:'研究「灯台の設計」',extra:'貝殻が増える・夜の生産 ×1.5',area:'east'},
 ];
 const HELPERS=[
   {id:'monkey',name:'猿',icon:'m_walk0',cost:{wood:50,fruit:20},g:1.15,prod:{wood:0.5,fruit:0.5},unlock:()=>S.helpers.monkey.n>=1,lock:'野生の猿と仲良くなる（目標を進める）',lv:l=>({fruit:300*Math.pow(10,l-1),wood:200*Math.pow(10,l-1)}),cmds:['bal','wood','fruit','follow','rest']},
@@ -474,10 +474,11 @@ const GITEMS=[
 const GTYPE={helper:'助手',deco:'装飾',relic:'遺物',charm:'お守り',gear:'助手の装備',pet:'ペット',orn:'置き物'};
 for(const it of GITEMS) it.pool='base';
 const GLV_MAX=10;
-const DUP_REFUND={N:2,R:5,SR:15,SSR:50,LG:400,CH:2000};
+// v5.2：最大Lvの重複は、その台の単発価格の一部を返す
+const DUP_REFUND={N:0.05,R:0.1,SR:0.25,SSR:0.5,LG:1,CH:2};
 const GACHA={
-  bottle:{name:'漂流ボトル',icon:'u_bottle',cost:10,cost10:90,pity:60,rates:{N:62,R:28,SR:8,SSR:2},w:{helper:45,deco:45,relic:10},pools:['base'],desc:'手軽なガチャ。助手と装飾が出やすい'},
-  chest:{name:'宝箱',icon:'u_chest',cost:40,cost10:360,pity:40,rates:{N:35,R:40,SR:19,SSR:6},w:{helper:20,deco:20,relic:60},pools:['base'],desc:'高めだが遺物が出やすい'},
+  bottle:{name:'漂流ボトル',icon:'u_bottle',cost:50,cost10:450,pity:60,rates:{N:62,R:28,SR:8,SSR:2},w:{helper:45,deco:45,relic:10},pools:['base'],desc:'手軽なガチャ。助手と装飾が出やすい'},
+  chest:{name:'宝箱',icon:'u_chest',cost:200,cost10:1800,pity:40,rates:{N:35,R:40,SR:19,SSR:6},w:{helper:20,deco:20,relic:60},pools:['base'],desc:'高めだが遺物が出やすい'},
 };
 const EFFN={global:'全生産',tap:'手で採取',shell:'貝殻',helper:'助手の生産',fac:'施設の生産',wood:'木',stone:'石',fish:'魚',fruit:'果物',parts:'部品'};
 function effText(eff,lv){
@@ -491,46 +492,46 @@ function effText(eff,lv){
 }
 const ACH=[
   ['tap10','ui_hand','はじめの一歩','手で10回集める',()=>S.stats.taps>=10,{shell:5}],
-  ['axe','p_work0','道具の力','斧を作る',()=>S.tools.axe>=1,{shell:10}],
+  ['axe','p_work0','道具の力','斧を作る',()=>S.tools.axe>=1,{shell:8}],
   ['monkey1','m_walk0','仲間ができた','猿を仲間にする',()=>S.helpers.monkey.n>=1,{shell:10}],
-  ['tools4','u_gear','道具そろい踏み','4種の道具をすべて作る',()=>TOOLS.every(t=>S.tools[t.id]>=1),{shell:15}],
+  ['tools4','u_gear','道具そろい踏み','4種の道具をすべて作る',()=>TOOLS.every(t=>S.tools[t.id]>=1),{shell:8}],
   ['tool10','ui_star','名工','いずれかの道具をLv10にする',()=>TOOLS.some(t=>S.tools[t.id]>=10),{mult:0.05}],
   ['tap300','ui_hand','働き者','手で300回集める',()=>S.stats.taps>=300,{mult:0.05}],
   ['tap3000','ui_hand','島いちばんの働き者','手で3000回集める',()=>S.stats.taps>=3000,{mult:0.1}],
-  ['wood1k','i_wood','木こり見習い','木を累計1.0K集める',()=>S.stats.got.wood>=1e3,{shell:10}],
+  ['wood1k','i_wood','木こり見習い','木を累計1.0K集める',()=>S.stats.got.wood>=1e3,{shell:5}],
   ['stone1m','i_stone','石の山','石を累計1.0M集める',()=>S.stats.got.stone>=1e6,{mult:0.05}],
   ['fish1m','i_fish','大漁旗','魚を累計1.0M集める',()=>S.stats.got.fish>=1e6,{mult:0.05}],
   ['fruit1m','i_fruit','果樹園の主','果物を累計1.0M集める',()=>S.stats.got.fruit>=1e6,{mult:0.05}],
-  ['parts1k','i_parts','部品職人','部品を累計1.0K作る',()=>S.stats.got.parts>=1e3,{shell:20}],
-  ['earn1m','flowers1','島の豊かさ','資源を累計1.0M集める',()=>S.stats.earned>=1e6,{shell:30}],
+  ['parts1k','i_parts','部品職人','部品を累計1.0K作る',()=>S.stats.got.parts>=1e3,{shell:5}],
+  ['earn1m','flowers1','島の豊かさ','資源を累計1.0M集める',()=>S.stats.earned>=1e6,{shell:8}],
   ['earn1b','tree','豊かな島','資源を累計1.0B集める',()=>S.stats.earned>=1e9,{mult:0.1}],
   ['earn1t','t_island','楽園の兆し','資源を累計1.0T集める',()=>S.stats.earned>=1e12,{mult:0.2}],
   ['earn1aa','ui_star','伝説の富','資源を累計1.0aa集める',()=>S.stats.earned>=1e15,{mult:0.5}],
   ['monkey25','m_walk1','猿の群れ','猿を25匹にする',()=>S.helpers.monkey.n>=25,{mult:0.05}],
   ['monkey100','m_chop0','猿の王国','猿を100匹にする',()=>S.helpers.monkey.n>=100,{mult:0.15}],
-  ['robot1','r_walk0','機械じかけ','ロボットを作る',()=>S.helpers.robot.n>=1,{shell:20}],
-  ['drone1','d_fly0','空の目','ドローンを飛ばす',()=>S.helpers.drone.n>=1,{shell:30}],
+  ['robot1','r_walk0','機械じかけ','ロボットを作る',()=>S.helpers.robot.n>=1,{shell:5}],
+  ['drone1','d_fly0','空の目','ドローンを飛ばす',()=>S.helpers.drone.n>=1,{shell:8}],
   ['hlv5','ui_helpers','頼れる相棒','助手をLv5にする',()=>HELPERS.some(h=>S.helpers[h.id].lv>=5),{mult:0.05}],
-  ['facall','ui_build','開拓者','灯台以外のすべての施設を建てる',()=>FACS.every(f=>f.id==='light'||S.fac[f.id]>=1),{shell:30}],
-  ['res5','ui_research','学びの始まり','研究を5つ完了する',()=>resCount()>=5,{shell:15}],
+  ['facall','ui_build','開拓者','灯台以外のすべての施設を建てる',()=>FACS.every(f=>f.id==='light'||S.fac[f.id]>=1),{shell:8}],
+  ['res5','ui_research','学びの始まり','研究を5つ完了する',()=>resCount()>=5,{shell:5}],
   ['res12','ui_research','島の学者','研究を12完了する',()=>resCount()>=12,{mult:0.05}],
   ['resall','it_tablet','古代の叡智','すべての研究を完了する',()=>resCount()>=RESEARCH.length,{mult:0.25}],
-  ['gacha1','u_bottle','運だめし','ガチャを1回まわす',()=>S.stats.pulls>=1,{shell:5}],
+  ['gacha1','u_bottle','運だめし','ガチャを1回まわす',()=>S.stats.pulls>=1,{shell:2}],
   ['gacha50','u_chest','コレクター','ガチャを50回まわす',()=>S.stats.pulls>=50,{mult:0.05}],
   ['gacha300','u_chesto','宝探し名人','ガチャを300回まわす',()=>S.stats.pulls>=300,{mult:0.15}],
-  ['ssr1','g_rainbow','虹色の輝き','SSRを手に入れる',()=>S.stats.ssr>=1,{shell:30}],
-  ['lg1','u_chesto','伝説との出会い','レジェンダリーを手に入れる',()=>(S.stats.lg|0)>=1,{shell:500}],
-  ['ch1','i_mana','混沌に触れた者','カオスを手に入れる',()=>(S.stats.ch|0)>=1,{shell:3000}],
+  ['ssr1','g_rainbow','虹色の輝き','SSRを手に入れる',()=>S.stats.ssr>=1,{shell:10}],
+  ['lg1','u_chesto','伝説との出会い','レジェンダリーを手に入れる',()=>(S.stats.lg|0)>=1,{shell:2000}],
+  ['ch1','i_mana','混沌に触れた者','カオスを手に入れる',()=>(S.stats.ch|0)>=1,{shell:10000}],
   ['glv10','ui_star','愛着','ガチャの景品をLv10にする',()=>Object.values(S.gacha.owned).some(o=>o.lv>=GLV_MAX),{mult:0.1}],
   ['gachaall','g_crown','完全なる蒐集','ガチャ図鑑を60種うめる',()=>Object.keys(S.dex.gacha||{}).length>=60,{mult:0.5}],
-  ['ev5','t_wave','島の日常','イベントを5回体験する',()=>S.stats.events>=5,{shell:15}],
+  ['ev5','t_wave','島の日常','イベントを5回体験する',()=>S.stats.events>=5,{shell:4}],
   ['ev30','it_letter','海の便り','イベントを30回体験する',()=>S.stats.events>=30,{mult:0.1}],
-  ['fish10','f_aji','釣り好き','魚を10種発見する',()=>dexN('fish')>=10,{shell:20}],
+  ['fish10','f_aji','釣り好き','魚を10種発見する',()=>dexN('fish')>=10,{shell:5}],
   ['fishall','g_whale','海の博士','魚図鑑を完成させる',()=>dexN('fish')>=FISH.length,{mult:0.3}],
-  ['item10','it_float','拾いもの上手','漂流物を10種見つける',()=>dexN('item')>=10,{shell:20}],
+  ['item10','it_float','拾いもの上手','漂流物を10種見つける',()=>dexN('item')>=10,{shell:5}],
   ['itemall','it_map','漂流物博士','漂流物図鑑を完成させる',()=>dexN('item')>=ITEMS.length,{mult:0.3}],
-  ['bridge','ui_bridge','海を渡る橋','東の小島へ橋を架ける',()=>S.world.bridge>=1,{shell:40}],
-  ['tablet','it_tablet','石板の謎','石板の欠片を3つそろえる',()=>S.world.shards>=3,{shell:40}],
+  ['bridge','ui_bridge','海を渡る橋','東の小島へ橋を架ける',()=>S.world.bridge>=1,{shell:10}],
+  ['tablet','it_tablet','石板の謎','石板の欠片を3つそろえる',()=>S.world.shards>=3,{shell:10}],
   ['ship1','boat','いざ大海原へ','はじめて次の島へ出航する',()=>(S.meta.best|0)>=1,{mult:0.1}],
   ['isl3','t_island','三つ目の島','草原の島にたどり着く',()=>(S.meta.best|0)>=2,{mult:0.1}],
   ['isl5','b_forge','火の島','火山の島にたどり着く',()=>(S.meta.best|0)>=4,{mult:0.2}],
@@ -921,12 +922,18 @@ function calc(){
   if(powerOn()) net.energy-=energyDrain();
   D.net=net;
   D.shellMult=(hp('shellcraft')?2:1)*(1+g.shell)*(I.mult.shell||1)*(hp('ancient')?2:1)*K.shell*RF.shellX*M.shell;
-  D.shellRate=(0.02+0.03*S.fac.tower+0.2*S.fac.light+0.05*S.fac.market)*D.shellMult;
+  D.shellProg=shellProg(); D.shellMult*=D.shellProg;
+  // 施設の分は数に比例させず、ゆるやかに増える（大量建設で貝殻が爆発しないように）
+  D.shellRate=(0.003+0.0005*Math.log2(1+S.fac.tower)+(S.fac.light>0?0.004:0)+0.002*Math.log2(1+(S.fac.market|0)))*D.shellMult;
   D.offH=Math.min(72+K.offline,4+g.offline+K.offline+Math.min(24,0.5*S.fac.spicehouse));
   D.evMult=(hp('weather')?0.7:1)/(1+g.event)*(1-Math.min(0.3,0.03*S.fac.tower))*(S.fac.light?0.7:1);
   return D;
 }
 function energyDrain(){ return Math.max(1,(S.fac.shop+S.fac.smelter+S.fac.forge+S.fac.ranch+S.fac.circle))*0.5*resUnit('energy')*(S.fac.battery?Math.max(0.3,1-0.02*S.fac.battery):1); }
+/* v5.2：貝殻の進行補正。序盤（はじまりの島・転生前）は ×1。先の島ほど、転生を重ねるほど増える。
+   先の島のガチャ台は値段も上がるので、どの段階でも「たまに回せる」くらいを保つ */
+function shellProg(){ const k=S.isle|0, rb=(S.meta&&S.meta.rebirths)|0; return Math.pow(SHELL_ISLE,k)*(1+SHELL_RB*Math.log2(1+rb)); }
+let SHELL_ISLE=+(typeof process!=='undefined'&&process.env&&process.env.SHI||1), SHELL_RB=+(typeof process!=='undefined'&&process.env&&process.env.SHR||0.1);
 function add(r,v){
   if(!(v>0)) return;
   S.res[r]=fix(S.res[r]+v);
@@ -1121,7 +1128,7 @@ function pullOne(gid){
   for(const it of cand){ p-=itemProb(gid,it); if(p<0){item=it;break;} }
   const o=st.owned[item.id]; let isNew=false, refund=0;
   if(!o){ st.owned[item.id]={lv:1,cp:0}; isNew=true; }
-  else if(o.lv>=GLV_MAX){ refund=DUP_REFUND[rar]; add('shell',refund); }
+  else if(o.lv>=GLV_MAX){ refund=Math.max(1,Math.round(G.cost*DUP_REFUND[rar])); add('shell',refund); }
   else o.cp++;
   if(S.dex){ if(!S.dex.gacha) S.dex.gacha={}; S.dex.gacha[item.id]=1; }
   return {item,rar,isNew,refund};
@@ -1419,7 +1426,7 @@ function buyRes(r,goldFrac){ if((S.maxIsle|0)<5||!S.fac.market) return 0; const 
   const amt=spend/goldRate*rate*120/priceOf(r)*(has('broker')?1.25:1); S.res.gold-=spend; add(r,amt); return amt; }
 /* 交易の依頼：3件。期限内に届けると金貨と貝殻 */
 function newContract(D){ const pool=PRODR.filter(r=>resOpen(r)&&r!=='energy'&&r!=='gold'&&(D.gross[r]||0)>0); const r=pool[Math.floor(Math.random()*pool.length)]||'wood';
-  const need=Math.max(100,(D.gross[r]||1)*rnd(240,600)); return {r,need,until:now()+rnd(20,40)*60000,gold:Math.max(50,(D.gross.gold||1)*rnd(400,900)),shell:Math.round(rnd(8,20))}; }
+  const need=Math.max(100,(D.gross[r]||1)*rnd(240,600)); return {r,need,until:now()+rnd(20,40)*60000,gold:Math.max(50,(D.gross.gold||1)*rnd(400,900)),shell:Math.max(8,Math.round(rnd(3,6)*(D.shellMult||1)))}; }
 function fillContracts(D){ if((S.maxIsle|0)<5||!S.fac.market) return; const c=S.world.contracts; for(let i=0;i<3;i++){ if(!c[i]||c[i].until<now()) c[i]=newContract(D); } }
 function doContract(i){ const c=S.world.contracts[i]; if(!c||S.res[c.r]<c.need) return null; S.res[c.r]-=c.need; const k=has('routes')?2:1; add('gold',c.gold*k); add('shell',c.shell*k); S.world.contracts[i]=newContract(Dc||calc()); S.stats.contracts=(S.stats.contracts|0)+1; return {gold:c.gold*k,shell:c.shell*k}; }
 /* 発掘（遺跡の島）：現場ごとに層。掘ると遺物の欠片、まれに古代の遺物 */
@@ -1693,15 +1700,15 @@ for(const a of GITEMS4) GITEMS.push({id:a[0],t:a[1],r:a[2],pool:a[3],name:a[4],i
 for(const k of RES) if(!EFFN[k]) EFFN[k]=RI[k]?RI[k].name:k;
 EFFN.offline='オフライン上限(時間)'; EFFN.event='イベント頻度'; EFFN.autotap='自動採取';
 Object.assign(GACHA,{
-  mine:{name:'坑道のトロッコ',icon:'b_mine',cost:60,cost10:540,pity:50,rates:{N:55,R:30,SR:11,SSR:4},pools:['mine'],unlock:()=>S.isle>=1,lock:'洞窟の島に着くと解放',desc:'鉱石・小麦・布にきく景品'},
-  sea:{name:'人魚の貝殻',icon:'i_pearl',cost:120,cost10:1080,pity:50,rates:{N:55,R:30,SR:11,SSR:4},pools:['sea'],unlock:()=>S.isle>=3,lock:'珊瑚礁の島に着くと解放',desc:'真珠・珊瑚・黒曜石・合金にきく景品'},
-  trade:{name:'交易商の木箱',icon:'b_market',cost:250,cost10:2250,pity:50,rates:{N:55,R:30,SR:11,SSR:4},pools:['trade'],unlock:()=>S.isle>=5,lock:'交易の島に着くと解放',desc:'金・香辛料・氷・水晶にきく景品'},
-  ancient:{name:'古代の封印箱',icon:'b_dig',cost:500,cost10:4500,pity:50,rates:{N:55,R:30,SR:11,SSR:4},pools:['ancient'],unlock:()=>S.isle>=7,lock:'嵐の島に着くと解放',desc:'電気・遺物・魔力にきく景品'},
-  star:{name:'流れ星の福袋',icon:'i_star',cost:900,cost10:8100,pity:40,rates:{N:50,R:30,SR:13,SSR:7},pools:['star'],unlock:()=>S.isle>=9,lock:'星降る島に着くと解放',desc:'星くずと全生産の景品'},
-  gear:{name:'仲間の衣装箱',icon:'ui_helpers',cost:80,cost10:720,pity:45,rates:{N:50,R:32,SR:13,SSR:5},pools:['gear'],unlock:()=>S.helpers.monkey.n>0,lock:'猿が仲間になると解放',desc:'助手の生産を上げる装備'},
-  gold:{name:'黄金の宝箱',icon:'u_chesto',cost:400,cost10:3600,pity:20,rates:{N:0,R:45,SR:38,SSR:17},w:{helper:10,deco:10,relic:20,charm:20,gear:15,pet:15,orn:10},pools:['base'],dyn:true,unlock:()=>S.stats.pulls>=30,lock:'ガチャを30回まわすと解放',desc:'高いがSR以上が出やすい。解放済みの台すべての景品が出る'},
-  legend:{name:'伝説の宝箱',icon:'u_chesto',fx:'legend',cost:3000,cost10:27000,pity:60,pityR:'LG',rates:{N:0,R:0,SR:45,SSR:44,LG:10.5,CH:0.5},pools:['base','legend','chaos'],unlock:()=>(S.gacha.pulls.gold|0)>=20||(S.isle|0)>=3,lock:'黄金の宝箱を20回まわすか、珊瑚礁の島に着くと解放',desc:'黄金の宝箱の上。レジェンダリーが出る。60回でレジェンダリー確定。ごくまれにカオス'},
-  chaos:{name:'混沌の裂け目',icon:'i_mana',fx:'chaos',cost:15000,cost10:135000,pity:40,pityR:'LG',rates:{N:0,R:0,SR:0,SSR:55,LG:40,CH:5},pools:['base','legend','chaos'],unlock:()=>(S.isle|0)>=6&&(S.gacha.pulls.legend|0)>=10,lock:'雪の島に着き、伝説の宝箱を10回まわすと解放',desc:'いちばん高い台。SSR以上だけ。40回でレジェンダリー以上確定。カオス 5%'},
+  mine:{name:'坑道のトロッコ',icon:'b_mine',cost:300,cost10:2700,pity:50,rates:{N:55,R:30,SR:11,SSR:4},pools:['mine'],unlock:()=>S.isle>=1,lock:'洞窟の島に着くと解放',desc:'鉱石・小麦・布にきく景品'},
+  sea:{name:'人魚の貝殻',icon:'i_pearl',cost:400,cost10:3600,pity:50,rates:{N:55,R:30,SR:11,SSR:4},pools:['sea'],unlock:()=>S.isle>=3,lock:'珊瑚礁の島に着くと解放',desc:'真珠・珊瑚・黒曜石・合金にきく景品'},
+  trade:{name:'交易商の木箱',icon:'b_market',cost:1200,cost10:10800,pity:50,rates:{N:55,R:30,SR:11,SSR:4},pools:['trade'],unlock:()=>S.isle>=5,lock:'交易の島に着くと解放',desc:'金・香辛料・氷・水晶にきく景品'},
+  ancient:{name:'古代の封印箱',icon:'b_dig',cost:4000,cost10:36000,pity:50,rates:{N:55,R:30,SR:11,SSR:4},pools:['ancient'],unlock:()=>S.isle>=7,lock:'嵐の島に着くと解放',desc:'電気・遺物・魔力にきく景品'},
+  star:{name:'流れ星の福袋',icon:'i_star',cost:40000,cost10:360000,pity:40,rates:{N:50,R:30,SR:13,SSR:7},pools:['star'],unlock:()=>S.isle>=9,lock:'星降る島に着くと解放',desc:'星くずと全生産の景品'},
+  gear:{name:'仲間の衣装箱',icon:'ui_helpers',cost:300,cost10:2700,pity:45,rates:{N:50,R:32,SR:13,SSR:5},pools:['gear'],unlock:()=>S.helpers.monkey.n>0,lock:'猿が仲間になると解放',desc:'助手の生産を上げる装備'},
+  gold:{name:'黄金の宝箱',icon:'u_chesto',cost:1500,cost10:13500,pity:20,rates:{N:0,R:45,SR:38,SSR:17},w:{helper:10,deco:10,relic:20,charm:20,gear:15,pet:15,orn:10},pools:['base'],dyn:true,unlock:()=>S.stats.pulls>=30,lock:'ガチャを30回まわすと解放',desc:'高いがSR以上が出やすい。解放済みの台すべての景品が出る'},
+  legend:{name:'伝説の宝箱',icon:'u_chesto',fx:'legend',cost:8000,cost10:72000,pity:60,pityR:'LG',rates:{N:0,R:0,SR:45,SSR:44,LG:10.5,CH:0.5},pools:['base','legend','chaos'],unlock:()=>(S.gacha.pulls.gold|0)>=20||(S.isle|0)>=3,lock:'黄金の宝箱を20回まわすか、珊瑚礁の島に着くと解放',desc:'黄金の宝箱の上。レジェンダリーが出る。60回でレジェンダリー確定。ごくまれにカオス'},
+  chaos:{name:'混沌の裂け目',icon:'i_mana',fx:'chaos',cost:50000,cost10:450000,pity:40,pityR:'LG',rates:{N:0,R:0,SR:0,SSR:55,LG:40,CH:5},pools:['base','legend','chaos'],unlock:()=>(S.isle|0)>=6&&(S.gacha.pulls.legend|0)>=10,lock:'雪の島に着き、伝説の宝箱を10回まわすと解放',desc:'いちばん高い台。SSR以上だけ。40回でレジェンダリー以上確定。カオス 5%'},
 });
 // 黄金の宝箱：解放済みの台の景品をまとめて
 function goldPools(){ const p=['base']; for(const g of ['mine','sea','trade','ancient','star','gear']) if(gachaOpen(g)) p.push(GACHA[g].pools[0]); return p; }
@@ -2180,7 +2187,7 @@ function gatherHit(o){
   else if(o.kind==='rock'){ o.shake=0.3; burst(o.x,o.y-12,['#9a9a92','#cfcfc4','#6a6a62'],7,{lift:40}); Sfx.play('mine'); }
   else { burst(o.x,o.y,['#e8fbff','#9ae0f8'],8,{up:true,lift:10,g:120}); Sfx.play('splash'); }
   if(o.kind!=='fish'){ o.hp--; if(o.hp<=0){ o.regrowAt=now()+(o.kind==='rock'?18000:14000)*(S.helpers.monkey.cmd==='care'?0.3:1); if(o.kind==='tree') Sfx.play('fall'); burst(o.x,o.y-10,'#c9a46a',10,{lift:50}); } }
-  if(Math.random()<0.03){ const s=D.shellMult; add('shell',s); popText(o.x,top-14,'+'+fmtR(s).replace(/\.0$/,''),'i_shell','s'); }
+  if(Math.random()<0.007){ const s=Math.max(1,Math.round(D.shellMult)); add('shell',s); popText(o.x,top-14,'+'+fmtR(s).replace(/\.0$/,''),'i_shell','s'); }
   if(o.kind==='fish'&&Math.random()<0.14){ const c=catchFish(); if(c.isNew){ toast(`新しい魚を発見！ ${icHTML('f_'+c.f.id,20)} <b>${c.f.n}</b>（図鑑に登録）`,'dex'); Sfx.play('rare'); } }
   if(Math.random()<0.004){ const c=findItem(false); toast(`${c.isNew?'新しい漂流物！':'漂流物'} ${icHTML('it_'+c.it.id,20)} <b>${c.it.n}</b>`,'dex'); }
   if(o.kind==='rock'&&o.area==='east'&&has('ruins')&&S.world.shards<3){
@@ -2229,7 +2236,7 @@ function updatePlayer(dt){
     }
   } else if(actionHeld()) tryAction(true);
   // 貝殻ひろい
-  for(let i=pickups.length-1;i>=0;i--){ const k=pickups[i]; if(Math.hypot(k.x-p.x,k.y-p.y)<16){ const D=Dc||calc(); const v=Math.max(1,Math.round(rnd(1,3)*D.shellMult)); add('shell',v); popText(k.x,k.y-16,'+'+v,'i_shell','s'); burst(k.x,k.y,['#f6c8c0','#fff'],8,{lift:30}); Sfx.play('coin'); pickups.splice(i,1); hudDirty=true; } }
+  for(let i=pickups.length-1;i>=0;i--){ const k=pickups[i]; if(Math.hypot(k.x-p.x,k.y-p.y)<16){ const D=Dc||calc(); const v=Math.max(1,Math.round(rnd(0.6,1.6)*D.shellMult)); add('shell',v); popText(k.x,k.y-16,'+'+v,'i_shell','s'); burst(k.x,k.y,['#f6c8c0','#fff'],8,{lift:30}); Sfx.play('coin'); pickups.splice(i,1); hudDirty=true; } }
   // オブジェクトの再生
   const t=now();
   for(const o of OBJ){ if(o.regrowAt&&t>=o.regrowAt){ o.regrowAt=0; o.hp=o.maxhp; o.grow=0.6; } if(o.shake>0) o.shake-=dt; if(o.grow>0) o.grow-=dt; }
@@ -2428,7 +2435,7 @@ function syncCritters(){
 }
 /* ---------- 地図上のイベント・貝殻 ---------- */
 function spawnPickup(){
-  if(pickups.length>=5) return;
+  if(pickups.length>=3) return;
   for(let i=0;i<30;i++){
     const x=Math.floor(rnd(2,MW-2)), y=Math.floor(rnd(2,MH-2));
     if(tileAt(x,y)!==SAND||!walkable(x,y)) continue;
@@ -3953,7 +3960,7 @@ function resolveEvent(c){
   const X=mapEvents[0]||player;
   if(c==='open'){
     if(Math.random()<0.75){ const r=findItem(Math.random()<0.5); msgs.push(`${icHTML('it_'+r.it.id,18)}${r.it.n}${r.isNew?'（新発見）':''}`); }
-    const sh=Math.round(rnd(3,10)*D.shellMult); add('shell',sh); msgs.push(`${icHTML('i_shell',16)}+${fmt(sh)}`); popText(X.x,X.y-20,'+'+fmt(sh),'i_shell','s');
+    const sh=Math.max(1,Math.round(rnd(1,3)*D.shellMult)); add('shell',sh); msgs.push(`${icHTML('i_shell',16)}+${fmt(sh)}`); popText(X.x,X.y-20,'+'+fmt(sh),'i_shell','s');
   }else if(c==='wood'){
     const w=secProd(D,'wood',150,60), s=secProd(D,'stone',60,20); add('wood',w); add('stone',s); msgs.push(`${icHTML('i_wood',16)}+${fmt(w)}`,`${icHTML('i_stone',16)}+${fmt(s)}`); popText(X.x,X.y-20,'+'+fmt(w),'i_wood');
   }else if(c==='hide'){
@@ -3965,7 +3972,7 @@ function resolveEvent(c){
     S.buffs.push({k:'fish',m:6,until:now()+45000,l:'嵐の大漁 魚×6'});
     S.buffs.push({k:'other',m:pen,until:now()+45000,l:`嵐 ほかの資源 ×${pen}`});
     const r=catchFish(4); msgs.push(`${icHTML('f_'+r.f.id,18)}${r.f.n} を釣り上げた！`);
-  }else if(c==='m1'){ S.res.fish*=0.7; const sh=15*tr; add('shell',sh); msgs.push(`${icHTML('i_shell',16)}+${sh}`); }
+  }else if(c==='m1'){ S.res.fish*=0.7; const sh=Math.max(4,Math.round(4*D.shellMult))*tr; add('shell',sh); msgs.push(`${icHTML('i_shell',16)}+${sh}`); }
   else if(c==='m2'){ const give=S.res.fruit*0.3; S.res.fruit-=give;
     if(S.fac.shop){ const p=Math.max(10,(D.gross.parts+D.shopRate)*300)*tr; add('parts',p); msgs.push(`${icHTML('i_parts',16)}+${fmt(p)}`); }
     else { const s=give*1.5*tr; add('stone',s); msgs.push(`${icHTML('i_stone',16)}+${fmt(s)}`); } }
@@ -4380,7 +4387,7 @@ function step(dt,pdt){
     const it=findItem(false); msgs.push(icHTML('it_'+it.it.id,16)+it.it.n);
     toast('嵐が過ぎ、浜辺で漂着物を拾いました：'+msgs.join(' '));
   }
-  pickT-=pdt; if(pickT<=0){ pickT=rnd(18,30); spawnPickup(); }
+  pickT-=pdt; if(pickT<=0){ pickT=rnd(100,150); spawnPickup(); }
   acc250+=pdt; acc1+=pdt; acc5+=pdt;
   if(acc250>=0.25||hudDirty){ acc250=0; hudDirty=false; updateHud(); if(panel) updBinds(); }
   if(acc1>=1){
@@ -4419,6 +4426,10 @@ function boot(){
   if(!S.flags.rule5Seen){ const show=hadSave&&((S.meta.rebirths|0)>0||(S.isle|0)>0||S.stats.play>300); S.flags.rule5Seen=true;
     const rule5=()=>{ if(!document.querySelector('#modal.hidden')){ setTimeout(rule5,1500); return; } modal(`<div class="mart">${icHTML('boat',72)}</div><h2>島わたりのルールが変わりました</h2><p class="c">これからは<b>次の島へ渡ると、その島は何もないところから</b>始まります（資源・施設・助手・研究などはリセット）。<br>残るのは 転生ポイント・スキル・ガチャの景品と天井・実績と図鑑 です。島に着くたびに転生ポイントがもらえ、新しい島では木・石・魚・果物がよく取れます。</p><p class="d">いま遊んでいる島はこのまま続けられます。新しいルールは次に出航したときから。後半の島7〜10の壁も厚くなり、スキルウェブの外側に何度でも上げられる「果ての記憶」が増えました（雪の島に着くと解放）。</p><button class="btn big wide gold" data-act="mclose">わかった</button>`,{cls:'tall'}); };
     if(show) rule5();
+    saveSoon(); }
+  if(!S.flags.gacha52Seen){ S.flags.gacha52Seen=true; const show=hadSave&&(S.stats.pulls>0||S.stats.play>300);
+    const g52=()=>{ if(!document.querySelector('#modal.hidden')){ setTimeout(g52,1600); return; } modal(`<div class="mart">${icHTML('u_bottle',72)}</div><h2>ガチャと貝殻を見直しました（v5.2）</h2><p class="c">序盤からガチャを引けすぎたので、<b>貝殻は少なめ</b>（浜の貝殻・採取・イベント・実績）、<b>ガチャは高め</b>にしました。漂流ボトル ${GACHA.bottle.cost}、宝箱 ${GACHA.chest.cost}。先の島の台ほど高くなります。</p><p class="c">先の島へ進むほど・研究やスキルで貝殻はどんどん増えるので、その島の台を「たまに回せる」くらいになります。<br>持っている貝殻・景品・天井はそのままです。</p><div class="btns"><button class="btn big" data-act="mclose">OK</button></div>`); };
+    if(show) setTimeout(g52,800);
     saveSoon(); }
   lastWall=now();
   requestAnimationFrame(frame);
